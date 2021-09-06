@@ -1,0 +1,9 @@
+.apikey
+.*/
+!.template.config/
+bin/
+obj/
+packages/
+
+.fake
+.ionide
