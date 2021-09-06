@@ -1,15 +1,15 @@
-PSModuleTemplate
-================
+Detextive
+=========
 
 <!-- To publish to PowerShell Gallery: dotnet build -t:PublishModule -c Release -->
-<!-- img src="PSModuleTemplate.svg" alt="PSModuleTemplate icon" align="right" / -->
+<img src="Detextive.svg" alt="Detextive icon" align="right" />
 
 <!-- Optional badges: -->
-<!-- [![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/PSModuleTemplate)](https://www.powershellgallery.com/packages/PSModuleTemplate/) -->
-<!-- [![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/PSModuleTemplate)](https://www.powershellgallery.com/packages/PSModuleTemplate/) -->
-<!-- [![Actions Status](https://github.com/AuthorName/PSModuleTemplate/workflows/.NET%20Core/badge.svg)](https://github.com/AuthorName/PSModuleTemplate/actions) -->
+<!-- [![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Detextive)](https://www.powershellgallery.com/packages/Detextive/) -->
+<!-- [![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/Detextive)](https://www.powershellgallery.com/packages/Detextive/) -->
+<!-- [![Actions Status](https://github.com/AuthorName/Detextive/workflows/.NET%20Core/badge.svg)](https://github.com/AuthorName/Detextive/actions) -->
 
-{{ Add description here }}
+Investigates data to determine what the textual characteristics are.
 
 <!-- Consider using LICEcap (cinst licecap) to capture a GIF animation of a small PowerShell window showing your module in use. -->
 
@@ -18,7 +18,7 @@ Cmdlets
 
 Documentation is automatically generated using [platyPS](https://github.com/PowerShell/platyPS) (`.\doc.cmd`).
 
-- [Get-Foo](docs/Get-Foo.md)
+- [Test-TextFile](docs/Test-TextFile.md)
 
 Tests
 -----

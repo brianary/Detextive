@@ -3,18 +3,18 @@
     "author": "Brian Lalonde",
     "classifications": [ "Console" ],
     "name": "PowerShell binary module",
-    "identity": "PSModuleTemplate.FSharp",
-    "groupIdentity":"PSModuleTemplate",
+    "identity": "Detextive.FSharp",
+    "groupIdentity":"Detextive",
     "shortName": "psmod",
     "tags": {
       "language": "F#",
       "type":"project"
     },
-    "sourceName": "PSModuleTemplate",
+    "sourceName": "Detextive",
     "preferNameDirectory": true,
-    "defaultName": "PSModuleTemplate",
+    "defaultName": "Detextive",
     "sources":[{"exclude": [
-        "PSModuleTemplate.csproj",
+        "Detextive.csproj",
         ".git/**/*",
         ".ionide/**/*",
         "**/[Bb]in/**",

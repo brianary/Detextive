@@ -1,7 +1,7 @@
 # see https://docs.microsoft.com/powershell/scripting/developer/module/how-to-write-a-powershell-module-manifest
 # and https://docs.microsoft.com/powershell/module/microsoft.powershell.core/new-modulemanifest
 @{
-RootModule = 'PSModuleTemplate.dll'
+RootModule = 'Detextive.dll'
 ModuleVersion = '1.0.0'
 CompatiblePSEditions = @('Core')
 GUID = 'f5c914f0-8410-48a6-8321-6fe8b4e80cf3'
@@ -14,7 +14,7 @@ FunctionsToExport = @()
 CmdletsToExport = @('Get-Foo')
 VariablesToExport = @()
 AliasesToExport = @()
-FileList = @('PSModuleTemplate.dll','PSModuleTemplate.dll-Help.xml')
+FileList = @('Detextive.dll','Detextive.dll-Help.xml')
 PrivateData = @{
     PSData = @{
         Tags = @('Foo')
@@ -25,3 +25,4 @@ PrivateData = @{
     }
 }
 }
+
