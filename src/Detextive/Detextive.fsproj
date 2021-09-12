@@ -2,10 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="GetFooCommand.fs" />
+    <Compile Include="TestTextFileCommand.fs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,7 +20,7 @@
     <None Include="$(MSBuildProjectName).dll-Help.xml" Pack="true" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
-  <Target Name="GetVersion" BeforeTargets="CoreCompile">
+  <Target Name="SetAssemblyVersion" BeforeTargets="GetAssemblyVersion">
     <Exec Command='pwsh -nol -noni -nop -c "&amp; { Import-LocalizedData -BindingVariable m -FileName $(MSBuildProjectName); (gv m -va).ModuleVersion }"'
       ConsoleToMSBuild="true" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true">
       <Output TaskParameter="ConsoleOutput" PropertyName="Version" />
