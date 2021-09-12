@@ -20,14 +20,14 @@ Describe $module.Name {
 			[semver]::TryParse($v, [ref]$null) |Should -BeTrue
 		} -Pending
     }
-    Context 'Get-Foo cmdlet' -Tag Cmdlet,Get-Foo {
-        It "Given a name '<Name>', '<Expected>' should be returned." -TestCases @(
-            @{ Name = 'Hello, world'; Expected = 'Hello, world' }
-            @{ Name = 'Zaphod'; Expected = 'Zaphod' }
+    Context 'Test-TextFile cmdlet' -Tag Cmdlet,Get-Foo {
+        It "Given the file '<File>', '<Expected>' should be returned." -TestCases @(
+            @{ File = '..\..\Detextive.png'; Expected = $false }
+            @{ File = '..\..\Detextive.svg'; Expected = $true }
         ) {
-            Param($Name,$Expected)
-            Get-Foo $Name |Should -BeExactly $Expected
+            Param($File,$Expected)
+            Test-TextFile $File -vb |Should -BeExactly $Expected
         }
     }
-}
+}.GetNewClosure()
 $env:Path = $envPath
