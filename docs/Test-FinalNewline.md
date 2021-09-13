@@ -5,15 +5,15 @@ online version:
 schema: 2.0.0
 ---
 
-# Test-BinaryFile
+# Test-FinalNewline
 
 ## SYNOPSIS
-Returns true if a file does not appear to contain parseable text, and presumably contains binary data.
+Returns true if a file ends with a newline as required by the POSIX standard for text files.
 
 ## SYNTAX
 
 ```
-Test-BinaryFile [[-Path] <String>] [<CommonParameters>]
+Test-FinalNewline [[-Path] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,22 +23,15 @@ Test-BinaryFile [[-Path] <String>] [<CommonParameters>]
 
 ### EXAMPLE 1
 ```
-Test-BinaryFile.ps1 avatar.jpg
+Test-FinalNewline.ps1 README.md
 ```
 
 True
 
-### EXAMPLE 2
-```
-Test-BinaryFile.ps1 README.md
-```
-
-False
-
 ## PARAMETERS
 
 ### -Path
-A file to test.
+The file to test.
 
 ```yaml
 Type: String
@@ -57,16 +50,17 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+### System.IO.FileInfo file or similar object to test for UTF-8 validity.
 ### None
 
 ## OUTPUTS
 
-### System.Boolean indicating that the file contains binary data.
+### System.Boolean indicating whether the file ends with a newline.
 ### System.Boolean
 
 ## NOTES
 
 ## RELATED LINKS
 
-[Test-TextFile.ps1]()
+[Test-MagicNumber.ps1]()
 

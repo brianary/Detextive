@@ -66,5 +66,17 @@ Describe $module.Name {
 			Test-Utf8Encoding $File -vb |Should -BeExactly $Expected
 		}
 	}
+	Context 'Test-FinalNewline cmdlet' -Tag Cmdlet,Test-FinalNewline {
+		It "Given the file '<File>', '<Expected>' should be returned." -TestCases @(
+			@{ File = "$TestRoot\README.md"; Expected = $true }
+			@{ File = "$TestRoot\Detextive.png"; Expected = $false }
+			@{ File = "$TestRoot\Detextive.svg"; Expected = $true }
+			@{ File = "$TestRoot\Detextive.sln"; Expected = $true }
+		) {
+			Param($File,$Expected)
+			$env:Path = '' # avoid testing the wrong cmdlets
+			Test-FinalNewline $File -vb |Should -BeExactly $Expected
+		}
+	}
 }.GetNewClosure()
 $env:Path = $envPath

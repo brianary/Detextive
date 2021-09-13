@@ -6,10 +6,11 @@
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="TestFinalNewlineCommand.fs" />
     <Compile Include="TestUtf8EncodingCommand.fs" />
+    <Compile Include="TestUtf8SignatureCommand.fs" />
     <Compile Include="TestTextFileCommand.fs" />
     <Compile Include="TestBinaryFileCommand.fs" />
-    <Compile Include="TestUtf8SignatureCommand.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="PowerShellStandard.Library" Version="5.1.1" />

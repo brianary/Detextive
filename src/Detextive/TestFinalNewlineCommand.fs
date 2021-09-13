@@ -3,18 +3,17 @@ namespace ModuleName
 open System.IO
 open System.Management.Automation
 
-/// Returns true if a file starts with the optional UTF-8 BOM/signature.
-[<Cmdlet(VerbsDiagnostic.Test, "Utf8Signature")>]
+/// Returns true if a file ends with a newline as required by the POSIX standard for text files.
+[<Cmdlet(VerbsDiagnostic.Test, "FinalNewline")>]
 [<OutputType(typeof<bool>)>]
-type TestUtf8SignatureCommand () =
+type TestFinalNewlineCommand () =
     inherit PSCmdlet ()
 
-    /// Returns true if a file starts with EF BB BF.
-    static member HasUtf8Signature (fs:FileStream) =
-        let head = Array.create 3 0uy
-        if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
-        match Array.take (fs.Read(head, 0, 3)) head with
-        | [|0xEFuy;0xBBuy;0xBFuy|] -> true // UTF-8 with BOM/SIG
+    /// Returns true if a file ends with a newline character.
+    static member HasFinalNewline (fs:FileStream) =
+        fs.Seek(-1L, SeekOrigin.End) |> ignore
+        match fs.ReadByte() with
+        | 0x0A -> true
         | _ -> false
 
     /// A file to test.
@@ -28,7 +27,7 @@ type TestUtf8SignatureCommand () =
     override x.ProcessRecord () =
         base.ProcessRecord ()
         use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
-        TestUtf8SignatureCommand.HasUtf8Signature fs |> x.WriteObject
+        TestFinalNewlineCommand.HasFinalNewline fs |> x.WriteObject
 
     override x.EndProcessing () =
         base.EndProcessing ()

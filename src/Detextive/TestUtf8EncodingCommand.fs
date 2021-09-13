@@ -4,7 +4,7 @@ open System.IO
 open System.Management.Automation
 open System.Text
 
-/// Returns true if a file contains text.
+/// Returns true if a file is parseable as UTF-8.
 [<Cmdlet(VerbsDiagnostic.Test, "Utf8Encoding")>]
 [<OutputType(typeof<bool>)>]
 type TestUtf8EncodingCommand () =

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Test-Utf8Signature
 
 ## SYNOPSIS
-Returns true if a file starts with a utf-8 signature (BOM).
+Returns true if a file starts with the optional UTF-8 BOM/signature.
 
 ## SYNTAX
 
