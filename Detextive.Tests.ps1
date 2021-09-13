@@ -27,7 +27,7 @@ Describe $module.Name {
 			@{ File = "$TestRoot\Detextive.svg"; Expected = $true }
 		) {
 			Param($File,$Expected)
-			#$env:Path = '' # avoid testing the wrong cmdlets
+			$env:Path = '' # avoid testing the wrong cmdlets
 			Test-TextFile $File -vb |Should -BeExactly $Expected
 		}
 	}
@@ -38,7 +38,7 @@ Describe $module.Name {
 			@{ File = "$TestRoot\Detextive.svg"; Expected = $false }
 		) {
 			Param($File,$Expected)
-			#$env:Path = '' # avoid testing the wrong cmdlets
+			$env:Path = '' # avoid testing the wrong cmdlets
 			Test-BinaryFile $File -vb |Should -BeExactly $Expected
 		}
 	}
@@ -50,7 +50,7 @@ Describe $module.Name {
 			@{ File = "$TestRoot\Detextive.sln"; Expected = $true }
 		) {
 			Param($File,$Expected)
-			#$env:Path = '' # avoid testing the wrong cmdlets
+			$env:Path = '' # avoid testing the wrong cmdlets
 			Test-Utf8Signature $File -vb |Should -BeExactly $Expected
 		}
 	}
@@ -62,7 +62,7 @@ Describe $module.Name {
 			@{ File = "$TestRoot\Detextive.sln"; Expected = $true }
 		) {
 			Param($File,$Expected)
-			#$env:Path = '' # avoid testing the wrong cmdlets
+			$env:Path = '' # avoid testing the wrong cmdlets
 			Test-Utf8Encoding $File -vb |Should -BeExactly $Expected
 		}
 	}
@@ -74,7 +74,7 @@ Describe $module.Name {
 			@{ File = "$TestRoot\Detextive.sln"; Expected = $true }
 		) {
 			Param($File,$Expected)
-			#$env:Path = '' # avoid testing the wrong cmdlets
+			$env:Path = '' # avoid testing the wrong cmdlets
 			Test-FinalNewline $File -vb |Should -BeExactly $Expected
 		}
 	}
@@ -84,11 +84,22 @@ Describe $module.Name {
 			@{ File = "$TestRoot\Detextive.png"; Expected = $true }
 			@{ File = "$TestRoot\Detextive.svg"; Expected = $false }
 			@{ File = "$TestRoot\Detextive.sln"; Expected = $false }
-			@{ File = "$TestRoot\windows1252.txt"; Expected = $true }
 		) {
 			Param($File,$Expected)
-			#$env:Path = '' # avoid testing the wrong cmdlets
+			$env:Path = '' # avoid testing the wrong cmdlets
 			Test-Windows1252 $File -vb |Should -BeExactly $Expected
+		}
+	}
+	Context 'Get-FileEncoding cmdlet' -Tag Cmdlet,Get-FileEncoding {
+		It "Given the file '<File>', '<Expected>' should be returned." -TestCases @(
+			@{ File = "$TestRoot\README.md"; Expected = 'utf-8' }
+			@{ File = "$TestRoot\Detextive.png"; Expected = 'windows-1252' }
+			@{ File = "$TestRoot\Detextive.svg"; Expected = 'utf-8' }
+			@{ File = "$TestRoot\Detextive.sln"; Expected = 'utf-8' }
+		) {
+			Param($File,$Expected)
+			$env:Path = '' # avoid testing the wrong cmdlets
+			(Get-FileEncoding $File -vb).WebName |Should -BeExactly $Expected
 		}
 	}
 }.GetNewClosure()

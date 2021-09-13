@@ -12,6 +12,7 @@
     <Compile Include="TestTextFileCommand.fs" />
     <Compile Include="TestWindows1252Command.fs" />
     <Compile Include="TestBinaryFileCommand.fs" />
+    <Compile Include="GetFileEncodingCommand.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="PowerShellStandard.Library" Version="5.1.1" />
