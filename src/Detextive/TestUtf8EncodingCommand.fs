@@ -1,4 +1,4 @@
-namespace ModuleName
+namespace Detextive
 
 open System.IO
 open System.Management.Automation
@@ -7,12 +7,12 @@ open System.Text
 /// Returns true if a file is parseable as UTF-8.
 [<Cmdlet(VerbsDiagnostic.Test, "Utf8Encoding")>]
 [<OutputType(typeof<bool>)>]
-type TestUtf8EncodingCommand () =
+type public TestUtf8EncodingCommand () =
     inherit PSCmdlet ()
 
     /// Returns true if a file is parseable as UTF-8.
-    static member IsUtf8Readable (x:PSCmdlet) (fs:FileStream) =
-        let head = Array.create 3 0uy
+    static member public IsUtf8Readable (x:PSCmdlet) (fs:FileStream) =
+        let head = Array.zeroCreate 3
         if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
         let utf8 = UTF8Encoding(true,true)
         use sr = new StreamReader(fs, UTF8Encoding(true,true), true, -1, true)
@@ -34,6 +34,7 @@ type TestUtf8EncodingCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
+        x.WriteVerbose($"Testing {x.Path} for UTF-8-ness.")
         use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
         TestUtf8EncodingCommand.IsUtf8Readable x fs |> x.WriteObject
 

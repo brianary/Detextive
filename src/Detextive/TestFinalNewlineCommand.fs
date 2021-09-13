@@ -1,4 +1,4 @@
-namespace ModuleName
+namespace Detextive
 
 open System.IO
 open System.Management.Automation
@@ -6,11 +6,11 @@ open System.Management.Automation
 /// Returns true if a file ends with a newline as required by the POSIX standard for text files.
 [<Cmdlet(VerbsDiagnostic.Test, "FinalNewline")>]
 [<OutputType(typeof<bool>)>]
-type TestFinalNewlineCommand () =
+type public TestFinalNewlineCommand () =
     inherit PSCmdlet ()
 
     /// Returns true if a file ends with a newline character.
-    static member HasFinalNewline (fs:FileStream) =
+    static member public HasFinalNewline (fs:FileStream) =
         fs.Seek(-1L, SeekOrigin.End) |> ignore
         match fs.ReadByte() with
         | 0x0A -> true
@@ -26,6 +26,7 @@ type TestFinalNewlineCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
+        x.WriteVerbose($"Testing {x.Path} for a trailing newline.")
         use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
         TestFinalNewlineCommand.HasFinalNewline fs |> x.WriteObject
 

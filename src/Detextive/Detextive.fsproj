@@ -10,6 +10,7 @@
     <Compile Include="TestUtf8EncodingCommand.fs" />
     <Compile Include="TestUtf8SignatureCommand.fs" />
     <Compile Include="TestTextFileCommand.fs" />
+    <Compile Include="TestWindows1252Command.fs" />
     <Compile Include="TestBinaryFileCommand.fs" />
   </ItemGroup>
   <ItemGroup>

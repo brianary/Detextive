@@ -1,4 +1,4 @@
-namespace ModuleName
+namespace Detextive
 
 open System.IO
 open System.Management.Automation
@@ -6,12 +6,12 @@ open System.Management.Automation
 /// Returns true if a file contains text.
 [<Cmdlet(VerbsDiagnostic.Test, "TextFile")>]
 [<OutputType(typeof<bool>)>]
-type TestTextFileCommand () =
+type public TestTextFileCommand () =
     inherit PSCmdlet ()
 
     /// Returns true if a file is determined to contain text.
-    static member IsTextFile (fs:FileStream) =
-        let head = Array.create 4 0uy
+    static member public IsTextFile (fs:FileStream) =
+        let head = Array.zeroCreate 4
         if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
         match Array.take (fs.Read(head, 0, 4)) head with
         | [||] -> false
@@ -38,6 +38,7 @@ type TestTextFileCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
+        x.WriteVerbose($"Testing {x.Path} for textiness.")
         use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
         TestTextFileCommand.IsTextFile fs |> x.WriteObject
 

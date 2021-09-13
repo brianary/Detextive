@@ -1,4 +1,4 @@
-namespace ModuleName
+namespace Detextive
 
 open System.IO
 open System.Management.Automation
@@ -6,12 +6,12 @@ open System.Management.Automation
 /// Returns true if a file starts with the optional UTF-8 BOM/signature.
 [<Cmdlet(VerbsDiagnostic.Test, "Utf8Signature")>]
 [<OutputType(typeof<bool>)>]
-type TestUtf8SignatureCommand () =
+type public TestUtf8SignatureCommand () =
     inherit PSCmdlet ()
 
     /// Returns true if a file starts with EF BB BF.
-    static member HasUtf8Signature (fs:FileStream) =
-        let head = Array.create 3 0uy
+    static member public HasUtf8Signature (fs:FileStream) =
+        let head = Array.zeroCreate 3
         if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
         match Array.take (fs.Read(head, 0, 3)) head with
         | [|0xEFuy;0xBBuy;0xBFuy|] -> true // UTF-8 with BOM/SIG
@@ -27,6 +27,7 @@ type TestUtf8SignatureCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
+        x.WriteVerbose($"Testing {x.Path} for an explicit leading UTF-8 signature (EF BB BF).")
         use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
         TestUtf8SignatureCommand.HasUtf8Signature fs |> x.WriteObject
 
