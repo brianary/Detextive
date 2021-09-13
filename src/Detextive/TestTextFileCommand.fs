@@ -1,4 +1,4 @@
-namespace ModuleName // use your module name for the namespace
+namespace ModuleName
 
 open System.IO
 open System.Management.Automation
@@ -9,24 +9,37 @@ open System.Management.Automation
 type TestTextFileCommand () =
     inherit PSCmdlet ()
 
+    /// Returns true if a file is determined to contain text.
+    static member IsTextFile (fs:FileStream) =
+        let head = Array.create 4 0uy
+        if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
+        match Array.take (fs.Read(head, 0, 4)) head with
+        | [||] -> false
+        | [|0x0Auy|] -> true // empty LF POSIX ASCII/UTF-8 without BOM/SIG
+        | [|0x0Duy;0x0Auy|] -> true // empty CR LF POSIX ASCII/UTF-8 without BOM/SIG
+        | [|0xFFuy;0xFEuy;0uy;0uy|] -> true // UTF-32
+        | [|0uy;0uy;0xFEuy;0xFFuy|] -> true // UTF-32BE
+        | [|0xFFuy;0xFEuy;_;_|] -> true // UTF-16
+        | [|0xFEuy;0xFFuy;_;_|] -> true // UTF-16BE
+        | [|0xEFuy;0xBBuy;0xBFuy;_|] -> true // UTF-8 with BOM/SIG
+        | _ ->
+            fs.Seek(-1L, SeekOrigin.End) |> ignore
+            match fs.ReadByte() with
+            | 0x0A -> true
+            | _ -> false
+
     /// A file to test.
     [<Parameter(Position=0)>]
     [<ValidateNotNullOrEmpty>]
     member val Path : string = "" with get, set
 
-    // optional: setup before pipeline input starts (e.g. Name is set, InputObject is not)
     override x.BeginProcessing () =
         base.BeginProcessing ()
 
-    // optional: handle each pipeline value (e.g. InputObject)
     override x.ProcessRecord () =
         base.ProcessRecord ()
         use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
-        fs.Seek(-1L, SeekOrigin.End) |> ignore
-        let b = fs.ReadByte()
-        x.WriteVerbose((sprintf "%s final byte: U+%04X" x.Path b))
-        x.WriteObject((b = 0x0A))
+        TestTextFileCommand.IsTextFile fs |> x.WriteObject
 
-    // optional: finish after all pipeline input
     override x.EndProcessing () =
         base.EndProcessing ()
