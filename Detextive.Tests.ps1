@@ -3,6 +3,7 @@ $TestRoot = $PSScriptRoot
 $module = Import-Module (Resolve-Path ./src/*/bin/Debug/*/*.psd1) -PassThru -vb
 Import-LocalizedData -BindingVariable manifest -BaseDirectory ./src/* -FileName (Split-Path $PWD -Leaf)
 Describe $module.Name {
+	$env:Path = $env:Path -replace ';A:\\Scripts'
 	Context "$($module.Name) module" -Tag Module {
 		It "Given the module, the version should match the manifest version" {
 			$module.Version |Should -BeExactly $manifest.ModuleVersion
@@ -27,7 +28,6 @@ Describe $module.Name {
 			@{ File = "$TestRoot\Detextive.svg"; Expected = $true }
 		) {
 			Param($File,$Expected)
-			$env:Path = '' # avoid testing the wrong cmdlets
 			Test-TextFile $File -vb |Should -BeExactly $Expected
 		}
 	}
@@ -38,7 +38,6 @@ Describe $module.Name {
 			@{ File = "$TestRoot\Detextive.svg"; Expected = $false }
 		) {
 			Param($File,$Expected)
-			$env:Path = '' # avoid testing the wrong cmdlets
 			Test-BinaryFile $File -vb |Should -BeExactly $Expected
 		}
 	}
@@ -50,7 +49,6 @@ Describe $module.Name {
 			@{ File = "$TestRoot\Detextive.sln"; Expected = $true }
 		) {
 			Param($File,$Expected)
-			$env:Path = '' # avoid testing the wrong cmdlets
 			Test-Utf8Signature $File -vb |Should -BeExactly $Expected
 		}
 	}
@@ -62,7 +60,6 @@ Describe $module.Name {
 			@{ File = "$TestRoot\Detextive.sln"; Expected = $true }
 		) {
 			Param($File,$Expected)
-			$env:Path = '' # avoid testing the wrong cmdlets
 			Test-Utf8Encoding $File -vb |Should -BeExactly $Expected
 		}
 	}
@@ -74,7 +71,6 @@ Describe $module.Name {
 			@{ File = "$TestRoot\Detextive.sln"; Expected = $true }
 		) {
 			Param($File,$Expected)
-			$env:Path = '' # avoid testing the wrong cmdlets
 			Test-FinalNewline $File -vb |Should -BeExactly $Expected
 		}
 	}
@@ -86,7 +82,6 @@ Describe $module.Name {
 			@{ File = "$TestRoot\Detextive.sln"; Expected = $false }
 		) {
 			Param($File,$Expected)
-			$env:Path = '' # avoid testing the wrong cmdlets
 			Test-Windows1252 $File -vb |Should -BeExactly $Expected
 		}
 	}
@@ -98,8 +93,24 @@ Describe $module.Name {
 			@{ File = "$TestRoot\Detextive.sln"; Expected = 'utf-8' }
 		) {
 			Param($File,$Expected)
-			$env:Path = '' # avoid testing the wrong cmdlets
 			(Get-FileEncoding $File -vb).WebName |Should -BeExactly $Expected
+		}
+	}
+	Context 'Get-FileLineEndings cmdlet' -Tag Cmdlet,Get-FileLineEndings {
+		It "Given the file '<File>', '<LineEndings>' should be returned." -TestCases @(
+			@{ File = "$TestRoot\README.md"; LineEndings = 'CRLF' }
+			@{ File = "$TestRoot\Detextive.png"; LineEndings = 'Mixed' }
+			@{ File = "$TestRoot\Detextive.svg"; LineEndings = 'LF' }
+		) {
+			Param($File,$LineEndings)
+			$e = Get-FileLineEndings $File -vb
+			$e.LineEndings |Should -BeExactly $LineEndings
+			$e.CRLF |Should -BeGreaterOrEqual 0
+			$e.LF |Should -BeGreaterOrEqual 0
+			$e.CR |Should -BeGreaterOrEqual 0
+			$e.NEL |Should -BeGreaterOrEqual 0
+			$e.LS |Should -BeGreaterOrEqual 0
+			$e.PS |Should -BeGreaterOrEqual 0
 		}
 	}
 }.GetNewClosure()

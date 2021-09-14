@@ -12,7 +12,7 @@ Description = 'Investigates data to determine what the textual characteristics a
 PowerShellVersion = '6.0'
 FunctionsToExport = @()
 CmdletsToExport = @('Test-TextFile','Test-BinaryFile','Test-Utf8Signature','Test-Utf8Encoding','Test-FinalNewline','Test-Windows1252',
-    'Get-FileEncoding')
+    'Get-FileEncoding','Get-FileLineEndings')
 VariablesToExport = @()
 AliasesToExport = @()
 FileList = @('Detextive.dll','Detextive.dll-Help.xml')
