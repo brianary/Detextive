@@ -34,7 +34,7 @@ type public TestUtf8EncodingCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.WriteVerbose($"Testing {x.Path} for UTF-8-ness.")
+        x.WriteVerbose(sprintf "Testing %s for UTF-8-ness." x.Path)
         use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
         TestUtf8EncodingCommand.IsUtf8Readable x fs |> x.WriteObject
 

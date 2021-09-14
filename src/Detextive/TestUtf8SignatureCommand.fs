@@ -27,7 +27,7 @@ type public TestUtf8SignatureCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.WriteVerbose($"Testing {x.Path} for an explicit leading UTF-8 signature (EF BB BF).")
+        x.WriteVerbose(sprintf "Testing %s for an explicit leading UTF-8 signature (EF BB BF)." x.Path)
         use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
         TestUtf8SignatureCommand.HasUtf8Signature fs |> x.WriteObject
 

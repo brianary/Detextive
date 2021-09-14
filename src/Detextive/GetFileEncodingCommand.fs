@@ -44,7 +44,7 @@ type public GetFileEncodingCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.WriteVerbose($"Testing {x.Path} for textiness.")
+        x.WriteVerbose(sprintf "Testing %s for textiness." x.Path)
         use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
         GetFileEncodingCommand.DetectFileEncoding fs |> x.WriteObject
 

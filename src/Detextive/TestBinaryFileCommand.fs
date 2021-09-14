@@ -19,7 +19,7 @@ type public TestBinaryFileCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.WriteVerbose($"Testing {x.Path} for binariness.")
+        x.WriteVerbose(sprintf "Testing %s for binariness." x.Path)
         use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
         TestTextFileCommand.IsTextFile fs |> not |> x.WriteObject
 
