@@ -18,7 +18,14 @@ Cmdlets
 
 Documentation is automatically generated using [platyPS](https://github.com/PowerShell/platyPS) (`.\doc.cmd`).
 
+- [Get-FileEncoding](docs/Get-FileEncoding.md)
+- [Get-FileLineEndings](docs/Get-FileLineEndings.md)
+- [Test-BinaryFile](docs/Test-BinaryFile.md)
+- [Test-FinalNewline](docs/Test-FinalNewline.md)
 - [Test-TextFile](docs/Test-TextFile.md)
+- [Test-Utf8Encoding](docs/Test-Utf8Encoding.md)
+- [Test-Utf8Signature](docs/Test-Utf8Signature.md)
+- [Test-Windows1252](docs/Test-Windows1252.md)
 
 Tests
 -----
