@@ -81,6 +81,85 @@
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Get-FileIndents</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>FileIndents</command:noun>
+      <maml:description>
+        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Fill in the Description }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-FileIndents</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>Path</maml:name>
+          <maml:description>
+            <maml:para>{{ Fill Path Description }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>Path</maml:name>
+        <maml:description>
+          <maml:para>{{ Fill Path Description }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Detextive.IndentsResult</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Add example description here }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Get-FileLineEndings</command:name>
       <command:verb>Get</command:verb>
       <command:noun>FileLineEndings</command:noun>
@@ -143,7 +222,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.Management.Automation.PSCustomObject with the following properties:</maml:name>
+          <maml:name>Detextive.LineEndingsResult with the following properties:</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -159,7 +238,7 @@
       </command:returnValue>
       <command:returnValue>
         <dev:type>
-          <maml:name>* LineEndings, one of: CRLF, LF, CR, Mixed or None.</maml:name>
+          <maml:name>* LineEndings, one of: CRLF, LF, CR, NEL, LS, PS, or Mixed.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -167,7 +246,7 @@
       </command:returnValue>
       <command:returnValue>
         <dev:type>
-          <maml:name>* CRLF, a count of the CR LF line endings found.</maml:name>
+          <maml:name>* CRLF, a count of the U+000D U+000A CR LF line endings found.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -175,7 +254,7 @@
       </command:returnValue>
       <command:returnValue>
         <dev:type>
-          <maml:name>* LF, a count of the LF line endings found.</maml:name>
+          <maml:name>* LF, a count of the U+000A LF line endings found.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -183,7 +262,7 @@
       </command:returnValue>
       <command:returnValue>
         <dev:type>
-          <maml:name>* CR, a count of the CR line endings found.</maml:name>
+          <maml:name>* CR, a count of the U+000D CR line endings found.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -191,7 +270,23 @@
       </command:returnValue>
       <command:returnValue>
         <dev:type>
-          <maml:name>Detextive.LineEndingsResult</maml:name>
+          <maml:name>* NEL, a count of the U+0085 NEL line endings found.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>* LS, a count of the U+2028 LS line endings found.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>* PS, a count of the U+2029 PS line endings found.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>

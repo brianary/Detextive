@@ -96,6 +96,20 @@ Describe $module.Name {
 			(Get-FileEncoding $File -vb).WebName |Should -BeExactly $Expected
 		}
 	}
+	Context 'Get-FileIndents cmdlet' -Tag Cmdlet,Get-FileIndents {
+		It "Given the file '<File>', '<Indents>' should be returned." -TestCases @(
+			@{ File = "$TestRoot\Detextive.Tests.ps1"; Indents = 'Tabs' }
+			@{ File = "$TestRoot\Detextive.svg"; Indents = 'Spaces' }
+		) {
+			Param($File,$Indents)
+			$e = Get-FileIndents $File -vb
+			$e.Indents |Should -BeExactly $Indents
+			$e.Tabs |Should -BeGreaterOrEqual 0
+			$e.Spaces |Should -BeGreaterOrEqual 0
+			$e.Mixed |Should -BeGreaterOrEqual 0
+			$e.Other |Should -BeGreaterOrEqual 0
+		}
+	}
 	Context 'Get-FileLineEndings cmdlet' -Tag Cmdlet,Get-FileLineEndings {
 		It "Given the file '<File>', '<LineEndings>' should be returned." -TestCases @(
 			@{ File = "$TestRoot\README.md"; LineEndings = 'CRLF' }
