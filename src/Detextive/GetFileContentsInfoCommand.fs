@@ -5,7 +5,7 @@ open System.Management.Automation
 open System.Text
 
 /// The details returned by the cmdlet.
-[<StructuredFormatDisplay("{Encoding} {Indents} {LineEndings}")>]
+[<StructuredFormatDisplay("{StringValue}")>]
 type public TextContentsResult =
     { Path : string
       IsBinary : bool
@@ -14,15 +14,24 @@ type public TextContentsResult =
       Indents : IndentsResult
       LineEndings : LineEndingsResult
       FinalNewline : bool }
-    override x.ToString () =
+    member x.StringValue =
         if x.IsBinary then "binary file"
         else
-            sprintf "%s%s %s %s%s"
+            sprintf "%s%s, %s indents, %s line endings%s"
                 x.Encoding.WebName
                 (if x.Utf8Signature then " with signature" else "")
                 (string x.Indents)
                 (string x.LineEndings)
-                (if not x.FinalNewline then " missing final newline" else "")
+                (if not x.FinalNewline then ", missing final newline" else "")
+    override x.ToString () = x.StringValue
+    static member BinaryDefault =
+        { Path = ""
+          IsBinary = true
+          Encoding = null
+          Utf8Signature = false
+          Indents = { Path = ""; Indents = IndentType.Other; Mixed = 0; Tabs = 0; Spaces = 0; Other = 0 }
+          LineEndings = { Path = ""; LineEndings = LineEndingType.Mixed; CRLF = 0; LF = 0; CR = 0; NEL = 0; LS = 0; PS = 0 }
+          FinalNewline = false }
 
 /// Returns formatting details about a text file's contents: encoding, indents, line endings, &c.
 [<Cmdlet(VerbsCommon.Get, "FileContentsInfo")>]
@@ -42,16 +51,18 @@ type public GetFileContentsInfoCommand () =
         base.ProcessRecord ()
         x.WriteVerbose(sprintf "Examining file %s contents." x.Path)
         use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
-        let counts = GetFileIndentsCommand.CountIndents fs
-        counts |> sprintf "Indents for %s : %A" x.Path |> x.WriteVerbose
-        let total e = Map.tryFind e counts |> Option.defaultValue 0
-        { Path = x.Path
-          IsBinary = TestTextFileCommand.IsTextFile fs |> not
-          Encoding = GetFileEncodingCommand.DetectFileEncoding fs
-          Utf8Signature = TestUtf8SignatureCommand.HasUtf8Signature fs
-          Indents = GetFileIndentsCommand.DetectIndents x x.Path fs
-          LineEndings = GetFileLineEndingsCommand.DetectLineEndings x x.Path fs
-          FinalNewline = TestFinalNewlineCommand.HasFinalNewline fs } |> x.WriteObject
+        let r =
+            if TestTextFileCommand.IsTextFile fs |> not then { TextContentsResult.BinaryDefault with Path = x.Path }
+            else
+                { Path = x.Path
+                  IsBinary = TestTextFileCommand.IsTextFile fs |> not
+                  Encoding = GetFileEncodingCommand.DetectFileEncoding fs
+                  Utf8Signature = TestUtf8SignatureCommand.HasUtf8Signature fs
+                  Indents = GetFileIndentsCommand.DetectIndents x x.Path fs
+                  LineEndings = GetFileLineEndingsCommand.DetectLineEndings x x.Path fs
+                  FinalNewline = TestFinalNewlineCommand.HasFinalNewline fs }
+        x.WriteVerbose(sprintf "File %s: %s" x.Path (string r))
+        r |> x.WriteObject
 
     override x.EndProcessing () =
         base.EndProcessing ()

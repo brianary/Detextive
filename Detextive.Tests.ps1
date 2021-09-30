@@ -127,5 +127,29 @@ Describe $module.Name {
 			$e.PS |Should -BeGreaterOrEqual 0
 		}
 	}
+	Context 'Get-FileContentsInfo cmdlet' -Tag Cmdlet,Get-FileLineEndings {
+		It "Given the file '<File>', IsBinary should be '<IsBinary>'." -TestCases @(
+			@{ File = "$TestRoot\Detextive.png"; IsBinary = $true }
+		) {
+			Param($File,$IsBinary)
+			$e = Get-FileContentsInfo $File -vb
+			$e.IsBinary |Should -BeTrue
+		}
+		It "Given the file '<File>', {'<Encoding>' '<Indents>' '<LineEndings>'} should be returned." -TestCases @(
+			@{ File = "$TestRoot\README.md"; Encoding = 'utf-8'; Utf8Signature = $false
+				Indents = 'Mixed'; LineEndings = 'CRLF'; FinalNewline = $true }
+			@{ File = "$TestRoot\Detextive.svg"; Encoding = 'utf-8'; Utf8Signature = $false
+				Indents = 'Spaces'; LineEndings = 'LF'; FinalNewline = $true }
+		) {
+			Param($File,$Encoding,$Utf8Signature,$Indents,$LineEndings,$FinalNewline)
+			$e = Get-FileContentsInfo $File -vb
+			$e.IsBinary |Should -BeFalse
+			$e.Encoding.WebName |Should -BeExactly $Encoding
+			$e.Utf8Signature |Should -BeExactly $Utf8Signature
+			$e.Indents |Should -BeExactly $Indents
+			$e.LineEndings |Should -BeExactly $LineEndings
+			$e.FinalNewline |Should -BeExactly $FinalNewline
+		}
+	}
 }.GetNewClosure()
 $env:Path = $envPath
