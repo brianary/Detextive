@@ -6,10 +6,11 @@ open System.Text.RegularExpressions
 
 /// End of line digraph or character.
 type public IndentType =
-    | Mixed = 0
-    | Tabs = 1
-    | Spaces = 2
-    | Other = 4
+    | None = 0
+    | Mixed = 1
+    | Tabs = 2
+    | Spaces = 4
+    | Other = 8
 
 /// The details returned by the cmdlet.
 [<StructuredFormatDisplay("{Indents}")>]
@@ -36,7 +37,7 @@ type public GetFileIndentsCommand () =
         let m = GetFileIndentsCommand.IndentPattern.Match(s)
         match m.Groups.[0].Captures.[0].Value |> Set.ofSeq |> Set.toList with
         | [] -> None
-        | ['\u0009'] -> Some(IndentType.Tabs)
+        | ['\t'] -> Some(IndentType.Tabs)
         | [' '] -> Some(IndentType.Spaces)
         | [c] -> Some(IndentType.Other)
         | _ -> Some(IndentType.Mixed)
@@ -58,7 +59,10 @@ type public GetFileIndentsCommand () =
         counts |> sprintf "Indents for %s : %A" p |> x.WriteVerbose
         let total e = Map.tryFind e counts |> Option.defaultValue 0
         { Path = p
-          Indents = (if (Map.count counts) = 1 then Map.toList counts |> List.head |> fst else IndentType.Mixed)
+          Indents = match Map.count counts with
+                    | 0 -> IndentType.None
+                    | 1 -> Map.toList counts |> List.head |> fst
+                    | _ -> IndentType.Mixed
           Mixed = total IndentType.Mixed
           Tabs = total IndentType.Tabs
           Spaces = total IndentType.Spaces

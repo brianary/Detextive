@@ -5,13 +5,14 @@ open System.Management.Automation
 
 /// End of line digraph or character.
 type public LineEndingType =
-    | Mixed = 0
-    | CRLF = 1
-    | LF = 2
-    | CR = 3
-    | NEL = 4
-    | LS = 5
-    | PS = 6
+    | None = 0
+    | Mixed = 1
+    | CRLF = 2
+    | LF = 3
+    | CR = 4
+    | NEL = 5
+    | LS = 6
+    | PS = 7
 
 /// The details returned by the cmdlet.
 [<StructuredFormatDisplay("{LineEndings}")>]
@@ -60,7 +61,10 @@ type public GetFileLineEndingsCommand () =
         counts |> sprintf "Line endings for %s : %A" p |> x.WriteVerbose
         let total e = Map.tryFind e counts |> Option.defaultValue 0
         { Path = p
-          LineEndings = (if (Map.count counts) = 1 then Map.toList counts |> List.head |> fst else LineEndingType.Mixed)
+          LineEndings = match Map.count counts with
+                        | 0 -> LineEndingType.None
+                        | 1 -> Map.toList counts |> List.head |> fst
+                        | _ -> LineEndingType.Mixed
           CRLF = total LineEndingType.CRLF
           LF = total LineEndingType.LF
           CR = total LineEndingType.CR

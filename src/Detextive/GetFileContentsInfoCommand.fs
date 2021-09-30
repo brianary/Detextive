@@ -29,8 +29,8 @@ type public TextContentsResult =
           IsBinary = true
           Encoding = null
           Utf8Signature = false
-          Indents = { Path = ""; Indents = IndentType.Other; Mixed = 0; Tabs = 0; Spaces = 0; Other = 0 }
-          LineEndings = { Path = ""; LineEndings = LineEndingType.Mixed; CRLF = 0; LF = 0; CR = 0; NEL = 0; LS = 0; PS = 0 }
+          Indents = { Path = ""; Indents = IndentType.None; Mixed = 0; Tabs = 0; Spaces = 0; Other = 0 }
+          LineEndings = { Path = ""; LineEndings = LineEndingType.None; CRLF = 0; LF = 0; CR = 0; NEL = 0; LS = 0; PS = 0 }
           FinalNewline = false }
 
 /// Returns formatting details about a text file's contents: encoding, indents, line endings, &c.

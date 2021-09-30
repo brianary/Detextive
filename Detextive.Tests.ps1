@@ -137,7 +137,7 @@ Describe $module.Name {
 		}
 		It "Given the file '<File>', {'<Encoding>' '<Indents>' '<LineEndings>'} should be returned." -TestCases @(
 			@{ File = "$TestRoot\README.md"; Encoding = 'utf-8'; Utf8Signature = $false
-				Indents = 'Mixed'; LineEndings = 'CRLF'; FinalNewline = $true }
+				Indents = 'None'; LineEndings = 'CRLF'; FinalNewline = $true }
 			@{ File = "$TestRoot\Detextive.svg"; Encoding = 'utf-8'; Utf8Signature = $false
 				Indents = 'Spaces'; LineEndings = 'LF'; FinalNewline = $true }
 		) {
