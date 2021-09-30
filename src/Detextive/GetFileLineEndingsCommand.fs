@@ -2,10 +2,9 @@ namespace Detextive
 
 open System.IO
 open System.Management.Automation
-open System.Text
 
 /// End of line digraph or character.
-type public LineEnding =
+type public LineEndingType =
     | Mixed = 0
     | CRLF = 1
     | LF = 2
@@ -15,9 +14,17 @@ type public LineEnding =
     | PS = 6
 
 /// The details returned by the cmdlet.
+[<StructuredFormatDisplay("{LineEndings}")>]
 type public LineEndingsResult =
-    { Path : string; LineEndings : LineEnding;
-         CRLF : int; LF : int; CR : int; NEL : int; LS : int; PS : int }
+    { Path : string
+      LineEndings : LineEndingType
+      CRLF : int
+      LF : int
+      CR : int
+      NEL : int
+      LS : int
+      PS : int }
+    override x.ToString () = x.LineEndings.ToString()
 
 /// Returns details about a file's line endings.
 [<Cmdlet(VerbsCommon.Get, "FileLineEndings")>]
@@ -36,16 +43,30 @@ type public GetFileLineEndingsCommand () =
             (function
                 | -1 -> None
                 |  i -> match text.[i] with
-                        | '\r' when text.[i+1] = '\n' -> Some(LineEnding.CRLF, text.IndexOfAny(endings, i+2))
-                        | '\r' -> Some(LineEnding.CR, text.IndexOfAny(endings, i+1))
-                        | '\n' -> Some(LineEnding.LF, text.IndexOfAny(endings, i+1))
-                        | '\u0085' -> Some(LineEnding.NEL, text.IndexOfAny(endings, i+1))
-                        | '\u2028' -> Some(LineEnding.LS, text.IndexOfAny(endings, i+1))
-                        | '\u2029' -> Some(LineEnding.PS, text.IndexOfAny(endings, i+1))
-                        | _ -> Some(LineEnding.Mixed, text.IndexOfAny(endings, i+1)) )
+                        | '\r' when text.[i+1] = '\n' -> Some(LineEndingType.CRLF, text.IndexOfAny(endings, i+2))
+                        | '\r' -> Some(LineEndingType.CR, text.IndexOfAny(endings, i+1))
+                        | '\n' -> Some(LineEndingType.LF, text.IndexOfAny(endings, i+1))
+                        | '\u0085' -> Some(LineEndingType.NEL, text.IndexOfAny(endings, i+1))
+                        | '\u2028' -> Some(LineEndingType.LS, text.IndexOfAny(endings, i+1))
+                        | '\u2029' -> Some(LineEndingType.PS, text.IndexOfAny(endings, i+1))
+                        | _ -> Some(LineEndingType.Mixed, text.IndexOfAny(endings, i+1)) )
             (text.IndexOfAny(endings))
             |> List.countBy id
             |> Map.ofList
+
+    /// Returns the line ending details detected.
+    static member public DetectLineEndings (x:PSCmdlet) (p:string) (fs:FileStream) =
+        let counts = GetFileLineEndingsCommand.CountLineEndings fs
+        counts |> sprintf "Line endings for %s : %A" p |> x.WriteVerbose
+        let total e = Map.tryFind e counts |> Option.defaultValue 0
+        { Path = p
+          LineEndings = (if (Map.count counts) = 1 then Map.toList counts |> List.head |> fst else LineEndingType.Mixed)
+          CRLF = total LineEndingType.CRLF
+          LF = total LineEndingType.LF
+          CR = total LineEndingType.CR
+          NEL = total LineEndingType.NEL
+          LS = total LineEndingType.LS
+          PS = total LineEndingType.PS }
 
     /// A file to test.
     [<Parameter(Position=0)>]
@@ -59,17 +80,7 @@ type public GetFileLineEndingsCommand () =
         base.ProcessRecord ()
         x.WriteVerbose(sprintf "Getting line endings from %s." x.Path)
         use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
-        let counts = GetFileLineEndingsCommand.CountLineEndings fs
-        counts |> sprintf "Line endings for %s : %A" x.Path |> x.WriteVerbose
-        let total e = Map.tryFind e counts |> Option.defaultValue 0
-        { Path = x.Path;
-            LineEndings = (if (Map.count counts) = 1 then Map.toList counts |> List.head |> fst else LineEnding.Mixed);
-            CRLF = total LineEnding.CRLF;
-            LF = total LineEnding.LF;
-            CR = total LineEnding.CR;
-            NEL = total LineEnding.NEL;
-            LS = total LineEnding.LS;
-            PS = total LineEnding.PS } |> x.WriteObject
+        GetFileLineEndingsCommand.DetectLineEndings x x.Path fs |> x.WriteObject
 
     override x.EndProcessing () =
         base.EndProcessing ()

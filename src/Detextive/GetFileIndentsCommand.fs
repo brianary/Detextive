@@ -12,9 +12,15 @@ type public IndentType =
     | Other = 4
 
 /// The details returned by the cmdlet.
+[<StructuredFormatDisplay("{Indents}")>]
 type public IndentsResult =
-    { Path : string; Indents : IndentType;
-         Mixed : int; Tabs : int; Spaces : int; Other : int }
+    { Path : string
+      Indents : IndentType
+      Mixed : int
+      Tabs : int
+      Spaces : int
+      Other : int }
+    override x.ToString () = x.Indents.ToString()
 
 /// Returns details about a file's indentation characters.
 [<Cmdlet(VerbsCommon.Get, "FileIndents")>]
@@ -46,6 +52,18 @@ type public GetFileIndentsCommand () =
             |> Seq.countBy id
             |> Map.ofSeq
 
+    /// Returns the indent details detected.
+    static member public DetectIndents (x:PSCmdlet) (p:string) (fs:FileStream) =
+        let counts = GetFileIndentsCommand.CountIndents fs
+        counts |> sprintf "Indents for %s : %A" p |> x.WriteVerbose
+        let total e = Map.tryFind e counts |> Option.defaultValue 0
+        { Path = p
+          Indents = (if (Map.count counts) = 1 then Map.toList counts |> List.head |> fst else IndentType.Mixed)
+          Mixed = total IndentType.Mixed
+          Tabs = total IndentType.Tabs
+          Spaces = total IndentType.Spaces
+          Other = total IndentType.Other }
+
     /// A file to test.
     [<Parameter(Position=0)>]
     [<ValidateNotNullOrEmpty>]
@@ -58,15 +76,7 @@ type public GetFileIndentsCommand () =
         base.ProcessRecord ()
         x.WriteVerbose(sprintf "Getting indents from %s." x.Path)
         use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
-        let counts = GetFileIndentsCommand.CountIndents fs
-        counts |> sprintf "Indents for %s : %A" x.Path |> x.WriteVerbose
-        let total e = Map.tryFind e counts |> Option.defaultValue 0
-        { Path = x.Path;
-            Indents = (if (Map.count counts) = 1 then Map.toList counts |> List.head |> fst else IndentType.Mixed);
-            Mixed = total IndentType.Mixed;
-            Tabs = total IndentType.Tabs;
-            Spaces = total IndentType.Spaces;
-            Other = total IndentType.Other } |> x.WriteObject
+        GetFileIndentsCommand.DetectIndents x x.Path fs |> x.WriteObject
 
     override x.EndProcessing () =
         base.EndProcessing ()

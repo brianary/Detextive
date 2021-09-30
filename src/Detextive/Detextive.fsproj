@@ -15,6 +15,7 @@
     <Compile Include="GetFileEncodingCommand.fs" />
     <Compile Include="GetFileIndentsCommand.fs" />
     <Compile Include="GetFileLineEndingsCommand.fs" />
+    <Compile Include="GetFileContentsInfoCommand.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="PowerShellStandard.Library" Version="5.1.1" />
