@@ -35,7 +35,7 @@ type public TextContentsResult =
 
 /// Returns formatting details about a text file's contents: encoding, indents, line endings, &c.
 [<Cmdlet(VerbsCommon.Get, "FileContentsInfo")>]
-[<OutputType(typeof<IndentsResult>)>]
+[<OutputType(typeof<TextContentsResult>)>]
 type public GetFileContentsInfoCommand () =
     inherit PSCmdlet ()
 

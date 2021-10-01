@@ -127,7 +127,7 @@ Describe $module.Name {
 			$e.PS |Should -BeGreaterOrEqual 0
 		}
 	}
-	Context 'Get-FileContentsInfo cmdlet' -Tag Cmdlet,Get-FileLineEndings {
+	Context 'Get-FileContentsInfo cmdlet' -Tag Cmdlet,Get-FileContentsInfo {
 		It "Given the file '<File>', IsBinary should be '<IsBinary>'." -TestCases @(
 			@{ File = "$TestRoot\Detextive.png"; IsBinary = $true }
 		) {
@@ -149,6 +149,39 @@ Describe $module.Name {
 			$e.Indents |Should -BeExactly $Indents
 			$e.LineEndings |Should -BeExactly $LineEndings
 			$e.FinalNewline |Should -BeExactly $FinalNewline
+		}
+	}
+	Context 'Add-Utf8Signature cmdlet' -Tag Cmdlet,Add-Utf8Signature {
+		It "Given the bytes '<Bytes>', the updated file should contain bytes '<Content>'." -TestCases @(
+			@{ Bytes = [byte[]]@(); Content = [byte[]]@(0xEF,0xBB,0xBF) }
+			@{ Bytes = [byte[]]@(0x0A); Content = [byte[]]@(0xEF,0xBB,0xBF,0x0A) }
+			@{ Bytes = [byte[]]@(0xEF,0xBB,0xBF,0x0A); Content = [byte[]]@(0xEF,0xBB,0xBF,0x0A) }
+			@{ Bytes = [byte[]]@(0x4F,0x4B,0x0A); Content = [byte[]]@(0xEF,0xBB,0xBF,0x4F,0x4B,0x0A) }
+			@{ Bytes = [byte[]]@(0xF0,0x9F,0x86,0x97,0x0A); Content = [byte[]]@(0xEF,0xBB,0xBF,0xF0,0x9F,0x86,0x97,0x0A) }
+		) {
+			Param($Bytes,$Content)
+			$file = [io.path]::GetTempFileName()
+			$Bytes |Set-Content $file -AsByteStream
+			Add-Utf8Signature $file
+			Get-Content $file -AsByteStream |Should -Be $Content
+			Remove-Item $file
+		}
+	}
+	Context 'Remove-Utf8Signature cmdlet' -Tag Cmdlet,Remove-Utf8Signature {
+		It "Given the bytes '<Bytes>', the updated file should contain bytes '<Content>'." -TestCases @(
+			@{ Bytes = [byte[]]@(); Content = [byte[]]@() }
+			@{ Bytes = [byte[]]@(0xEF,0xBB,0xBF); Content = [byte[]]@() }
+			@{ Bytes = [byte[]]@(0xEF,0xBB,0xBF,0x0A); Content = [byte[]]@(0x0A) }
+			@{ Bytes = [byte[]]@(0x0A); Content = [byte[]]@(0x0A) }
+			@{ Bytes = [byte[]]@(0xEF,0xBB,0xBF,0x4F,0x4B,0x0A); Content = [byte[]]@(0x4F,0x4B,0x0A) }
+			@{ Bytes = [byte[]]@(0xEF,0xBB,0xBF,0xF0,0x9F,0x86,0x97,0x0A); Content = [byte[]]@(0xF0,0x9F,0x86,0x97,0x0A) }
+		) {
+			Param($Bytes,$Content)
+			$file = [io.path]::GetTempFileName()
+			$Bytes |Set-Content $file -AsByteStream
+			Remove-Utf8Signature $file
+			Get-Content $file -AsByteStream |Should -Be $Content
+			Remove-Item $file
 		}
 	}
 }.GetNewClosure()

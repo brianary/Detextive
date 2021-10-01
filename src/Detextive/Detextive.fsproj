@@ -6,9 +6,11 @@
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="TestUtf8SignatureCommand.fs" />
+    <Compile Include="AddUtf8SignatureCommand.fs" />
+    <Compile Include="RemoveUtf8SignatureCommand.fs" />
     <Compile Include="TestFinalNewlineCommand.fs" />
     <Compile Include="TestUtf8EncodingCommand.fs" />
-    <Compile Include="TestUtf8SignatureCommand.fs" />
     <Compile Include="TestTextFileCommand.fs" />
     <Compile Include="TestWindows1252Command.fs" />
     <Compile Include="TestBinaryFileCommand.fs" />
