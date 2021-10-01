@@ -1,4 +1,4 @@
-# Pester tests, see https://github.com/Pester/Pester/wiki
+﻿# Pester tests, see https://github.com/Pester/Pester/wiki
 $TestRoot = $PSScriptRoot
 $module = Import-Module (Resolve-Path ./src/*/bin/Debug/*/*.psd1) -PassThru -vb
 Import-LocalizedData -BindingVariable manifest -BaseDirectory ./src/* -FileName (Split-Path $PWD -Leaf)
@@ -162,7 +162,7 @@ Describe $module.Name {
 			Param($Bytes,$Content)
 			$file = [io.path]::GetTempFileName()
 			$Bytes |Set-Content $file -AsByteStream
-			Add-Utf8Signature $file
+			Add-Utf8Signature $file -vb
 			Get-Content $file -AsByteStream |Should -Be $Content
 			Remove-Item $file
 		}
@@ -179,9 +179,18 @@ Describe $module.Name {
 			Param($Bytes,$Content)
 			$file = [io.path]::GetTempFileName()
 			$Bytes |Set-Content $file -AsByteStream
-			Remove-Utf8Signature $file
+			Remove-Utf8Signature $file -vb
 			Get-Content $file -AsByteStream |Should -Be $Content
 			Remove-Item $file
+		}
+	}
+	Context 'Repair-Encoding cmdlet' -Tag Cmdlet,Remove-Utf8Signature {
+		It "Given the string '<InputObject>', the string '<Expected>' should be returned." -TestCases @(
+			@{ InputObject = 'SmartQuotes Arenâ€™t'; Expected = "SmartQuotes Aren’t" }
+			@{ InputObject = '1.2.1 â€“ 1.3.4'; Expected = "1.2.1 – 1.3.4" }
+		) {
+			Param($InputObject,$Expected)
+			$InputObject |Repair-Encoding -vb |Should -BeExactly $Expected
 		}
 	}
 }.GetNewClosure()

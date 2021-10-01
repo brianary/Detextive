@@ -6,6 +6,7 @@
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="RepairEncodingCommand.fs" />
     <Compile Include="TestUtf8SignatureCommand.fs" />
     <Compile Include="AddUtf8SignatureCommand.fs" />
     <Compile Include="RemoveUtf8SignatureCommand.fs" />
