@@ -12,7 +12,7 @@ type public IndentType =
     | Spaces = 4
     | Other = 8
 
-/// The details returned by the cmdlet.
+/// The details returned by the Get-FileIndents cmdlet.
 [<StructuredFormatDisplay("{Indents}")>]
 type public IndentsResult =
     { Path : string
@@ -85,7 +85,7 @@ type public GetFileIndentsCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.GetItems x.Path |> List.iter x.ProcessItem
+        x.GetItems x.Path |> Seq.iter x.ProcessItem
 
     override x.EndProcessing () =
         base.EndProcessing ()

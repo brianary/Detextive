@@ -46,7 +46,7 @@ type public AddUtf8SignatureCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.GetItems x.Path |> List.iter x.ProcessItem
+        x.GetItems x.Path |> Seq.iter x.ProcessItem
 
     override x.EndProcessing () =
         base.EndProcessing ()

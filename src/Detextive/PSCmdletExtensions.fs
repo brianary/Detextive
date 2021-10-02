@@ -13,18 +13,15 @@ type PSCmdletExtensions() =
     static member Exists(cmdlet:PSCmdlet, item) =
         cmdlet.InvokeProvider.Item.Exists(item)
 
-    /// Returns the first matching PSProvider item.
-    [<Extension>]
-    static member GetItem(cmdlet:PSCmdlet, item) =
-        let items = cmdlet.InvokeProvider.Item.Get(item)
-        if items.Count < 1 then
-            sprintf "Unable to find %s" item |> ItemNotFoundException |> raise
-        else
-            string <| items.Item(0)
-
     /// Returns all matching PSProvider items.
     [<Extension>]
     static member GetItems(cmdlet:PSCmdlet, itemglob) =
         let items = cmdlet.InvokeProvider.Item.Get(itemglob)
-        [ for i in 0..(items.Count-1) -> items.Item(i) |> string ]
+        seq { for i in 0..(items.Count-1) -> items.Item(i) |> string }
+            |> Seq.filter (cmdlet.InvokeProvider.Item.IsContainer >> not)
 
+    /// Returns the first matching PSProvider item.
+    [<Extension>]
+    static member GetItem(cmdlet:PSCmdlet, item) =
+        try Seq.head (cmdlet.GetItems item) with
+        | :? ArgumentException -> sprintf "Unable to find %s" item |> ItemNotFoundException |> raise

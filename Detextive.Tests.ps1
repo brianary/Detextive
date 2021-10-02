@@ -151,6 +151,22 @@ Describe $module.Name {
 			$e.FinalNewline |Should -BeExactly $FinalNewline
 		}
 	}
+	Context 'Get-FileEditorConfig cmdlet' -Tag Cmdlet,Get-FileEditorConfig {
+		It "Given the file '<File>', {'<Encoding>' '<Indents>' '<LineEndings>'} should be returned." -TestCases @(
+			@{ File = "$TestRoot\README.md"; Encoding = 'utf-8'; Utf8Signature = $false
+				Indents = 'Spaces'; LineEndings = 'CRLF'; FinalNewline = $true }
+			@{ File = "$TestRoot\Detextive.svg"; Encoding = 'utf-8'; Utf8Signature = $false
+				Indents = 'Spaces'; LineEndings = 'CRLF'; FinalNewline = $true }
+		) {
+			Param($File,$Encoding,$Utf8Signature,$Indents,$LineEndings,$FinalNewline)
+			$e = Get-FileEditorConfig $File -vb
+			$e.Encoding.WebName |Should -BeExactly $Encoding
+			$e.Utf8Signature |Should -BeExactly $Utf8Signature
+			$e.Indents |Should -BeExactly $Indents
+			$e.LineEndings |Should -BeExactly $LineEndings
+			$e.FinalNewline |Should -BeExactly $FinalNewline
+		}
+	}
 	Context 'Add-Utf8Signature cmdlet' -Tag Cmdlet,Add-Utf8Signature {
 		It "Given the bytes '<Bytes>', the updated file should contain bytes '<Content>'." -TestCases @(
 			@{ Bytes = [byte[]]@(); Content = [byte[]]@(0xEF,0xBB,0xBF) }

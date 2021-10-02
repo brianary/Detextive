@@ -14,7 +14,7 @@ type public LineEndingType =
     | LS = 6
     | PS = 7
 
-/// The details returned by the cmdlet.
+/// The details returned by the Get-FileLineEndings cmdlet.
 [<StructuredFormatDisplay("{LineEndings}")>]
 type public LineEndingsResult =
     { Path : string
@@ -89,7 +89,7 @@ type public GetFileLineEndingsCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.GetItems x.Path |> List.iter x.ProcessItem
+        x.GetItems x.Path |> Seq.iter x.ProcessItem
 
     override x.EndProcessing () =
         base.EndProcessing ()

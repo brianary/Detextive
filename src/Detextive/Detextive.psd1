@@ -13,10 +13,10 @@ PowerShellVersion = '6.0'
 FunctionsToExport = @()
 CmdletsToExport = @('Test-TextFile','Test-BinaryFile','Test-Utf8Signature','Test-Utf8Encoding','Test-FinalNewline','Test-Windows1252',
     'Get-FileEncoding','Get-FileIndents','Get-FileLineEndings','Get-FileContentsInfo','Add-Utf8Signature','Remove-Utf8Signature',
-    'Repair-Encoding')
+    'Repair-Encoding','Get-FileEditorConfig')
 VariablesToExport = @()
 AliasesToExport = @()
-FileList = @('Detextive.dll','Detextive.dll-Help.xml')
+FileList = @('Detextive.dll','EditorConfig.Core.dll','Detextive.dll-Help.xml')
 PrivateData = @{
     PSData = @{
         Tags = @('Text','detect','encoding','line-endings','indents','bom','utf-sig','utf8-sig')
