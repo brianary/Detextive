@@ -68,6 +68,12 @@ type public GetFileIndentsCommand () =
           Spaces = total IndentType.Spaces
           Other = total IndentType.Other }
 
+    /// Process an individual item.
+    member x.ProcessItem item =
+        x.WriteVerbose(sprintf "Getting indents from %s." item)
+        use fs = new FileStream(item, FileMode.Open, FileAccess.Read, FileShare.Read)
+        GetFileIndentsCommand.DetectIndents x item fs |> x.WriteObject
+
     /// A file to test.
     [<Parameter(Position=0)>]
     [<ValidateNotNullOrEmpty>]
@@ -78,9 +84,7 @@ type public GetFileIndentsCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.WriteVerbose(sprintf "Getting indents from %s." x.Path)
-        use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
-        GetFileIndentsCommand.DetectIndents x x.Path fs |> x.WriteObject
+        x.GetItems x.Path |> List.iter x.ProcessItem
 
     override x.EndProcessing () =
         base.EndProcessing ()

@@ -39,6 +39,23 @@ type public TextContentsResult =
 type public GetFileContentsInfoCommand () =
     inherit PSCmdlet ()
 
+    /// Process an individual item.
+    member x.ProcessItem item =
+        x.WriteVerbose(sprintf "Examining file %s contents." item)
+        use fs = new FileStream(item, FileMode.Open, FileAccess.Read, FileShare.Read)
+        let r =
+            if TestTextFileCommand.IsTextFile fs |> not then { TextContentsResult.BinaryDefault with Path = item }
+            else
+                { Path = item
+                  IsBinary = TestTextFileCommand.IsTextFile fs |> not
+                  Encoding = GetFileEncodingCommand.DetectFileEncoding fs
+                  Utf8Signature = TestUtf8SignatureCommand.HasUtf8Signature fs
+                  Indents = GetFileIndentsCommand.DetectIndents x item fs
+                  LineEndings = GetFileLineEndingsCommand.DetectLineEndings x item fs
+                  FinalNewline = TestFinalNewlineCommand.HasFinalNewline fs }
+        x.WriteVerbose(sprintf "File %s: %s" item (string r))
+        r |> x.WriteObject
+
     /// A file to examine.
     [<Parameter(Position=0)>]
     [<ValidateNotNullOrEmpty>]
@@ -49,20 +66,7 @@ type public GetFileContentsInfoCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.WriteVerbose(sprintf "Examining file %s contents." x.Path)
-        use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
-        let r =
-            if TestTextFileCommand.IsTextFile fs |> not then { TextContentsResult.BinaryDefault with Path = x.Path }
-            else
-                { Path = x.Path
-                  IsBinary = TestTextFileCommand.IsTextFile fs |> not
-                  Encoding = GetFileEncodingCommand.DetectFileEncoding fs
-                  Utf8Signature = TestUtf8SignatureCommand.HasUtf8Signature fs
-                  Indents = GetFileIndentsCommand.DetectIndents x x.Path fs
-                  LineEndings = GetFileLineEndingsCommand.DetectLineEndings x x.Path fs
-                  FinalNewline = TestFinalNewlineCommand.HasFinalNewline fs }
-        x.WriteVerbose(sprintf "File %s: %s" x.Path (string r))
-        r |> x.WriteObject
+        x.GetItems x.Path |> List.iter x.ProcessItem
 
     override x.EndProcessing () =
         base.EndProcessing ()

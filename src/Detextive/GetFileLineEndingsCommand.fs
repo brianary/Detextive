@@ -72,6 +72,12 @@ type public GetFileLineEndingsCommand () =
           LS = total LineEndingType.LS
           PS = total LineEndingType.PS }
 
+    /// Process an individual item.
+    member x.ProcessItem item =
+        x.WriteVerbose(sprintf "Getting line endings from %s." item)
+        use fs = new FileStream(item, FileMode.Open, FileAccess.Read, FileShare.Read)
+        GetFileLineEndingsCommand.DetectLineEndings x item fs |> x.WriteObject
+
     /// A file to test.
     [<Parameter(Position=0)>]
     [<ValidateNotNullOrEmpty>]
@@ -82,9 +88,7 @@ type public GetFileLineEndingsCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.WriteVerbose(sprintf "Getting line endings from %s." x.Path)
-        use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
-        GetFileLineEndingsCommand.DetectLineEndings x x.Path fs |> x.WriteObject
+        x.GetItems x.Path |> List.iter x.ProcessItem
 
     override x.EndProcessing () =
         base.EndProcessing ()

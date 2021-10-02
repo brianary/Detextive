@@ -39,8 +39,9 @@ type public TestWindows1252Command () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.WriteVerbose(sprintf "Testing %s for Windows-1252 bytes." x.Path)
-        use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
+        let item = x.GetItem x.Path
+        x.WriteVerbose(sprintf "Testing %s for Windows-1252 bytes." item)
+        use fs = new FileStream(item, FileMode.Open, FileAccess.Read, FileShare.Read)
         if TestUtf8EncodingCommand.IsUtf8Readable x fs then
             x.WriteObject false
         else

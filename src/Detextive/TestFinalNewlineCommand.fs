@@ -26,8 +26,9 @@ type public TestFinalNewlineCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.WriteVerbose(sprintf "Testing %s for a trailing newline." x.Path)
-        use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
+        let item = x.GetItem x.Path
+        x.WriteVerbose(sprintf "Testing %s for a trailing newline." item)
+        use fs = new FileStream(item, FileMode.Open, FileAccess.Read, FileShare.Read)
         TestFinalNewlineCommand.HasFinalNewline fs |> x.WriteObject
 
     override x.EndProcessing () =

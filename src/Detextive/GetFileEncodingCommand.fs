@@ -44,8 +44,9 @@ type public GetFileEncodingCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.WriteVerbose(sprintf "Getting encoding of %s." x.Path)
-        use fs = new FileStream(x.Path, FileMode.Open, FileAccess.Read, FileShare.Read)
+        let item = x.GetItem x.Path
+        x.WriteVerbose(sprintf "Getting encoding of %s." item)
+        use fs = new FileStream(item, FileMode.Open, FileAccess.Read, FileShare.Read)
         GetFileEncodingCommand.DetectFileEncoding fs |> x.WriteObject
 
     override x.EndProcessing () =
