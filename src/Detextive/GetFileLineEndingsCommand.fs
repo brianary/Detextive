@@ -25,7 +25,8 @@ type public LineEndingsResult =
       NEL : int
       LS : int
       PS : int }
-    override x.ToString () = x.LineEndings.ToString()
+    member x.StringValue = sprintf "%s: %s" x.Path (string x.LineEndings)
+    override x.ToString () = string x.LineEndings
 
 /// Returns details about a file's line endings.
 [<Cmdlet(VerbsCommon.Get, "FileLineEndings")>]

@@ -15,13 +15,14 @@ type public TextContentsResult =
       LineEndings : LineEndingsResult
       FinalNewline : bool }
     member x.StringValue =
-        if x.IsBinary then "binary file"
+        if x.IsBinary then sprintf "%s: binary file" x.Path
         else
-            sprintf "%s%s, %s indents, %s line endings%s"
+            sprintf "%s: %s%s, %s indents, %s line endings%s"
+                x.Path
                 x.Encoding.WebName
                 (if x.Utf8Signature then " with signature" else "")
-                (string x.Indents)
-                (string x.LineEndings)
+                (string x.Indents.Indents)
+                (string x.LineEndings.LineEndings)
                 (if not x.FinalNewline then ", missing final newline" else "")
     override x.ToString () = x.StringValue
     static member BinaryDefault =

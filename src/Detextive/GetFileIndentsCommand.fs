@@ -21,7 +21,8 @@ type public IndentsResult =
       Tabs : int
       Spaces : int
       Other : int }
-    override x.ToString () = x.Indents.ToString()
+    member x.StringValue = sprintf "%s: %s" x.Path (string x.Indents)
+    override x.ToString () = string x.Indents
 
 /// Returns details about a file's indentation characters.
 [<Cmdlet(VerbsCommon.Get, "FileIndents")>]
