@@ -20,7 +20,7 @@ type public TextContentsResult =
             sprintf "%s: %s%s, %s indents, %s line endings%s"
                 x.Path
                 x.Encoding.WebName
-                (if x.Utf8Signature then " with signature" else "")
+                (if x.Utf8Signature then "-bom" else "")
                 (string x.Indents.Indents)
                 (string x.LineEndings.LineEndings)
                 (if not x.FinalNewline then ", missing final newline" else "")
