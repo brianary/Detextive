@@ -15,7 +15,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Add-Utf8Signature</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>The file to add the utf-8 signature to.</maml:para>
@@ -30,7 +30,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>The file to add the utf-8 signature to.</maml:para>
@@ -123,7 +123,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-FileContentsInfo</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>The location of a file.</maml:para>
@@ -138,7 +138,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>The location of a file.</maml:para>
@@ -258,7 +258,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-FileEditorConfig</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>{{ Fill Path Description }}</maml:para>
@@ -273,7 +273,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>{{ Fill Path Description }}</maml:para>
@@ -342,7 +342,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-FileEncoding</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>A file to test.</maml:para>
@@ -357,7 +357,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>A file to test.</maml:para>
@@ -421,7 +421,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-FileIndents</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>A file to test.</maml:para>
@@ -436,7 +436,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>A file to test.</maml:para>
@@ -500,7 +500,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-FileLineEndings</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>The location of a file.</maml:para>
@@ -515,7 +515,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>The location of a file.</maml:para>
@@ -660,7 +660,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Remove-Utf8Signature</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>The file to remove the utf-8 signature from.</maml:para>
@@ -675,7 +675,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>The file to remove the utf-8 signature from.</maml:para>
@@ -868,7 +868,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Test-BinaryFile</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>A file to test.</maml:para>
@@ -883,7 +883,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>A file to test.</maml:para>
@@ -954,6 +954,85 @@
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Test-FileEditorConfig</command:name>
+      <command:verb>Test</command:verb>
+      <command:noun>FileEditorConfig</command:noun>
+      <maml:description>
+        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Fill in the Description }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Test-FileEditorConfig</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
+          <maml:name>Path</maml:name>
+          <maml:description>
+            <maml:para>{{ Fill Path Description }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
+        <maml:name>Path</maml:name>
+        <maml:description>
+          <maml:para>{{ Fill Path Description }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Boolean</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Add example description here }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Test-FinalNewline</command:name>
       <command:verb>Test</command:verb>
       <command:noun>FinalNewline</command:noun>
@@ -967,7 +1046,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Test-FinalNewline</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>The file to test.</maml:para>
@@ -982,7 +1061,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>The file to test.</maml:para>
@@ -1067,7 +1146,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Test-TextFile</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>A file to test.</maml:para>
@@ -1082,7 +1161,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>A file to test.</maml:para>
@@ -1166,7 +1245,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Test-Utf8Encoding</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>The file to test.</maml:para>
@@ -1181,7 +1260,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>The file to test.</maml:para>
@@ -1266,7 +1345,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Test-Utf8Signature</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>The file to test.</maml:para>
@@ -1281,7 +1360,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>The file to test.</maml:para>
@@ -1366,7 +1445,7 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Test-Windows1252</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>A file to test.</maml:para>
@@ -1381,7 +1460,7 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>A file to test.</maml:para>

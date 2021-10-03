@@ -13,7 +13,7 @@ Adds the utf-8 signature (BOM) to a file.
 ## SYNTAX
 
 ```
-Add-Utf8Signature [[-Path] <String>] [<CommonParameters>]
+Add-Utf8Signature [-Path] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,12 +36,12 @@ The file to add the utf-8 signature to.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: FullName
 
-Required: False
+Required: True
 Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

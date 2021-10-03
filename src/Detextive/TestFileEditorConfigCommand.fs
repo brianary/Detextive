@@ -5,7 +5,7 @@ open System.Management.Automation
 open System.Text
 open EditorConfig.Core
 
-/// Validates the editorconfig settings against the actual formatting found.
+/// Validates a file's editorconfig settings against the actual formatting found.
 [<Cmdlet(VerbsDiagnostic.Test, "FileEditorConfig")>]
 [<OutputType(typeof<bool>)>]
 type public TestFileEditorConfigCommand () =

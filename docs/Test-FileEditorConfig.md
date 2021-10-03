@@ -1,19 +1,19 @@
 ---
 external help file: Detextive.dll-Help.xml
 Module Name: Detextive
-online version: https://docs.microsoft.com/en-us/dotnet/api/system.text.utf8encoding.-ctor?view=netframework-4.8
+online version:
 schema: 2.0.0
 ---
 
-# Test-Utf8Encoding
+# Test-FileEditorConfig
 
 ## SYNOPSIS
-Determines whether a file can be parsed as UTF-8 successfully.
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ```
-Test-Utf8Encoding [-Path] <String> [<CommonParameters>]
+Test-FileEditorConfig [-Path] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -21,15 +21,17 @@ Test-Utf8Encoding [-Path] <String> [<CommonParameters>]
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### Example 1
+```powershell
+PS C:\> {{ Add example code here }}
 ```
-Test-Utf8Encoding.ps1 file.txt
-```
+
+{{ Add example description here }}
 
 ## PARAMETERS
 
 ### -Path
-The file to test.
+{{ Fill Path Description }}
 
 ```yaml
 Type: String
@@ -48,17 +50,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.IO.FileInfo file or similar object to test for UTF-8 validity.
-### None
+### System.String
 
 ## OUTPUTS
 
-### System.Boolean indicating whether the file parses sucessfully.
 ### System.Boolean
 
 ## NOTES
 
 ## RELATED LINKS
-
-[https://docs.microsoft.com/en-us/dotnet/api/system.text.utf8encoding.-ctor?view=netframework-4.8](https://docs.microsoft.com/en-us/dotnet/api/system.text.utf8encoding.-ctor?view=netframework-4.8)
-

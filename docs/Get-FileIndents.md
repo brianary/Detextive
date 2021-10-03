@@ -13,7 +13,7 @@ Returns details about a file's indentation characters.
 ## SYNTAX
 
 ```
-Get-FileIndents [[-Path] <String>] [<CommonParameters>]
+Get-FileIndents [-Path] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,12 +36,12 @@ A file to test.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: FullName
 
-Required: False
+Required: True
 Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

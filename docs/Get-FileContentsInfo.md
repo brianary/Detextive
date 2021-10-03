@@ -13,7 +13,7 @@ Returns whether the file is binary or text, and what encoding, line endings, and
 ## SYNTAX
 
 ```
-Get-FileContentsInfo [[-Path] <String>] [<CommonParameters>]
+Get-FileContentsInfo [-Path] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -42,12 +42,12 @@ The location of a file.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: FullName
 
-Required: False
+Required: True
 Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

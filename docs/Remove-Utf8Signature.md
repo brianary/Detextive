@@ -13,7 +13,7 @@ Removes the utf-8 signature (BOM) from a file.
 ## SYNTAX
 
 ```
-Remove-Utf8Signature [[-Path] <String>] [<CommonParameters>]
+Remove-Utf8Signature [-Path] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,12 +36,12 @@ The file to remove the utf-8 signature from.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: FullName
 
-Required: False
+Required: True
 Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

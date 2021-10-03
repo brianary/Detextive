@@ -34,6 +34,7 @@ Documentation is automatically generated using [platyPS](https://github.com/Powe
 - [Remove-Utf8Signature](docs/Remove-Utf8Signature.md) — Removes the utf-8 signature (BOM) from a file.
 - [Repair-Encoding](docs/Repair-Encoding.md) — Re-encodes Windows-1252 text that has been misinterpreted as UTF-8.
 - [Test-BinaryFile](docs/Test-BinaryFile.md) — Returns true if a file does not appear to contain parseable text, and presumably contains binary data.
+- [Test-FileEditorConfig](docs/Test-FileEditorConfig.md) — Validates a file's editorconfig settings against the actual formatting found.
 - [Test-FinalNewline](docs/Test-FinalNewline.md) — Returns true if a file ends with a newline as required by the POSIX standard for text files.
 - [Test-TextFile](docs/Test-TextFile.md) — Returns true if a file contains text.
 - [Test-Utf8Encoding](docs/Test-Utf8Encoding.md) — Returns true if a file is parseable as UTF-8.
