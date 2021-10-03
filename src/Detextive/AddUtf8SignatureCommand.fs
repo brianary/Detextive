@@ -37,7 +37,8 @@ type public AddUtf8SignatureCommand () =
                 | _ -> x.AddUtf8Signature item fs data
 
     /// A file to add the utf-8 signature to.
-    [<Parameter(Position=0)>]
+    [<Parameter(Position=0,Mandatory=true,ValueFromPipelineByPropertyName=true)>]
+    [<Alias("FullName")>]
     [<ValidateNotNullOrEmpty>]
     member val Path : string = "" with get, set
 

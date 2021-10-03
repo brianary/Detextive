@@ -209,5 +209,15 @@ Describe $module.Name {
 			$InputObject |Repair-Encoding -vb |Should -BeExactly $Expected
 		}
 	}
+	Context 'Test-FileEditorConfig cmdlet' -Tag Cmdlet,Test-FileEditorConfig {
+		It "Given the file '<File>', the result '<Expected>' should be returned." -TestCases @(
+			@{ File = "$TestRoot\README.md"; Expected = $true }
+			@{ File = "$TestRoot\Detextive.Tests.ps1"; Expected = $false }
+			@{ File = "$TestRoot\test.cmd"; Expected = $true }
+		) {
+			Param($File,$Expected)
+			Test-FileEditorConfig $File -vb |Should -BeExactly $Expected
+		}
+	}
 }.GetNewClosure()
 $env:Path = $envPath

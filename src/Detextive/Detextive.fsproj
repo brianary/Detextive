@@ -21,6 +21,7 @@
     <Compile Include="GetFileLineEndingsCommand.fs" />
     <Compile Include="GetFileContentsInfoCommand.fs" />
     <Compile Include="GetFileEditorConfigCommand.ps1.fs" />
+    <Compile Include="TestFileEditorConfigCommand.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="editorconfig" Version="0.12.2" />

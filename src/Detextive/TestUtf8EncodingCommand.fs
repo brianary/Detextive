@@ -25,7 +25,8 @@ type public TestUtf8EncodingCommand () =
             false
 
     /// A file to test.
-    [<Parameter(Position=0)>]
+    [<Parameter(Position=0,Mandatory=true,ValueFromPipelineByPropertyName=true)>]
+    [<Alias("FullName")>]
     [<ValidateNotNullOrEmpty>]
     member val Path : string = "" with get, set
 

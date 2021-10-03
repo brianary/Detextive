@@ -45,7 +45,7 @@ type public GetFileContentsInfoCommand () =
         cmdlet.WriteVerbose(sprintf "Examining file %s contents." item)
         use fs = new FileStream(item, FileMode.Open, FileAccess.Read, FileShare.Read)
         if TestTextFileCommand.IsTextFile fs |> not then
-            { TextContentsResult.BinaryDefault with Path = item } |> cmdlet.WriteObject
+            { TextContentsResult.BinaryDefault with Path = item }
         else
             { Path = item
               IsBinary = TestTextFileCommand.IsTextFile fs |> not
@@ -53,10 +53,11 @@ type public GetFileContentsInfoCommand () =
               Utf8Signature = TestUtf8SignatureCommand.HasUtf8Signature fs
               Indents = GetFileIndentsCommand.DetectIndents cmdlet item fs
               LineEndings = GetFileLineEndingsCommand.DetectLineEndings cmdlet item fs
-              FinalNewline = TestFinalNewlineCommand.HasFinalNewline fs } |> cmdlet.WriteObject
+              FinalNewline = TestFinalNewlineCommand.HasFinalNewline fs }
 
     /// A file to examine.
-    [<Parameter(Position=0)>]
+    [<Parameter(Position=0,Mandatory=true,ValueFromPipelineByPropertyName=true)>]
+    [<Alias("FullName")>]
     [<ValidateNotNullOrEmpty>]
     member val Path : string = "" with get, set
 
@@ -65,7 +66,9 @@ type public GetFileContentsInfoCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.GetItems x.Path |> Seq.iter (GetFileContentsInfoCommand.GetFileContentsInfo x)
+        x.GetItems x.Path
+            |> Seq.map (GetFileContentsInfoCommand.GetFileContentsInfo x)
+            |> x.WriteObject
 
     override x.EndProcessing () =
         base.EndProcessing ()

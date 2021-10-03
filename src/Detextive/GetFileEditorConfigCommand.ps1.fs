@@ -30,6 +30,9 @@ type public FileEditorConfigResult =
 type public GetFileEditorConfigCommand () =
     inherit PSCmdlet ()
 
+    static member public GetFileConfiguration (parser:EditorConfigParser) =
+        Array.create 1 >> parser.Parse >> Seq.head
+
     /// Process an individual item.
     static member public GetFileEditorConfig (cmdlet:PSCmdlet) item (cfg:FileConfiguration) =
         { Path          = item
@@ -55,10 +58,11 @@ type public GetFileEditorConfigCommand () =
                           | EndOfLine.CR -> LineEndingType.CR
                           | EndOfLine.CRLF -> LineEndingType.CRLF
                           | _ -> LineEndingType.None
-          FinalNewline  = (not cfg.InsertFinalNewline.HasValue) || cfg.InsertFinalNewline.Value } |> cmdlet.WriteObject
+          FinalNewline  = (not cfg.InsertFinalNewline.HasValue) || cfg.InsertFinalNewline.Value }
 
     /// A file to retrieve the editorconfig values for.
-    [<Parameter(Position=0)>]
+    [<Parameter(Position=0,Mandatory=true,ValueFromPipelineByPropertyName=true)>]
+    [<Alias("FullName")>]
     [<ValidateNotNullOrEmpty>]
     member val Path : string = "" with get, set
 
@@ -67,11 +71,10 @@ type public GetFileEditorConfigCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        let parser = EditorConfigParser()
-        let getCfg = Array.create 1 >> parser.Parse >> Seq.head
+        let getCfg = GetFileEditorConfigCommand.GetFileConfiguration <| EditorConfigParser()
         x.GetItems x.Path
-            |> Seq.map (fun item -> item, getCfg item)
-            |> Seq.iter (fun (item,cfg) -> GetFileEditorConfigCommand.GetFileEditorConfig x item cfg)
+            |> Seq.map (fun item -> GetFileEditorConfigCommand.GetFileEditorConfig x item (getCfg item))
+            |> x.WriteObject
 
     override x.EndProcessing () =
         base.EndProcessing ()

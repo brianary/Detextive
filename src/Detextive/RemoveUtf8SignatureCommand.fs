@@ -10,7 +10,8 @@ type public RemoveUtf8SignatureCommand () =
     inherit PSCmdlet ()
 
     /// A file to remove the utf-8 signature from.
-    [<Parameter(Position=0)>]
+    [<Parameter(Position=0,Mandatory=true,ValueFromPipelineByPropertyName=true)>]
+    [<Alias("FullName")>]
     [<ValidateNotNullOrEmpty>]
     member val Path : string = "" with get, set
 
