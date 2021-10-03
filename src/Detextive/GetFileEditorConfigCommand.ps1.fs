@@ -30,11 +30,8 @@ type public FileEditorConfigResult =
 type public GetFileEditorConfigCommand () =
     inherit PSCmdlet ()
 
-    member x.Parser = EditorConfigParser()
-
     /// Process an individual item.
-    member x.ProcessItem item =
-        let cfg = x.Parser.Parse([|item|]) |> Seq.head
+    static member public GetFileEditorConfig (cmdlet:PSCmdlet) item (cfg:FileConfiguration) =
         { Path          = item
           Encoding      = if not cfg.Charset.HasValue then Encoding.Default else
                           match cfg.Charset.Value with
@@ -58,7 +55,7 @@ type public GetFileEditorConfigCommand () =
                           | EndOfLine.CR -> LineEndingType.CR
                           | EndOfLine.CRLF -> LineEndingType.CRLF
                           | _ -> LineEndingType.None
-          FinalNewline  = (not cfg.InsertFinalNewline.HasValue) || cfg.InsertFinalNewline.Value } |> x.WriteObject
+          FinalNewline  = (not cfg.InsertFinalNewline.HasValue) || cfg.InsertFinalNewline.Value } |> cmdlet.WriteObject
 
     /// A file to retrieve the editorconfig values for.
     [<Parameter(Position=0)>]
@@ -70,7 +67,11 @@ type public GetFileEditorConfigCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.GetItems x.Path |> Seq.iter x.ProcessItem
+        let parser = EditorConfigParser()
+        let getCfg = Array.create 1 >> parser.Parse >> Seq.head
+        x.GetItems x.Path
+            |> Seq.map (fun item -> item, getCfg item)
+            |> Seq.iter (fun (item,cfg) -> GetFileEditorConfigCommand.GetFileEditorConfig x item cfg)
 
     override x.EndProcessing () =
         base.EndProcessing ()
