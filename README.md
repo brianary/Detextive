@@ -33,6 +33,7 @@ Documentation is automatically generated using [platyPS](https://github.com/Powe
 - [Get-FileLineEndings](docs/Get-FileLineEndings.md) — Returns details about a file's line endings.
 - [Remove-Utf8Signature](docs/Remove-Utf8Signature.md) — Removes the utf-8 signature (BOM) from a file.
 - [Repair-Encoding](docs/Repair-Encoding.md) — Re-encodes Windows-1252 text that has been misinterpreted as UTF-8.
+- [Repair-FileEditorConfig](docs/Repair-FileEditorConfig.md) — Corrects a file's editorconfig settings when they differ from the actual formatting found.
 - [Test-BinaryFile](docs/Test-BinaryFile.md) — Returns true if a file does not appear to contain parseable text, and presumably contains binary data.
 - [Test-FileEditorConfig](docs/Test-FileEditorConfig.md) — Validates a file's editorconfig settings against the actual formatting found.
 - [Test-FinalNewline](docs/Test-FinalNewline.md) — Returns true if a file ends with a newline as required by the POSIX standard for text files.
