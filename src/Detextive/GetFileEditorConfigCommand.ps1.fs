@@ -31,10 +31,12 @@ type public GetFileEditorConfigCommand () =
     inherit PSCmdlet ()
 
     static member public GetFileConfiguration (parser:EditorConfigParser) =
-        Array.create 1 >> parser.Parse >> Seq.head
+        Array.singleton >> parser.Parse >> Seq.head
 
     /// Process an individual item.
     static member public GetFileEditorConfig (cmdlet:PSCmdlet) item (cfg:FileConfiguration) =
+        sprintf "Config: %s = { %A, %A, %A, %A }" item cfg.Charset cfg.IndentStyle cfg.EndOfLine cfg.InsertFinalNewline
+            |> cmdlet.WriteVerbose
         { Path          = item
           Encoding      = if not cfg.Charset.HasValue then Encoding.Default else
                           match cfg.Charset.Value with

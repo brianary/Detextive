@@ -16,8 +16,9 @@ type PSCmdletExtensions() =
     /// Returns all matching PSProvider items.
     [<Extension>]
     static member GetItems(cmdlet:PSCmdlet, itemglob) =
-        let items = cmdlet.InvokeProvider.Item.Get(itemglob)
-        seq { for i in 0..(items.Count-1) -> items.Item(i) |> string }
+        cmdlet.InvokeProvider.Item.Get(itemglob)
+            |> Collection.toSeq
+            |> Seq.map string
             |> Seq.filter (cmdlet.InvokeProvider.Item.IsContainer >> not)
 
     /// Returns the first matching PSProvider item.
@@ -25,3 +26,14 @@ type PSCmdletExtensions() =
     static member GetItem(cmdlet:PSCmdlet, item) =
         try Seq.head (cmdlet.GetItems item) with
         | :? ArgumentException -> sprintf "Unable to find %s" item |> ItemNotFoundException |> raise
+
+    /// Returns the lines of a file.
+    [<Extension>]
+    static member GetLines(cmdlet:PSCmdlet, item) =
+        cmdlet.InvokeProvider.Content.GetReader(item)
+            |> Collection.toList
+            |> List.collect (fun reader ->
+                                let lines = reader.Read(Int64.MaxValue) |> IList.toStringList
+                                reader.Close()
+                                reader.Dispose()
+                                lines)

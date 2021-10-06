@@ -6,6 +6,8 @@
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="IList.fs" />
+    <Compile Include="Collection.fs" />
     <Compile Include="PSCmdletExtensions.fs" />
     <Compile Include="RepairEncodingCommand.fs" />
     <Compile Include="TestUtf8SignatureCommand.fs" />
@@ -22,6 +24,7 @@
     <Compile Include="GetFileContentsInfoCommand.fs" />
     <Compile Include="GetFileEditorConfigCommand.ps1.fs" />
     <Compile Include="TestFileEditorConfigCommand.fs" />
+    <Compile Include="RepairFileEditorConfigCommand.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="editorconfig" Version="0.12.2" />

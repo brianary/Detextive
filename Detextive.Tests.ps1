@@ -219,5 +219,18 @@ Describe $module.Name {
 			Test-FileEditorConfig $File -vb |Should -BeExactly $Expected
 		}
 	}
+	Context 'Repair-FileEditorConfig cmdlet' -Tag Cmdlet,Test-FileEditorConfig {
+		It "Given the text '<InputObject>', the result '<Expected>' should be returned." -TestCases @(
+			@{ InputObject = "    # test`n"; Extension = 'ps1'; Encoding = New-Object Text.UTF8Encoding $true;
+				Expected = "`t# test`r`n" }
+		) {
+			Param($InputObject,$Extension,$Encoding,$Expected)
+			$file = "$(New-Guid).$Extension"
+			$Encoding.GetBytes($InputObject) |Set-Content $file -AsByteStream
+			Repair-FileEditorConfig $file -vb
+			Get-Content $file -Raw |Should -BeExactly $Expected
+			Remove-Item $file
+		}
+	}
 }.GetNewClosure()
 $env:Path = $envPath
