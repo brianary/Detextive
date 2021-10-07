@@ -11,7 +11,7 @@ type public RepairEncodingCommand () =
 
     /// The string containing encoding failures to fix.
     [<Parameter(Position=0,Mandatory=true,ValueFromPipeline=true)>]
-    [<ValidateNotNullOrEmpty>]
+    [<ValidateNotNull>]
     member val InputObject : string = "" with get, set
 
     override x.BeginProcessing () =

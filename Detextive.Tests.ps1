@@ -200,13 +200,51 @@ Describe $module.Name {
 			Remove-Item $file
 		}
 	}
-	Context 'Repair-Encoding cmdlet' -Tag Cmdlet,Remove-Utf8Signature {
+	Context 'Test-BrokenEncoding cmdlet' -Tag Cmdlet,Test-BrokenEncoding {
+		It "Given the string '<InputObject>', the value '<Expected>' should be returned." -TestCases @(
+			@{ InputObject = ' '; Expected = $false }
+			@{ InputObject = 'SmartQuotes Arenâ€™t'; Expected = $true }
+			@{ InputObject = '1.2.1 â€“ 1.3.4'; Expected = $true }
+			@{ InputObject = 'Test'; Expected = $false }
+		) {
+			Param($InputObject,$Expected)
+			$InputObject |Test-BrokenEncoding -vb |Should -BeExactly $Expected
+		}
+	}
+	Context 'Test-FileBrokenEncoding cmdlet' -Tag Cmdlet,Test-FileBrokenEncoding {
+		It "Given the string '<InputObject>', the value '<Expected>' should be returned." -TestCases @(
+			@{ InputObject = ' '; Expected = $false }
+			@{ InputObject = 'SmartQuotes Arenâ€™t'; Expected = $true }
+			@{ InputObject = '1.2.1 â€“ 1.3.4'; Expected = $true }
+			@{ InputObject = 'Test'; Expected = $false }
+		) {
+			Param($InputObject,$Expected)
+			$file = [io.path]::GetTempFileName()
+			$InputObject |Set-Content $file -Encoding utf8
+			Test-FileBrokenEncoding $file -vb |Should -BeExactly $Expected
+			Remove-Item $file
+		}
+	}
+	Context 'Repair-Encoding cmdlet' -Tag Cmdlet,Repair-Encoding {
 		It "Given the string '<InputObject>', the string '<Expected>' should be returned." -TestCases @(
 			@{ InputObject = 'SmartQuotes Arenâ€™t'; Expected = "SmartQuotes Aren’t" }
 			@{ InputObject = '1.2.1 â€“ 1.3.4'; Expected = "1.2.1 – 1.3.4" }
 		) {
 			Param($InputObject,$Expected)
 			$InputObject |Repair-Encoding -vb |Should -BeExactly $Expected
+		}
+	}
+	Context 'Repair-FileEncoding cmdlet' -Tag Cmdlet,Repair-FileEncoding {
+		It "Given the string '<InputObject>', the string '<Expected>' should be returned." -TestCases @(
+			@{ InputObject = 'SmartQuotes Arenâ€™t'; Expected = "SmartQuotes Aren’t" }
+			@{ InputObject = '1.2.1 â€“ 1.3.4'; Expected = "1.2.1 – 1.3.4" }
+		) {
+			Param($InputObject,$Expected)
+			$file = [io.path]::GetTempFileName()
+			$InputObject |Set-Content $file -Encoding utf8
+			Repair-FileEncoding $file -vb
+			Get-Content $file -Encoding utf8 -TotalCount 1 |Should -BeExactly $Expected
+			Remove-Item $file
 		}
 	}
 	Context 'Test-FileEditorConfig cmdlet' -Tag Cmdlet,Test-FileEditorConfig {

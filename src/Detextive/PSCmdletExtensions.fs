@@ -26,14 +26,3 @@ type PSCmdletExtensions() =
     static member GetItem(cmdlet:PSCmdlet, item) =
         try Seq.head (cmdlet.GetItems item) with
         | :? ArgumentException -> sprintf "Unable to find %s" item |> ItemNotFoundException |> raise
-
-    /// Returns the lines of a file.
-    [<Extension>]
-    static member GetLines(cmdlet:PSCmdlet, item) =
-        cmdlet.InvokeProvider.Content.GetReader(item)
-            |> Collection.toList
-            |> List.collect (fun reader ->
-                                let lines = reader.Read(Int64.MaxValue) |> IList.toStringList
-                                reader.Close()
-                                reader.Dispose()
-                                lines)
