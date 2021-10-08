@@ -6,7 +6,8 @@ open System.Management.Automation
 open System.Text
 
 /// Re-encodes commonly mis-encoded text.
-[<Cmdlet(VerbsDiagnostic.Repair, "Encoding",DefaultParameterSetName="InputObject")>]
+[<Cmdlet(VerbsDiagnostic.Repair, "Encoding", DefaultParameterSetName="InputObject")>]
+[<OutputType(typeof<string>, ParameterSetName=[|"InputObject"|])>]
 type public RepairEncodingCommand () =
     inherit PSCmdlet ()
 

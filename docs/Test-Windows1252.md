@@ -22,11 +22,13 @@ Test-Windows1252 [-Path] <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+```ps1
+Test-Windows1252 README.md
 ```
 
-{{ Add example description here }}
+```
+False
+```
 
 ## PARAMETERS
 
@@ -50,11 +52,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### System.Boolean
+`System.Boolean` indicating the file contains at least one byte identified as a likely Windows-1252/CP1252 character value.
 
 ## NOTES
 

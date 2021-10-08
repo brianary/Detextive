@@ -8,7 +8,7 @@ schema: 2.0.0
 # Test-BrokenEncoding
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Returns true if text contains a nonsense sequence of characters resulting from parsing text with the wrong encoding.
 
 ## SYNTAX
 
@@ -28,16 +28,18 @@ Test-BrokenEncoding -Path <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+```ps1
+'1.2.1 â€“ 1.3.4' |Test-BrokenEncoding
 ```
 
-{{ Add example description here }}
+```
+True
+```
 
 ## PARAMETERS
 
 ### -InputObject
-{{ Fill InputObject Description }}
+A string to test.
 
 ```yaml
 Type: String
@@ -52,7 +54,7 @@ Accept wildcard characters: False
 ```
 
 ### -Path
-{{ Fill Path Description }}
+A file to test.
 
 ```yaml
 Type: String
@@ -71,11 +73,14 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+`System.String` containing encoding failures to fix.
+
+Or any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### System.Boolean
+`System.Boolean` indicating that the text or file contains a nonsense sequence of characters resulting
+from parsing text with the wrong encoding.
 
 ## NOTES
 

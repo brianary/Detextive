@@ -22,11 +22,13 @@ Test-FinalNewline [-Path] <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-Test-FinalNewline.ps1 README.md
+```ps1
+Test-FinalNewline README.md
 ```
 
+```
 True
+```
 
 ## PARAMETERS
 
@@ -50,17 +52,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.IO.FileInfo file or similar object to test for UTF-8 validity.
-### None
+Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### System.Boolean indicating whether the file ends with a newline.
-### System.Boolean
+`System.Boolean` indicating that the file ends with a final newline.
 
 ## NOTES
 
 ## RELATED LINKS
-
-[Test-MagicNumber.ps1]()
 

@@ -34,7 +34,7 @@ type public TextContentsResult =
           LineEndings = { Path = ""; LineEndings = LineEndingType.None; CRLF = 0; LF = 0; CR = 0; NEL = 0; LS = 0; PS = 0 }
           FinalNewline = false }
 
-/// Returns formatting details about a text file's contents: encoding, indents, line endings, &c.
+/// Returns whether the file is binary or text, and what encoding, line endings, and indents text files contain.
 [<Cmdlet(VerbsCommon.Get, "FileContentsInfo")>]
 [<OutputType(typeof<TextContentsResult>)>]
 type public GetFileContentsInfoCommand () =

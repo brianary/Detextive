@@ -22,8 +22,12 @@ Test-Utf8Encoding [-Path] <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### EXAMPLE 1
+```ps1
+Test-Utf8Encoding README.md
 ```
-Test-Utf8Encoding.ps1 file.txt
+
+```
+True
 ```
 
 ## PARAMETERS
@@ -48,13 +52,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.IO.FileInfo file or similar object to test for UTF-8 validity.
-### None
+Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### System.Boolean indicating whether the file parses sucessfully.
-### System.Boolean
+`System.Boolean` indicating that the file can be successfully parsed as UTF-8.
 
 ## NOTES
 

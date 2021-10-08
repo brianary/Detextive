@@ -22,11 +22,27 @@ Get-FileEncoding [-Path] <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+```ps1
+Get-FileEncoding README.md
 ```
 
-{{ Add example description here }}
+```
+Preamble          :
+BodyName          : utf-8
+EncodingName      : Unicode (UTF-8)
+HeaderName        : utf-8
+WebName           : utf-8
+WindowsCodePage   : 1200
+IsBrowserDisplay  : True
+IsBrowserSave     : True
+IsMailNewsDisplay : True
+IsMailNewsSave    : True
+IsSingleByte      : False
+EncoderFallback   : System.Text.EncoderReplacementFallback
+DecoderFallback   : System.Text.DecoderReplacementFallback
+IsReadOnly        : True
+CodePage          : 65001
+```
 
 ## PARAMETERS
 
@@ -50,11 +66,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### System.Text.Encoding
+`System.Text.Encoding`
 
 ## NOTES
 

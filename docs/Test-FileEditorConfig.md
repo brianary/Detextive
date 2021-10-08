@@ -8,7 +8,7 @@ schema: 2.0.0
 # Test-FileEditorConfig
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Validates a file's editorconfig settings against the actual formatting found.
 
 ## SYNTAX
 
@@ -22,16 +22,18 @@ Test-FileEditorConfig [-Path] <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+```ps1
+Test-FileEditorConfig README.md
 ```
 
-{{ Add example description here }}
+```
+True
+```
 
 ## PARAMETERS
 
 ### -Path
-{{ Fill Path Description }}
+A file to test the editorconfig values for.
 
 ```yaml
 Type: String
@@ -50,11 +52,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### System.Boolean
+`System.Boolean` indicating the file matches the editorconfig settings.
 
 ## NOTES
 

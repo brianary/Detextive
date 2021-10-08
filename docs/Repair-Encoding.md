@@ -8,7 +8,7 @@ schema: 2.0.0
 # Repair-Encoding
 
 ## SYNOPSIS
-Re-encodes Windows-1252 text that has been misinterpreted as UTF-8.
+Re-encodes commonly mis-encoded text.
 
 ## SYNTAX
 
@@ -28,11 +28,13 @@ Repair-Encoding -Path <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```ps1
 Repair-Encoding.ps1 'SmartQuotes Arenâ€™t'
 ```
 
+```
 SmartQuotes Aren't
+```
 
 ## PARAMETERS
 
@@ -52,7 +54,7 @@ Accept wildcard characters: False
 ```
 
 ### -Path
-{{ Fill Path Description }}
+A mis-encoded file to fix.
 
 ```yaml
 Type: String
@@ -71,13 +73,16 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String containing encoding failures to fix.
-### System.String
+`System.String` containing encoding failures to fix.
+
+Or any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### System.String containing the corrected string data.
-### System.Object
+`System.String` with the encoding corrected, if `InputObject` is used.
+
+`Path` is written back to the file.
+
 ## NOTES
 
 ## RELATED LINKS

@@ -22,11 +22,19 @@ Get-FileIndents [-Path] <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
+```ps1
+Get-FileIndents src\Detextive\GetFileIndentsCommand.fs
 ```
 
-{{ Add example description here }}
+```
+Path        : A:\Detextive\src\Detextive\GetFileIndentsCommand.fs
+Indents     : Spaces
+Mixed       : 0
+Tabs        : 0
+Spaces      : 66
+Other       : 0
+StringValue : A:\Detextive\src\Detextive\GetFileIndentsCommand.fs: Spaces
+```
 
 ## PARAMETERS
 
@@ -50,11 +58,22 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### Detextive.IndentsResult
+`Detextive.IndentsResult`
+
+* **Path** `string`: The full path of the file.
+* **Indents** `IndentType`: The file's indent style: `None`, `Mixed`, `Tabs`, `Spaces`, or `Other`.
+* **Mixed** `int`: The number of lines indented with multiple inconsistent indent characters
+  (like spaces and tabs together).
+* **Tabs** `int`: The number of lines indented with tabs.
+* **Spaces** `int`: The number of lines indented with spaces.
+* **Other** `int`: The number of lines indented with non-space, non-tab whitespace.
+  This means something unusual such as U+00A0 NO-BREAK SPACE, U+2003 EM SPACE, U+200A HAIR SPACE
+  or any other weird, unexpected space character.
+* **StringValue** `string`: A summary of the file indents.
 
 ## NOTES
 

@@ -22,11 +22,13 @@ Test-BinaryFile [-Path] <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-Test-BinaryFile.ps1 avatar.jpg
+```ps1
+Test-BinaryFile Detextive.png
 ```
 
+```
 True
+```
 
 ### EXAMPLE 2
 ```
@@ -57,12 +59,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### System.Boolean indicating that the file contains binary data.
-### System.Boolean
+`System.Boolean` indicating that the file does not appear to contain parseable text,
+and presumably contains binary data.
 
 ## NOTES
 

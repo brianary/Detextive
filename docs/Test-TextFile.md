@@ -22,18 +22,22 @@ Test-TextFile [-Path] <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-Test-TextFile.ps1 README.md
+```ps1
+Test-TextFile README.md
 ```
 
+```
 True
+```
 
 ### EXAMPLE 2
-```
-Test-TextFile.ps1 avatar.jpg
+```ps1
+Test-TextFile Detextive.png
 ```
 
+```
 False
+```
 
 ## PARAMETERS
 
@@ -57,16 +61,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.Object
+Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### System.Boolean indicating that the file contains text.
-### System.Boolean
+`System.Boolean` indicating that the file appears to contain text.
 
 ## NOTES
 
 ## RELATED LINKS
-
-[Test-FileTypeMagicNumber.ps1]()
 

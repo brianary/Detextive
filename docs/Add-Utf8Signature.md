@@ -22,11 +22,11 @@ Add-Utf8Signature [-Path] <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-Add-Utf8Signature.ps1 README.md
+```ps1
+Add-Utf8Signature README.md
 ```
 
-Adds the EF BB BF at the beginning of the file, warns if it isn't found.
+Adds the EF BB BF at the beginning of the file, warns if it's already there.
 
 ## PARAMETERS
 
@@ -50,13 +50,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String containing the path to the file to be updated.
-### None
+Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### System.Void
-### System.Object
 ## NOTES
 
 ## RELATED LINKS
@@ -64,6 +61,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 [https://msdn.microsoft.com/library/s064f8w2aspx](https://msdn.microsoft.com/library/s064f8w2aspx)
 
 [https://msdn.microsoft.com/library/ms143376aspx](https://msdn.microsoft.com/library/ms143376aspx)
-
-[Get-Content]()
 

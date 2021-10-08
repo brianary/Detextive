@@ -23,14 +23,20 @@ Get-FileLineEndings [-Path] <String> [<CommonParameters>]
 
 ### EXAMPLE 1
 ```
-Get-FileLineEndings.ps1 Get-FileLineEndings.ps1
+Get-FileLineEndings README.md
 ```
 
-Path        : A:\scripts\Get-FileLineEndings.ps1
+```
+Path        : A:\Detextive\README.md
 LineEndings : CRLF
-CRLF        : 90
+CRLF        : 48
 LF          : 0
 CR          : 0
+NEL         : 0
+LS          : 0
+PS          : 0
+StringValue : A:\Detextive\README.md: CRLF
+```
 
 ## PARAMETERS
 
@@ -54,20 +60,21 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### Any object with a Path or FullName property to use for a file location.
-### None
+Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### Detextive.LineEndingsResult with the following properties:
-### * Path, a string containing the location of the file.
-### * LineEndings, one of: CRLF, LF, CR, NEL, LS, PS, or Mixed.
-### * CRLF, a count of the U+000D U+000A CR LF line endings found.
-### * LF, a count of the U+000A LF line endings found.
-### * CR, a count of the U+000D CR line endings found.
-### * NEL, a count of the U+0085 NEL line endings found.
-### * LS, a count of the U+2028 LS line endings found.
-### * PS, a count of the U+2029 PS line endings found.
+`Detextive.LineEndingsResult`
+
+* **Path** `string`: The full path of the file.
+* **LineEndings** `LineEndingType`: The file's indent style: `None`, `Mixed`, `CRLF`, `LF`, `CR`, `NEL`, `LS`, or `PS`.
+* **CRLF** `int`: The number of lines ending with a Windows-style U+000D carriage return and U+000A line feed.
+* **LF** `int`: The number of lines ending with a Linux/BSD-style U+000A line feed.
+* **CR** `int`: The number of lines ending with an old-Mac-style U+000D carriage return.
+* **NEL** `int`: The number of lines ending with a Unicode U+0085 next line character.
+* **LS** `int`: The number of lines ending with a Unicode U+2028 line separator character.
+* **PS** `int`: The number of lines ending with a Unicode U+2029 paragraph separator character.
+* **StringValue** `string`: A summary of the file line endings.
 
 ## NOTES
 

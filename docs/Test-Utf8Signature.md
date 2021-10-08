@@ -22,11 +22,13 @@ Test-Utf8Signature [-Path] <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-Test-Utf8Signature.ps1 README.md
+```ps1
+Test-Utf8Signature README.md
 ```
 
+```
 False
+```
 
 ## PARAMETERS
 
@@ -50,17 +52,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.IO.FileInfo file or similar object to test for UTF-8 validity.
-### None
+Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### System.Boolean indicating whether the file starts with a utf-8 signature (BOM).
-### System.Boolean
+`System.Boolean` indicating that the file begins with the bytes `EF BB BF`.
 
 ## NOTES
 
 ## RELATED LINKS
-
-[Test-FileTypeMagicNumber.ps1]()
 

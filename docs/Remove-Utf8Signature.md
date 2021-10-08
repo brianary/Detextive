@@ -22,7 +22,7 @@ Remove-Utf8Signature [-Path] <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```ps1
 Remove-Utf8Signature.ps1 README.md
 ```
 
@@ -50,13 +50,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String containing the path to the file to be updated.
-### None
+Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### System.Void
-### System.Object
 ## NOTES
 
 ## RELATED LINKS

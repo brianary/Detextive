@@ -22,17 +22,20 @@ Get-FileContentsInfo [-Path] <String> [<CommonParameters>]
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-Get-FileContentsInfo.ps1 Get-FileContentsInfo.ps1
+```ps1
+Get-FileContentsInfo README.md
 ```
 
-Path          : A:\scripts\Get-FileContentsInfo.ps1
+```
+Path          : A:\Detextive\README.md
 IsBinary      : False
-Encoding      : System.Text.ASCIIEncoding+ASCIIEncodingSealed
+Encoding      : System.Text.UTF8Encoding+UTF8EncodingSealed
 Utf8Signature : False
+Indents       : None
 LineEndings   : CRLF
-Indents       : Tabs
 FinalNewline  : True
+StringValue   : A:\Detextive\README.md: utf-8, None indents, CRLF line endings
+```
 
 ## PARAMETERS
 
@@ -56,20 +59,24 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### Any object with a Path or FullName property to use for a file location.
-### None
+Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-### System.Management.Automation.PSObject with the following properties:
-### * Path the full path of the file.
-### * IsBinary indicates a binary (vs text) file.
-### * Encoding contains the encoding of a text file.
-### * LineEndings indicates the type of line endings used in a text file.
-### * Indents indicates the type of indent characters used in a text file.
-### Detextive.IndentsResult
+`Detextive.TextContentsResult`
+
+* **Path** `string`: The full path of the file.
+* **IsBinary** `bool`: Indicates a binary (vs text) file.
+* **Encoding** `Encoding`: Contains the encoding of the text file.
+* **Utf8Signature** `bool`: Indicates the file begins with a UTF-8 signature.
+* **Indents** [`IndentsResult`][]: Details about the type of indent characters used in the text file.
+* **LineEndings** [`LineEndingsResult`][]: Details about the type of line endings used in the text file.
+* **FinalNewline** `bool`: Indicate the file ends with a newline as required by the POSIX standard.
+* **StringValue** `string`: A summary of the file contents.
+
+[`IndentsResult`]: Get-FileIndents.md#OUTPUTS
+[`LineEndingsResult`]: Get-FileLineEndings.md#OUTPUTS
 
 ## NOTES
-TODO: indent size, trailing whitespace, max line length, 2σ (95% max line length)
 
 ## RELATED LINKS
