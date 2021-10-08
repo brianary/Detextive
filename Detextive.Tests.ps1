@@ -210,9 +210,7 @@ Describe $module.Name {
 			Param($InputObject,$Expected)
 			$InputObject |Test-BrokenEncoding -vb |Should -BeExactly $Expected
 		}
-	}
-	Context 'Test-FileBrokenEncoding cmdlet' -Tag Cmdlet,Test-FileBrokenEncoding {
-		It "Given the string '<InputObject>', the value '<Expected>' should be returned." -TestCases @(
+		It "Given the file contents '<InputObject>', the file should be updated to contain '<Expected>'." -TestCases @(
 			@{ InputObject = ' '; Expected = $false }
 			@{ InputObject = 'SmartQuotes Arenâ€™t'; Expected = $true }
 			@{ InputObject = '1.2.1 â€“ 1.3.4'; Expected = $true }
@@ -221,7 +219,7 @@ Describe $module.Name {
 			Param($InputObject,$Expected)
 			$file = [io.path]::GetTempFileName()
 			$InputObject |Set-Content $file -Encoding utf8
-			Test-FileBrokenEncoding $file -vb |Should -BeExactly $Expected
+			Test-BrokenEncoding $file -vb |Should -BeExactly $Expected
 			Remove-Item $file
 		}
 	}
@@ -233,16 +231,14 @@ Describe $module.Name {
 			Param($InputObject,$Expected)
 			$InputObject |Repair-Encoding -vb |Should -BeExactly $Expected
 		}
-	}
-	Context 'Repair-FileEncoding cmdlet' -Tag Cmdlet,Repair-FileEncoding {
-		It "Given the string '<InputObject>', the string '<Expected>' should be returned." -TestCases @(
+		It "Given the file contents '<InputObject>', the file should be updated to contain '<Expected>'." -TestCases @(
 			@{ InputObject = 'SmartQuotes Arenâ€™t'; Expected = "SmartQuotes Aren’t" }
 			@{ InputObject = '1.2.1 â€“ 1.3.4'; Expected = "1.2.1 – 1.3.4" }
 		) {
 			Param($InputObject,$Expected)
 			$file = [io.path]::GetTempFileName()
 			$InputObject |Set-Content $file -Encoding utf8
-			Repair-FileEncoding $file -vb
+			Repair-Encoding $file -vb
 			Get-Content $file -Encoding utf8 -TotalCount 1 |Should -BeExactly $Expected
 			Remove-Item $file
 		}

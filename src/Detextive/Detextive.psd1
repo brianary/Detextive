@@ -11,10 +11,10 @@ Copyright = 'Copyright © 2019 Brian Lalonde'
 Description = 'Investigates data to determine what the textual characteristics are.'
 PowerShellVersion = '6.0'
 FunctionsToExport = @()
-CmdletsToExport = @('Test-TextFile','Test-BinaryFile','Test-Utf8Signature','Test-Utf8Encoding','Test-FinalNewline','Test-Windows1252',
-    'Get-FileEncoding','Get-FileIndents','Get-FileLineEndings','Get-FileContentsInfo','Add-Utf8Signature','Remove-Utf8Signature',
-    'Test-BrokenEncoding','Test-FileBrokenEncoding','Repair-Encoding','Repair-FileEncoding','Get-FileEditorConfig','Test-FileEditorConfig',
-    'Repair-FileEditorConfig')
+CmdletsToExport = @('Test-TextFile','Test-BinaryFile','Test-Utf8Signature','Test-Utf8Encoding','Test-FinalNewline',
+    'Test-Windows1252','Get-FileEncoding','Get-FileIndents','Get-FileLineEndings','Get-FileContentsInfo','Add-Utf8Signature',
+    'Remove-Utf8Signature','Test-BrokenEncoding','Repair-Encoding','Get-FileEditorConfig','Test-FileEditorConfig',
+	'Repair-FileEditorConfig')
 VariablesToExport = @()
 AliasesToExport = @()
 FileList = @('Detextive.dll','EditorConfig.Core.dll','Detextive.dll-Help.xml')

@@ -12,8 +12,14 @@ Re-encodes Windows-1252 text that has been misinterpreted as UTF-8.
 
 ## SYNTAX
 
+### InputObject (Default)
 ```
 Repair-Encoding [-InputObject] <String> [<CommonParameters>]
+```
+
+### Path
+```
+Repair-Encoding -Path <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,13 +41,28 @@ The string containing encoding failures to fix.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: InputObject
 Aliases:
 
 Required: True
 Position: 0
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Path
+{{ Fill Path Description }}
+
+```yaml
+Type: String
+Parameter Sets: Path
+Aliases: FullName
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

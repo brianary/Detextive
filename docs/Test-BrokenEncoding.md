@@ -12,8 +12,14 @@ schema: 2.0.0
 
 ## SYNTAX
 
+### InputObject (Default)
 ```
 Test-BrokenEncoding [-InputObject] <String> [<CommonParameters>]
+```
+
+### Path
+```
+Test-BrokenEncoding -Path <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,13 +41,28 @@ PS C:\> {{ Add example code here }}
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: InputObject
 Aliases:
 
 Required: True
 Position: 0
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Path
+{{ Fill Path Description }}
+
+```yaml
+Type: String
+Parameter Sets: Path
+Aliases: FullName
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
