@@ -42,11 +42,9 @@ Describe $module.Name {
 		}
 	}
 	Context 'Test-Utf8Signature cmdlet' -Tag Cmdlet,Test-Utf8Signature {
-		It "Given the file '<File>', '<Expected>' should be returned." -TestCases @(
-			@{ File = "$TestRoot\README.md"; Expected = $false }
-			@{ File = "$TestRoot\Detextive.png"; Expected = $false }
-			@{ File = "$TestRoot\Detextive.svg"; Expected = $false }
-			@{ File = "$TestRoot\Detextive.sln"; Expected = $true }
+		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
+			Get-ChildItem $TestRoot\test\* -File |
+				foreach {@{ File = $_.FullName; Expected = $_.Name -like 'utf-8-bom-*' }}
 		) {
 			Param($File,$Expected)
 			Test-Utf8Signature $File -vb |Should -BeExactly $Expected
