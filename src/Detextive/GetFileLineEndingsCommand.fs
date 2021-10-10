@@ -45,8 +45,9 @@ type public GetFileLineEndingsCommand () =
             (function
                 | -1 -> None
                 |  i -> match text.[i] with
-                        | '\r' when text.[i+1] = '\n' -> Some(LineEndingType.CRLF, text.IndexOfAny(endings, i+2))
-                        | '\r' -> Some(LineEndingType.CR, text.IndexOfAny(endings, i+1))
+                        | '\r' when (i+1) = text.Length || text.[i+1] <> '\n' ->
+                            Some(LineEndingType.CR, text.IndexOfAny(endings, i+1))
+                        | '\r' -> Some(LineEndingType.CRLF, text.IndexOfAny(endings, i+2))
                         | '\n' -> Some(LineEndingType.LF, text.IndexOfAny(endings, i+1))
                         | '\u0085' -> Some(LineEndingType.NEL, text.IndexOfAny(endings, i+1))
                         | '\u2028' -> Some(LineEndingType.LS, text.IndexOfAny(endings, i+1))
