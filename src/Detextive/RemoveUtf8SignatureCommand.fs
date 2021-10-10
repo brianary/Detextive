@@ -43,7 +43,7 @@ type public RemoveUtf8SignatureCommand () =
 
     override x.ProcessRecord () =
         base.ProcessRecord ()
-        x.GetItems x.Path |> Seq.iter x.ProcessItem
+        x.GetItems x.Path |> Seq.toList |> List.iter x.ProcessItem
 
     override x.EndProcessing () =
         base.EndProcessing ()

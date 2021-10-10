@@ -68,7 +68,8 @@ type public GetFileContentsInfoCommand () =
         base.ProcessRecord ()
         x.GetItems x.Path
             |> Seq.map (GetFileContentsInfoCommand.GetFileContentsInfo x)
-            |> x.WriteObject
+            |> Seq.toList
+            |> List.iter x.WriteObject
 
     override x.EndProcessing () =
         base.EndProcessing ()

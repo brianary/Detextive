@@ -40,7 +40,7 @@ type public RepairEncodingCommand () =
     override x.ProcessRecord () =
         base.ProcessRecord ()
         match x.ParameterSetName with
-        | "Path" -> x.GetItems x.Path |> Seq.iter x.ProcessItem
+        | "Path" -> x.GetItems x.Path |> Seq.toList |> List.iter x.ProcessItem
         | _ ->
             Encoding.GetEncoding("Windows-1252").GetBytes(x.InputObject)
                 |> Encoding.UTF8.GetString
