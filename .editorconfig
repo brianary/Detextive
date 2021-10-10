@@ -30,3 +30,10 @@ charset = utf-8
 # JSON https://tools.ietf.org/html/rfc8259#section-8.1
 [*.{css,json}]
 charset = utf-8
+
+# test files
+[*.{txt,dat}]
+indent_style = unset
+end_of_line =  unset
+charset = unset
+insert_final_newline = unset
