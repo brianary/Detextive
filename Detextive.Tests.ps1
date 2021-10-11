@@ -95,13 +95,19 @@ Describe $module.Name {
 		}
 	}
 	Context 'Get-FileIndents cmdlet' -Tag Cmdlet,Get-FileIndents {
-		It "Given the file '<File>', '<Indents>' should be returned." -TestCases @(
-			@{ File = "$TestRoot\Detextive.Tests.ps1"; Indents = 'Tabs' }
-			@{ File = "$TestRoot\Detextive.svg"; Indents = 'Spaces' }
+		It "Given the file '<File>', '<Indents>' should be returned." -TestCases (
+			#TODO: test for line endings outside CRLF, LF, CR (i.e. NEL, LS, PS) once indent detection supports those
+			Get-ChildItem $TestRoot\test\*lf.txt -File |
+				foreach {
+					$ind = ([io.path]::GetFileNameWithoutExtension($_.Name) -split '-')[-2]
+					@{ File = $_.FullName; Indents = switch($ind){ mixedi {'Mixed'} tab {'Tabs'} space {'Spaces'} default {'Other'} } }
+				}
 		) {
 			Param($File,$Indents)
 			$e = Get-FileIndents $File -vb
 			$e.Indents |Should -BeExactly $Indents
+			# not really distinguishing intra-line mixed and inter-line mixed, so skip that check
+			if($Indents -ne 'Mixed') {$e.$Indents |Should -BeGreaterThan 0}
 			$e.Tabs |Should -BeGreaterOrEqual 0
 			$e.Spaces |Should -BeGreaterOrEqual 0
 			$e.Mixed |Should -BeGreaterOrEqual 0
