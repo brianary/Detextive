@@ -3,6 +3,7 @@ namespace Detextive
 open System.IO
 open System.Management.Automation
 open System.Text.RegularExpressions
+open System
 
 /// End of line digraph or character.
 type public IndentType =
@@ -48,11 +49,10 @@ type public GetFileIndentsCommand () =
         let enc = GetFileEncodingCommand.DetectFileEncoding fs
         if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
         use sr = new StreamReader(fs, enc, true, -1, true)
-        Seq.initInfinite (fun _ -> sr.ReadLine())
-            |> Seq.takeWhile ((<>) null)
-            |> Seq.choose GetFileIndentsCommand.LineToIndent
-            |> Seq.countBy id
-            |> Map.ofSeq
+        sr.ReadToEnd().Split([|'\u000A';'\u000D';'\u0085';'\u2028';'\u2029'|], StringSplitOptions.RemoveEmptyEntries)
+            |> Array.choose GetFileIndentsCommand.LineToIndent
+            |> Array.countBy id
+            |> Map.ofArray
 
     /// Returns the indent details detected.
     static member public DetectIndents (x:PSCmdlet) (p:string) (fs:FileStream) =

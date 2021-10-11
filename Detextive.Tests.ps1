@@ -96,8 +96,7 @@ Describe $module.Name {
 	}
 	Context 'Get-FileIndents cmdlet' -Tag Cmdlet,Get-FileIndents {
 		It "Given the file '<File>', '<Indents>' should be returned." -TestCases (
-			#TODO: test for line endings outside CRLF, LF, CR (i.e. NEL, LS, PS) once indent detection supports those
-			Get-ChildItem $TestRoot\test\*lf.txt -File |
+			Get-ChildItem $TestRoot\test\*.txt -File |
 				foreach {
 					$ind = ([io.path]::GetFileNameWithoutExtension($_.Name) -split '-')[-2]
 					@{ File = $_.FullName; Indents = switch($ind){ mixedi {'Mixed'} tab {'Tabs'} space {'Spaces'} default {'Other'} } }
