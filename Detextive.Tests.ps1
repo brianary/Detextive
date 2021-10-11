@@ -109,14 +109,17 @@ Describe $module.Name {
 		}
 	}
 	Context 'Get-FileLineEndings cmdlet' -Tag Cmdlet,Get-FileLineEndings {
-		It "Given the file '<File>', '<LineEndings>' should be returned." -TestCases @(
-			@{ File = "$TestRoot\README.md"; LineEndings = 'CRLF' }
-			@{ File = "$TestRoot\Detextive.png"; LineEndings = 'Mixed' }
-			@{ File = "$TestRoot\Detextive.svg"; LineEndings = 'LF' }
+		It "Given the file '<File>', '<LineEndings>' should be returned." -TestCases (
+			Get-ChildItem $TestRoot\test\*.txt -File |
+				foreach {
+					$end = ([io.path]::GetFileNameWithoutExtension($_.Name) -split '-')[-1]
+					@{ File = $_.FullName; LineEndings = switch($end){ mixedle {'Mixed'} default {$end.ToUpperInvariant()} } }
+				}
 		) {
 			Param($File,$LineEndings)
 			$e = Get-FileLineEndings $File -vb
 			$e.LineEndings |Should -BeExactly $LineEndings
+			if($LineEndings -ne 'Mixed') {$e.$LineEndings |Should -BeGreaterThan 0}
 			$e.CRLF |Should -BeGreaterOrEqual 0
 			$e.LF |Should -BeGreaterOrEqual 0
 			$e.CR |Should -BeGreaterOrEqual 0
