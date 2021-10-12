@@ -15,7 +15,7 @@ type public TestUtf8EncodingCommand () =
         let head = Array.zeroCreate 3
         if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
         let utf8 = UTF8Encoding(true,true)
-        use sr = new StreamReader(fs, UTF8Encoding(true,true), true, -1, true)
+        use sr = new StreamReader(fs, UTF8Encoding(true,true), false, -1, true)
         try
             sr.ReadToEnd() |> ignore
             true

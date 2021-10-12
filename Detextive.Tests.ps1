@@ -51,11 +51,9 @@ Describe $module.Name {
 		}
 	}
 	Context 'Test-Utf8Encoding cmdlet' -Tag Cmdlet,Test-Utf8Encoding {
-		It "Given the file '<File>', '<Expected>' should be returned." -TestCases @(
-			@{ File = "$TestRoot\README.md"; Expected = $true }
-			@{ File = "$TestRoot\Detextive.png"; Expected = $false }
-			@{ File = "$TestRoot\Detextive.svg"; Expected = $true }
-			@{ File = "$TestRoot\Detextive.sln"; Expected = $true }
+		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
+			Get-ChildItem $TestRoot\test\* -File |
+				foreach {@{ File = $_.FullName; Expected = $_.Name -like 'utf-8-*' -or $_.Name -like 'ascii-*' }}
 		) {
 			Param($File,$Expected)
 			Test-Utf8Encoding $File -vb |Should -BeExactly $Expected
