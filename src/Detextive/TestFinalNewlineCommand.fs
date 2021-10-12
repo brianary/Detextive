@@ -10,10 +10,13 @@ type public TestFinalNewlineCommand () =
     inherit PSCmdlet ()
 
     /// Returns true if a file ends with a newline character.
-    static member public HasFinalNewline (fs:FileStream) =
-        fs.Seek(-1L, SeekOrigin.End) |> ignore
-        match fs.ReadByte() with
-        | 0x0A -> true
+    static member public HasFinalNewline (fs:FileStream) strict =
+        let enc = GetFileEncodingCommand.DetectFileEncoding fs
+        if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
+        use sr = new StreamReader(fs, enc, true, -1, true)
+        match strict, sr.ReadToEnd() |> Seq.last with
+        | _, '\n' -> true
+        | false, c when List.contains c ['\r';'\u0085';'\u2028';'\u2029'] -> true
         | _ -> false
 
     /// A file to test.
@@ -21,6 +24,10 @@ type public TestFinalNewlineCommand () =
     [<Alias("FullName")>]
     [<ValidateNotNullOrEmpty>]
     member val Path : string = "" with get, set
+
+    /// Indicates that only a trailing newline is recognized, no other line endings.
+    [<Parameter()>]
+    member val Strict : SwitchParameter = SwitchParameter(false) with get, set
 
     override x.BeginProcessing () =
         base.BeginProcessing ()
@@ -30,7 +37,7 @@ type public TestFinalNewlineCommand () =
         let item = x.GetItem x.Path
         x.WriteVerbose(sprintf "Testing %s for a trailing newline." item)
         use fs = new FileStream(item, FileMode.Open, FileAccess.Read, FileShare.Read)
-        TestFinalNewlineCommand.HasFinalNewline fs |> x.WriteObject
+        TestFinalNewlineCommand.HasFinalNewline fs (x.Strict.ToBool()) |> x.WriteObject
 
     override x.EndProcessing () =
         base.EndProcessing ()

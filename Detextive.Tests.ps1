@@ -60,11 +60,9 @@ Describe $module.Name {
 		}
 	}
 	Context 'Test-FinalNewline cmdlet' -Tag Cmdlet,Test-FinalNewline {
-		It "Given the file '<File>', '<Expected>' should be returned." -TestCases @(
-			@{ File = "$TestRoot\README.md"; Expected = $true }
-			@{ File = "$TestRoot\Detextive.png"; Expected = $false }
-			@{ File = "$TestRoot\Detextive.svg"; Expected = $true }
-			@{ File = "$TestRoot\Detextive.sln"; Expected = $true }
+		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
+			Get-ChildItem $TestRoot\test\* -File |
+				foreach {@{ File = $_.FullName; Expected = $_.Name -notlike 'binary.*' -and $_.Name -notlike '*-none-none.txt' }}
 		) {
 			Param($File,$Expected)
 			Test-FinalNewline $File -vb |Should -BeExactly $Expected
@@ -86,21 +84,21 @@ Describe $module.Name {
 			Get-ChildItem $TestRoot\test\*.txt,$TestRoot\test\*.ebcdic -File |
 				foreach {
 					@{ File = $_.FullName; Expected = switch -Wildcard ($_.Name) {
-						ascii-*        {'us-ascii'}
-						ebcdic-*       {'ibm037'}
-						latin1-*       {'iso-8859-1'}
-						utf-8-*        {'utf-8'}
-						utf-16be-*     {'utf-16BE'}
-						utf-16le-*     {'utf-16'}
-						utf-32be-*     {'utf-32BE'}
-						utf-32le-*     {'utf-32'}
-						windows-1252-* {'windows-1252'}
-						default        {[Text.Encoding]::Default.WebName}
+						ascii-*        {@('us-ascii')}
+						ebcdic-*       {@('ibm037')}
+						latin1-*       {@('iso-8859-1','us-ascii')}
+						utf-8-*        {@('utf-8','us-ascii')}
+						utf-16be-*     {@('utf-16BE')}
+						utf-16le-*     {@('utf-16')}
+						utf-32be-*     {@('utf-32BE')}
+						utf-32le-*     {@('utf-32')}
+						windows-1252-* {@('windows-1252','iso-8859-1','us-ascii')}
+						default        {@([Text.Encoding]::Default.WebName)}
 					} }
 				}
 		) {
 			Param($File,$Expected)
-			(Get-FileEncoding $File -vb).WebName |Should -BeExactly $Expected
+			(Get-FileEncoding $File -vb).WebName |Should -BeIn $Expected
 		}
 	}
 	Context 'Get-FileIndents cmdlet' -Tag Cmdlet,Get-FileIndents {
@@ -108,14 +106,14 @@ Describe $module.Name {
 			Get-ChildItem $TestRoot\test\*.txt -File |
 				foreach {
 					$ind = ([io.path]::GetFileNameWithoutExtension($_.Name) -split '-')[-2]
-					@{ File = $_.FullName; Indents = switch($ind){ mixedi {'Mixed'} tab {'Tabs'} space {'Spaces'} default {'Other'} } }
+					@{ File = $_.FullName; Indents = switch($ind){ mixedi {'Mixed'} tab {'Tabs'} space {'Spaces'} none {'None'} default {'Other'} } }
 				}
 		) {
 			Param($File,$Indents)
 			$e = Get-FileIndents $File -vb
 			$e.Indents |Should -BeExactly $Indents
 			# not really distinguishing intra-line mixed and inter-line mixed, so skip that check
-			if($Indents -ne 'Mixed') {$e.$Indents |Should -BeGreaterThan 0}
+			if($Indents -notin 'Mixed','None') {$e.$Indents |Should -BeGreaterThan 0}
 			$e.Tabs |Should -BeGreaterOrEqual 0
 			$e.Spaces |Should -BeGreaterOrEqual 0
 			$e.Mixed |Should -BeGreaterOrEqual 0
@@ -127,13 +125,13 @@ Describe $module.Name {
 			Get-ChildItem $TestRoot\test\*.txt -File |
 				foreach {
 					$end = ([io.path]::GetFileNameWithoutExtension($_.Name) -split '-')[-1]
-					@{ File = $_.FullName; LineEndings = switch($end){ mixedle {'Mixed'} default {$end.ToUpperInvariant()} } }
+					@{ File = $_.FullName; LineEndings = switch($end){ mixedle {'Mixed'} none {'None'} default {$end.ToUpperInvariant()} } }
 				}
 		) {
 			Param($File,$LineEndings)
 			$e = Get-FileLineEndings $File -vb
 			$e.LineEndings |Should -BeExactly $LineEndings
-			if($LineEndings -ne 'Mixed') {$e.$LineEndings |Should -BeGreaterThan 0}
+			if($LineEndings -notin 'Mixed','None') {$e.$LineEndings |Should -BeGreaterThan 0}
 			$e.CRLF |Should -BeGreaterOrEqual 0
 			$e.LF |Should -BeGreaterOrEqual 0
 			$e.CR |Should -BeGreaterOrEqual 0
@@ -143,8 +141,9 @@ Describe $module.Name {
 		}
 	}
 	Context 'Get-FileContentsInfo cmdlet' -Tag Cmdlet,Get-FileContentsInfo {
-		It "Given the file '<File>', IsBinary should be '<IsBinary>'." -TestCases @(
-			@{ File = "$TestRoot\Detextive.png"; IsBinary = $true }
+		It "Given the file '<File>', IsBinary should be '<IsBinary>'." -TestCases (
+			Get-ChildItem $TestRoot\test\binary.* -File |
+				foreach {@{ File = $_.FullName; IsBinary = $true }}
 		) {
 			Param($File,$IsBinary)
 			$e = Get-FileContentsInfo $File -vb

@@ -6,6 +6,24 @@
 #Requires -Version 7
 [CmdletBinding()] Param()
 
+function Get-Encoding($name)
+{
+	switch($name)
+	{
+		utf-8-bom {New-Object Text.Utf8Encoding $true}
+		ebcdic    {[text.encoding]::GetEncoding('IBM037')}
+		default   {[text.encoding]::GetEncoding($encoding)}
+	}
+}
+
+function Export-OneLineFile($encoding)
+{
+	if($encoding -in 'utf-8-bom','ebcdic','latin1','windows-1252') {return}
+	$enc = Get-Encoding $encoding
+	$enc.GetBytes("Lorem ipsum dolor sit amet, consectetur adipiscing elit.") |
+		Set-Content "test/$encoding-none-none.txt" -AsByteStream -vb
+}
+
 function Export-TestFile($encoding,$indent,$lineending)
 {
 	# guard against invalid or troublesome combos
@@ -14,12 +32,7 @@ function Export-TestFile($encoding,$indent,$lineending)
 	if($lineending -in 'nel','ls','ps' -and $encoding -in 'ascii','latin1','windows-1252','ebcdic') {return}
 	if($encoding -eq 'ebcdic' -and $lineending -eq 'mixed') {return}
 
-	$enc = switch($encoding)
-	{
-		utf-8-bom {New-Object Text.Utf8Encoding $true}
-		ebcdic    {[text.encoding]::GetEncoding('IBM037')}
-		default   {[text.encoding]::GetEncoding($encoding)}
-	}
+	$enc = Get-Encoding $encoding
 	[byte[]] $pre = switch($encoding){'utf-8'{@()}default{$enc.GetPreamble()}}
 	${    } = switch($indent){tab{"`t"}space{'    '}emsp{Get-Unicode.ps1 0x2003}default{"`t    "}}
 	$mdash = switch($encoding){ascii{'--'}default{Get-Unicode.ps1 0x2014}}
@@ -62,6 +75,7 @@ Remove-Item test/*.txt,test/*.ebcdic -vb
 
 foreach($encoding in $encodings)
 {
+	Export-OneLineFile $encoding
 	foreach($indent in $indents)
 	{
 		foreach($lineending in $lineendings)

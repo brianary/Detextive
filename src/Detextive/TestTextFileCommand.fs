@@ -22,11 +22,7 @@ type public TestTextFileCommand () =
         | [|0xFFuy;0xFEuy;_;_|] -> true // UTF-16
         | [|0xFEuy;0xFFuy;_;_|] -> true // UTF-16BE
         | [|0xEFuy;0xBBuy;0xBFuy;_|] -> true // UTF-8 with BOM/SIG
-        | _ ->
-            fs.Seek(-1L, SeekOrigin.End) |> ignore
-            match fs.ReadByte() with
-            | 0x0A -> true
-            | _ -> false
+        | _ -> TestFinalNewlineCommand.HasFinalNewline fs false
 
     /// A file to test.
     [<Parameter(Position=0,Mandatory=true,ValueFromPipelineByPropertyName=true)>]

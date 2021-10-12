@@ -53,7 +53,7 @@ type public GetFileContentsInfoCommand () =
               Utf8Signature = TestUtf8SignatureCommand.HasUtf8Signature fs
               Indents = GetFileIndentsCommand.DetectIndents cmdlet item fs
               LineEndings = GetFileLineEndingsCommand.DetectLineEndings cmdlet item fs
-              FinalNewline = TestFinalNewlineCommand.HasFinalNewline fs }
+              FinalNewline = TestFinalNewlineCommand.HasFinalNewline fs false }
 
     /// A file to examine.
     [<Parameter(Position=0,Mandatory=true,ValueFromPipelineByPropertyName=true)>]

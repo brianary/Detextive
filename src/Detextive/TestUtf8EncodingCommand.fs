@@ -17,8 +17,14 @@ type public TestUtf8EncodingCommand () =
         let utf8 = UTF8Encoding(true,true)
         use sr = new StreamReader(fs, UTF8Encoding(true,true), false, -1, true)
         try
-            sr.ReadToEnd() |> ignore
-            true
+            match sr.ReadToEnd()
+                  |> Seq.map int
+                  |> Seq.countBy id
+                  |> Seq.sortByDescending snd
+                  |> Seq.head
+                  |> fst with
+            | 0 -> false // NUL is the most common character, this is probably UTF-16 or UTF-32
+            | _ -> true
         with
         | :? DecoderFallbackException as ex ->
             x.WriteVerbose(ex.Message)
