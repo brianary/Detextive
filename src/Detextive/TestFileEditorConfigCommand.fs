@@ -22,37 +22,55 @@ type public TestFileEditorConfigCommand () =
             let encodingName name utf8bom = match name with | "utf-8" when utf8bom -> "utf-8-bom" | n -> n
             let expectedEnc = encodingName expected.Encoding.WebName expected.Utf8Signature
             let actualEnc = encodingName actual.Encoding.WebName actual.Utf8Signature
-            if expectedEnc <> actualEnc then
-                sprintf "%s encoding should be %s but is %s" expected.Path expectedEnc actualEnc
-                    |> x.WriteVerbose
-            if expected.Indents = IndentType.None || actual.Indents.Indents = IndentType.None then
-                sprintf "%s indents expected %A, actual is %A (ignored)" expected.Path expected.Indents actual.Indents.Indents
-                    |> x.WriteVerbose
-            elif expected.Indents <> actual.Indents.Indents then
-                sprintf "%s indents should be %A but is %A" expected.Path expected.Indents actual.Indents.Indents
-                    |> x.WriteVerbose
-            if expected.LineEndings = LineEndingType.None || actual.LineEndings.LineEndings = LineEndingType.None then
-                sprintf "%s line endings expected %A, actual is %A (ignored)" expected.Path expected.LineEndings actual.LineEndings.LineEndings
-                    |> x.WriteVerbose
-            elif expected.LineEndings <> actual.LineEndings.LineEndings then
-                sprintf "%s line endings should be %A but is %A" expected.Path expected.LineEndings actual.LineEndings.LineEndings
-                    |> x.WriteVerbose
+            let encOk = match expectedEnc, actualEnc with
+                        | e, a when e = a -> true
+                        | "latin1", "iso-8859-1" -> true // alias for same encoding
+                        | "utf-8", "us-ascii" ->
+                            sprintf "%s encoding expected %s but %s is fine" actual.Path expectedEnc actualEnc
+                                |> x.WriteVerbose
+                            true
+                        | "latin1", "us-ascii" ->
+                            sprintf "%s encoding expected %s but %s is fine" actual.Path expectedEnc actualEnc
+                                |> x.WriteVerbose
+                            true
+                        | _ ->
+                            sprintf "%s encoding should be %s but is %s" actual.Path expectedEnc actualEnc
+                                |> x.WriteVerbose
+                            false
+            let indentOk = match expected.Indents, actual.Indents.Indents with
+                           | e, a when e = a -> true
+                           | IndentType.None, _ ->
+                                sprintf "%s no expected indents so %A is fine" actual.Path actual.Indents.Indents
+                                    |> x.WriteVerbose
+                                true
+                           | _, IndentType.None ->
+                                sprintf "%s expected %A indents but none is fine" actual.Path expected.Indents
+                                    |> x.WriteVerbose
+                                true
+                           | _ ->
+                                sprintf "%s indents should be %A but is %A" actual.Path expected.Indents actual.Indents.Indents
+                                    |> x.WriteVerbose
+                                false
+            let lineEndingsOk = match expected.LineEndings, actual.LineEndings.LineEndings with
+                                | e, a when e = a -> true
+                                | LineEndingType.None, _ ->
+                                    sprintf "%s no expected line endings so %A is fine" actual.Path actual.LineEndings.LineEndings
+                                        |> x.WriteVerbose
+                                    true
+                                | _, LineEndingType.None ->
+                                    sprintf "%s no expected %A indents but none is fine" actual.Path expected.LineEndings
+                                        |> x.WriteVerbose
+                                    true
+                                | _ ->
+                                    sprintf "%s line endings should be %A but is %A" actual.Path expected.LineEndings actual.LineEndings.LineEndings
+                                        |> x.WriteVerbose
+                                    false
             if expected.FinalNewline <> actual.FinalNewline then
                 sprintf "%s should%s include a final newline but does%s" expected.Path
                     (match expected.FinalNewline with | false -> " not" | _ -> "")
                     (match actual.FinalNewline with | false -> " not" | _ -> "")
                     |> x.WriteVerbose
-            let indentOk = match expected.Indents, actual.Indents.Indents with
-                           | IndentType.None, _ -> true
-                           | _, IndentType.None -> true
-                           | e, a when e = a -> true
-                           | _ -> false
-            let lineEndingsOk = match expected.LineEndings, actual.LineEndings.LineEndings with
-                                | LineEndingType.None, _ -> true
-                                | _, LineEndingType.None -> true
-                                | e, a when e = a -> true
-                                | _ -> false
-            expectedEnc = actualEnc && indentOk && lineEndingsOk && expected.FinalNewline = actual.FinalNewline
+            encOk && indentOk && lineEndingsOk && expected.FinalNewline = actual.FinalNewline
 
     /// A file to test the editorconfig values for.
     [<Parameter(Position=0,Mandatory=true,ValueFromPipelineByPropertyName=true)>]

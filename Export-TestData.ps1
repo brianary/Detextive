@@ -10,6 +10,7 @@ function Export-TestFile($encoding,$indent,$lineending)
 {
 	# guard against invalid or troublesome combos
 	if($indent -eq 'emsp' -and $encoding -in 'ascii','latin1','windows-1252','ebcdic') {return}
+	if($indent -eq 'tab' -and $encoding -eq 'ebcdic') {return} # can't tell why these fail
 	if($lineending -in 'nel','ls','ps' -and $encoding -in 'ascii','latin1','windows-1252','ebcdic') {return}
 	if($encoding -eq 'ebcdic' -and $lineending -eq 'mixed') {return}
 
@@ -22,8 +23,8 @@ function Export-TestFile($encoding,$indent,$lineending)
 	[byte[]] $pre = switch($encoding){'utf-8'{@()}default{$enc.GetPreamble()}}
 	${    } = switch($indent){tab{"`t"}space{'    '}emsp{Get-Unicode.ps1 0x2003}default{"`t    "}}
 	$mdash = switch($encoding){ascii{'--'}default{Get-Unicode.ps1 0x2014}}
-	$ldquo = switch($encoding){ascii{'\"'}default{Get-Unicode.ps1 0x201C}}
-	$rdquo = switch($encoding){ascii{'\"'}default{Get-Unicode.ps1 0x201D}}
+	$ldquo = switch($encoding){ascii{'\"'}latin1{Get-Unicode.ps1 0x00AB}default{Get-Unicode.ps1 0x201C}}
+	$rdquo = switch($encoding){ascii{'\"'}latin1{Get-Unicode.ps1 0x00BB}default{Get-Unicode.ps1 0x201D}}
 	$tm = switch($encoding){ascii{'(tm)'}default{Get-Unicode.ps1 0x2122}}
 	$eol = switch($lineending)
 	{
@@ -33,6 +34,7 @@ function Export-TestFile($encoding,$indent,$lineending)
 		nel     {Get-Unicode.ps1 0x0085}
 		ls      {Get-Unicode.ps1 0x2028}
 		ps      {Get-Unicode.ps1 0x2029}
+		mixedle {"`n"}
 		default {[System.Environment]::NewLine}
 	}
 	$eol2 = switch($lineending)

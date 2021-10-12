@@ -84,11 +84,22 @@ Describe $module.Name {
 		}
 	}
 	Context 'Get-FileEncoding cmdlet' -Tag Cmdlet,Get-FileEncoding {
-		It "Given the file '<File>', '<Expected>' should be returned." -TestCases @(
-			@{ File = "$TestRoot\README.md"; Expected = 'utf-8' }
-			@{ File = "$TestRoot\Detextive.png"; Expected = 'windows-1252' }
-			@{ File = "$TestRoot\Detextive.svg"; Expected = 'utf-8' }
-			@{ File = "$TestRoot\Detextive.sln"; Expected = 'utf-8' }
+		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
+			Get-ChildItem $TestRoot\test\*.txt,$TestRoot\test\*.ebcdic -File |
+				foreach {
+					@{ File = $_.FullName; Expected = switch -Wildcard ($_.Name) {
+						ascii-*        {'us-ascii'}
+						ebcdic-*       {'ibm037'}
+						latin1-*       {'iso-8859-1'}
+						utf-8-*        {'utf-8'}
+						utf-16be-*     {'utf-16BE'}
+						utf-16le-*     {'utf-16'}
+						utf-32be-*     {'utf-32BE'}
+						utf-32le-*     {'utf-32'}
+						windows-1252-* {'windows-1252'}
+						default        {[Text.Encoding]::Default.WebName}
+					} }
+				}
 		) {
 			Param($File,$Expected)
 			(Get-FileEncoding $File -vb).WebName |Should -BeExactly $Expected
