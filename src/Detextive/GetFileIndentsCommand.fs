@@ -1,9 +1,9 @@
 namespace Detextive
 
+open System
 open System.IO
 open System.Management.Automation
 open System.Text.RegularExpressions
-open System
 
 /// End of line digraph or character.
 type public IndentType =
@@ -32,7 +32,22 @@ type public GetFileIndentsCommand () =
     inherit PSCmdlet ()
 
     /// The regular expression for matching indents.
-    static member public IndentPattern = Regex(@"\A(?<Indent>\s*)")
+    static member public IndentPattern = Regex(@"\A\s*")
+
+    /// F# and Python allow triple-quoted multiline strings that shouldn't count in code indentation.
+    static member public TripleQuotedStrings = Regex(@""""""".*?""""""", RegexOptions.Singleline)
+
+    /// PowerShell here-strings are multiline strings that shouldn't count in code indendation.
+    static member public PowerShellHereStrings =
+        Regex(@"@""[\r\n\u0085\u2028\u2029].*?[\r\n\u0085\u2028\u2029]""@|@'[\r\n\u0085\u2028\u2029].*?[\r\n\u0085\u2028\u2029]'@",
+              RegexOptions.Singleline)
+
+    /// C# and F# support verbatim strings that may be multiline and shouldn't count in code indentation.
+    static member public VerbatimStrings = Regex(@"@""(?:[^""]|"""")*?""", RegexOptions.Singleline)
+
+    /// Splits a string into lines, using any supported line endings, and ignoring empty lines.
+    static member public SplitIntoLines (s:string) =
+        s.Split([|'\u000A';'\u000D';'\u0085';'\u2028';'\u2029'|], StringSplitOptions.RemoveEmptyEntries)
 
     /// Converts a line of text to an Indent enum.
     static member LineToIndent (s:string) =
@@ -44,12 +59,16 @@ type public GetFileIndentsCommand () =
         | [c] -> Some(IndentType.Other)
         | _ -> Some(IndentType.Mixed)
 
-    /// Counts the line ending digraph or characters.
+    /// Counts the indent characters.
     static member public CountIndents (fs:FileStream) =
         let enc = GetFileEncodingCommand.DetectFileEncoding fs
         if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
         use sr = new StreamReader(fs, enc, true, -1, true)
-        sr.ReadToEnd().Split([|'\u000A';'\u000D';'\u0085';'\u2028';'\u2029'|], StringSplitOptions.RemoveEmptyEntries)
+        sr.ReadToEnd()
+            |> GetFileIndentsCommand.TripleQuotedStrings.RemoveMatches
+            |> GetFileIndentsCommand.PowerShellHereStrings.RemoveMatches
+            |> GetFileIndentsCommand.VerbatimStrings.RemoveMatches
+            |> GetFileIndentsCommand.SplitIntoLines
             |> Array.choose GetFileIndentsCommand.LineToIndent
             |> Array.countBy id
             |> Map.ofArray
