@@ -39,6 +39,7 @@ Documentation is automatically generated using [platyPS](https://github.com/Powe
 - [Repair-Encoding](docs/Repair-Encoding.md) — Re-encodes commonly mis-encoded text.
 - [Repair-FileEditorConfig](docs/Repair-FileEditorConfig.md) — Corrects a file's editorconfig settings when they differ from the actual formatting found.
 - [Test-BinaryFile](docs/Test-BinaryFile.md) — Returns true if a file does not appear to contain parseable text, and presumably contains binary data.
+- [Test-BrokenEncoding](docs/Test-BrokenEncoding.md) — Returns true if text contains a nonsense sequence of characters resulting from parsing text with the wrong encoding.
 - [Test-FileEditorConfig](docs/Test-FileEditorConfig.md) — Validates a file's editorconfig settings against the actual formatting found.
 - [Test-FinalNewline](docs/Test-FinalNewline.md) — Returns true if a file ends with a newline as required by the POSIX standard for text files.
 - [Test-TextFile](docs/Test-TextFile.md) — Returns true if a file contains text.
