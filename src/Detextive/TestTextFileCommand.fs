@@ -2,12 +2,31 @@ namespace Detextive
 
 open System.IO
 open System.Management.Automation
+open System.Text
 
 /// Returns true if a file contains text.
 [<Cmdlet(VerbsDiagnostic.Test, "TextFile")>]
 [<OutputType(typeof<bool>)>]
 type public TestTextFileCommand () =
     inherit PSCmdlet ()
+
+    /// Judge the encoding based on counts of byte values.
+    static member public ByteFrequencyTextAnalysis bytes =
+        let zeros, lowcontrols, ebcdicy =
+            Array.fold
+                (fun (z,c,e) -> // counting Zero, low Controls, EBCDIC-y chars
+                    function
+                    | 0uy -> z+1, c, e
+                    | b when List.contains b [0x05uy;0x40uy;0x7Fuy] -> z, c, e+1
+                    | b when List.contains b [0x01uy;0x02uy;0x03uy;0x04uy;0x06uy;0x07uy;0x08uy;
+                                              0x0Buy;0x0Cuy;0x0Euy;0x0Fuy;0x10uy;0x11uy;0x12uy;
+                                              0x13uy;0x14uy;0x15uy;0x16uy;0x17uy;0x18uy;0x19uy] -> z, c+1, e
+                    | _ -> z, c, e ) (0,0,0) bytes
+        let len = double bytes.Length
+        if zeros = 0 && lowcontrols = 0 then true            // ASCII or ISO-8859-1 or Windows-1252, probably
+        elif ((double lowcontrols) / len) > 0.01 then false  // assume Benford's Law applies to some degree for binary data
+        elif ((double zeros) / len) > 0.46 then true         // UTF-16 or UTF-32, probably
+        else ((double ebcdicy) / len) > 0.1                  // EBCDIC, probably
 
     /// Returns true if a file is determined to contain text.
     static member public IsTextFile (fs:FileStream) =
@@ -22,7 +41,12 @@ type public TestTextFileCommand () =
         | [|0xFFuy;0xFEuy;_;_|] -> true // UTF-16
         | [|0xFEuy;0xFFuy;_;_|] -> true // UTF-16BE
         | [|0xEFuy;0xBBuy;0xBFuy;_|] -> true // UTF-8 with BOM/SIG
-        | _ -> TestFinalNewlineCommand.HasFinalNewline fs false
+        | _ ->
+            let bytes = fs.Seek(0L, SeekOrigin.End) |> int |> Array.zeroCreate<byte>
+            fs.Seek(0L, SeekOrigin.Begin) |> ignore
+            fs.Read(bytes, 0, bytes.Length) |> ignore
+            TestTextFileCommand.ByteFrequencyTextAnalysis bytes
+
 
     /// A file to test.
     [<Parameter(Position=0,Mandatory=true,ValueFromPipelineByPropertyName=true)>]

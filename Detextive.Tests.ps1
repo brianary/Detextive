@@ -22,20 +22,18 @@ Describe $module.Name {
 		} -Pending
 	}
 	Context 'Test-TextFile cmdlet' -Tag Cmdlet,Test-TextFile {
-		It "Given the file '<File>', '<Expected>' should be returned." -TestCases @(
-			@{ File = "$TestRoot\README.md"; Expected = $true }
-			@{ File = "$TestRoot\Detextive.png"; Expected = $false }
-			@{ File = "$TestRoot\Detextive.svg"; Expected = $true }
+		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
+			Get-ChildItem $TestRoot\test\* -File |
+				foreach {@{ File = $_.FullName; Expected = $_.Name -notlike 'binary.*' }}
 		) {
 			Param($File,$Expected)
 			Test-TextFile $File -vb |Should -BeExactly $Expected
 		}
 	}
 	Context 'Test-BinaryFile cmdlet' -Tag Cmdlet,Test-BinaryFile {
-		It "Given the file '<File>', '<Expected>' should be returned." -TestCases @(
-			@{ File = "$TestRoot\README.md"; Expected = $false }
-			@{ File = "$TestRoot\Detextive.png"; Expected = $true }
-			@{ File = "$TestRoot\Detextive.svg"; Expected = $false }
+		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
+			Get-ChildItem $TestRoot\test\* -File |
+				foreach {@{ File = $_.FullName; Expected = $_.Name -like 'binary.*' }}
 		) {
 			Param($File,$Expected)
 			Test-BinaryFile $File -vb |Should -BeExactly $Expected
