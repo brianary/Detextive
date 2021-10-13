@@ -147,11 +147,34 @@ Describe $module.Name {
 			$e = Get-FileContentsInfo $File -vb
 			$e.IsBinary |Should -BeTrue
 		}
-		It "Given the file '<File>', {'<Encoding>' '<Indents>' '<LineEndings>'} should be returned." -TestCases @(
-			@{ File = "$TestRoot\README.md"; Encoding = 'utf-8'; Utf8Signature = $false
-				Indents = 'None'; LineEndings = 'CRLF'; FinalNewline = $true }
-			@{ File = "$TestRoot\Detextive.svg"; Encoding = 'utf-8'; Utf8Signature = $false
-				Indents = 'Spaces'; LineEndings = 'LF'; FinalNewline = $true }
+		It "Given the file '<File>', {'<Encoding>' '<Indents>' '<LineEndings>'} should be returned." -TestCases (
+			Get-ChildItem $TestRoot\test\binary.* -File |
+				where {$_.Name -notlike 'binary.*'} |
+				foreach {@{
+					File = $_.FullName
+					IsBinary = $false
+					Utf8Signature = $_.Name -like 'utf-8-bom-*'
+					Indents = switch -Wildcard ($_.Name)
+					{
+						*-tab-*    {'Tabs'}
+						*-space-*  {'Spaces'}
+						*-emsp-*   {'Other'}
+						*-mixedi-* {'Mixed'}
+						*-none-*   {'None'}
+					}
+					LineEndings = switch -Wildcard ($_.Name)
+					{
+						*-crlf.*    {'CRLF'}
+						*-lf.*      {'LF'}
+						*-cr.*      {'CR'}
+						*-nel.*     {'NEL'}
+						*-ls.*      {'LS'}
+						*-ps.*      {'PS'}
+						*-mixedle.* {'Mixed'}
+						*-none.*    {'None'}
+					}
+					FinalNewline = $_.Name -notlike '*-none.*'
+				}}
 		) {
 			Param($File,$Encoding,$Utf8Signature,$Indents,$LineEndings,$FinalNewline)
 			$e = Get-FileContentsInfo $File -vb

@@ -11,6 +11,10 @@ Detextive
 
 Investigates data to determine what the textual characteristics are.
 
+The ratios are still fairly arbirtrary, and will need more sample/test data to mature.
+In addition, it may skew anglocentric in assuming primarily US-ASCII characters when
+determining encoding based on byte value frequency.
+
 <!-- Consider using LICEcap (cinst licecap) to capture a GIF animation of a small PowerShell window showing your module in use. -->
 
 Using the [editorconfig library][] to support [editorconfig][] settings.
