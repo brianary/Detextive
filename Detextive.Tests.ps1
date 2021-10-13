@@ -66,17 +66,6 @@ Describe $module.Name {
 			Test-FinalNewline $File -vb |Should -BeExactly $Expected
 		}
 	}
-	Context 'Test-Windows1252 cmdlet' -Tag Cmdlet,Test-Windows1252 {
-		It "Given the file '<File>', '<Expected>' should be returned." -TestCases @(
-			@{ File = "$TestRoot\README.md"; Expected = $false }
-			@{ File = "$TestRoot\Detextive.png"; Expected = $true }
-			@{ File = "$TestRoot\Detextive.svg"; Expected = $false }
-			@{ File = "$TestRoot\Detextive.sln"; Expected = $false }
-		) {
-			Param($File,$Expected)
-			Test-Windows1252 $File -vb |Should -BeExactly $Expected
-		}
-	}
 	Context 'Get-FileEncoding cmdlet' -Tag Cmdlet,Get-FileEncoding {
 		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
 			Get-ChildItem $TestRoot\test\*.txt,$TestRoot\test\*.ebcdic -File |

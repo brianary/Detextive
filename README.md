@@ -45,7 +45,6 @@ Documentation is automatically generated using [platyPS](https://github.com/Powe
 - [Test-TextFile](docs/Test-TextFile.md) — Returns true if a file contains text.
 - [Test-Utf8Encoding](docs/Test-Utf8Encoding.md) — Returns true if a file is parseable as UTF-8.
 - [Test-Utf8Signature](docs/Test-Utf8Signature.md) — Returns true if a file starts with the optional UTF-8 BOM/signature.
-- [Test-Windows1252](docs/Test-Windows1252.md) — Returns true if a file contains at least one byte identified as a likely Windows-1252/CP1252 character value.
 
 Tests
 -----
