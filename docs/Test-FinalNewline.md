@@ -13,7 +13,7 @@ Returns true if a file ends with a newline as required by the POSIX standard for
 ## SYNTAX
 
 ```
-Test-FinalNewline [-Path] <String> [<CommonParameters>]
+Test-FinalNewline [-Path] <String> [-Strict] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -44,6 +44,21 @@ Required: True
 Position: 0
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Strict
+{{ Fill Strict Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
