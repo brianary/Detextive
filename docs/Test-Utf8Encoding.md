@@ -52,11 +52,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-Any object with a `Path` or `FullName` property to use for a file location.
+### Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-`System.Boolean` indicating that the file can be successfully parsed as UTF-8.
+### `System.Boolean` indicating that the file can be successfully parsed as UTF-8.
 
 ## NOTES
 

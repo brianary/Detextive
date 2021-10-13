@@ -60,11 +60,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-Any object with a `Path` or `FullName` property to use for a file location.
+### Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-`Detextive.LineEndingsResult`
+### `Detextive.LineEndingsResult`
 
 * **Path** `string`: The full path of the file.
 * **LineEndings** `LineEndingType`: The file's indent style: `None`, `Mixed`, `CRLF`, `LF`, `CR`, `NEL`, `LS`, or `PS`.

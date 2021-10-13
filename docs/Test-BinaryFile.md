@@ -59,12 +59,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-Any object with a `Path` or `FullName` property to use for a file location.
+### Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-`System.Boolean` indicating that the file does not appear to contain parseable text,
-and presumably contains binary data.
+### `System.Boolean` indicating that the file does not appear to contain parseable text, and presumably contains binary data.
 
 ## NOTES
 

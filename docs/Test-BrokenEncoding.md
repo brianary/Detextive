@@ -73,14 +73,13 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-`System.String` containing encoding failures to fix.
+### `System.String` containing encoding failures to fix.
 
-Or any object with a `Path` or `FullName` property to use for a file location.
+### Or any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-`System.Boolean` indicating that the text or file contains a nonsense sequence of characters resulting
-from parsing text with the wrong encoding.
+### `System.Boolean` indicating that the text or file contains a nonsense sequence of characters resulting from parsing text with the wrong encoding.
 
 ## NOTES
 

@@ -46,39 +46,14 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>System.String containing the path to the file to be updated.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-      <command:inputType>
-        <dev:type>
-          <maml:name>None</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Void</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Object</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
+    <command:returnValues />
     <maml:alertSet>
       <maml:alert>
         <maml:para></maml:para>
@@ -87,9 +62,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Add-Utf8Signature.ps1 README.md</dev:code>
+        <dev:code>Add-Utf8Signature README.md</dev:code>
         <dev:remarks>
-          <maml:para>Adds the EF BB BF at the beginning of the file, warns if it isn't found.</maml:para>
+          <maml:para>Adds the EF BB BF at the beginning of the file, warns if it's already there.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -101,10 +76,6 @@
       <maml:navigationLink>
         <maml:linkText>https://msdn.microsoft.com/library/ms143376aspx</maml:linkText>
         <maml:uri>https://msdn.microsoft.com/library/ms143376aspx</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>Get-Content</maml:linkText>
-        <maml:uri></maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -154,15 +125,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>Any object with a Path or FullName property to use for a file location.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-      <command:inputType>
-        <dev:type>
-          <maml:name>None</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -172,72 +135,34 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.Management.Automation.PSObject with the following properties:</maml:name>
+          <maml:name>`Detextive.TextContentsResult`</maml:name>
         </dev:type>
         <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>* Path the full path of the file.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>* IsBinary indicates a binary (vs text) file.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>* Encoding contains the encoding of a text file.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>* LineEndings indicates the type of line endings used in a text file.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>* Indents indicates the type of indent characters used in a text file.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>Detextive.IndentsResult</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
+          <maml:para> Path * `string`: The full path of the file.  IsBinary * `bool`: Indicates a binary (vs text) file.  Encoding * `Encoding`: Contains the encoding of the text file.  Utf8Signature * `bool`: Indicates the file begins with a UTF-8 signature.  Indents * [`IndentsResult`][]: Details about the type of indent characters used in the text file.  LineEndings * [`LineEndingsResult`][]: Details about the type of line endings used in the text file.  FinalNewline * `bool`: Indicate the file ends with a newline as required by the POSIX standard.  StringValue * `string`: A summary of the file contents.</maml:para>
+          <maml:para>[`IndentsResult`]: Get-FileIndents.md#OUTPUTS [`LineEndingsResult`]: Get-FileLineEndings.md#OUTPUTS</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>TODO: indent size, trailing whitespace, max line length, 2σ (95% max line length)</maml:para>
+        <maml:para></maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get-FileContentsInfo.ps1 Get-FileContentsInfo.ps1</dev:code>
+        <dev:code>Get-FileContentsInfo README.md
+
+Path          : A:\Detextive\README.md
+IsBinary      : False
+Encoding      : System.Text.UTF8Encoding+UTF8EncodingSealed
+Utf8Signature : False
+Indents       : None
+LineEndings   : CRLF
+FinalNewline  : True
+StringValue   : A:\Detextive\README.md: utf-8, None indents, CRLF line endings</dev:code>
         <dev:remarks>
-          <maml:para>Path          : A:\scripts\Get-FileContentsInfo.ps1 IsBinary      : False Encoding      : System.Text.ASCIIEncoding+ASCIIEncodingSealed Utf8Signature : False LineEndings   : CRLF Indents       : Tabs FinalNewline  : True</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -249,7 +174,7 @@
       <command:verb>Get</command:verb>
       <command:noun>FileEditorConfig</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Looks up the editorconfig values set for a file.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -289,7 +214,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>None</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -299,10 +224,11 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.Object</maml:name>
+          <maml:name>`Detextive.FileEditorConfigResult`</maml:name>
         </dev:type>
         <maml:description>
-          <maml:para></maml:para>
+          <maml:para> Path * `string`: The full path of the file.  Encoding * `Encoding`: Contains the desired encoding of the text file.  Utf8Signature * `bool`: Indicates the file should begin with a UTF-8 signature.  Indents * [`IndentType`][]: Indicates the type of indent characters desired for the text file.  IndentSize * `int`: The number of spaces in an indent, or the number of characters a tab should render as.  LineEndings * [`LineEndingType`][]: Indicates the type of line endings desired for the text file.  FinalNewline * `bool`: Indicates the file should end with a newline as required by the POSIX standard.  StringValue * `string`: A summary of the file config.</maml:para>
+          <maml:para>[`IndentType`]: Get-FileIndents.md#OUTPUTS [`LineEndingType`]: Get-FileLineEndings.md#OUTPUTS</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -314,9 +240,18 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>Get-FileEditorConfig README.md
+
+Path          : A:\Detextive\README.md
+Encoding      : System.Text.UTF8Encoding+UTF8EncodingSealed
+Utf8Signature : False
+Indents       : Spaces
+IndentSize    : 4
+LineEndings   : CRLF
+FinalNewline  : True
+StringValue   : A:\Detextive\README.md: utf-8, Spaces indents, CRLF line endings</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -373,7 +308,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>None</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -383,7 +318,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.Text.Encoding</maml:name>
+          <maml:name>`System.Text.Encoding`</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -398,9 +333,25 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>Get-FileEncoding README.md
+
+Preamble          :
+BodyName          : utf-8
+EncodingName      : Unicode (UTF-8)
+HeaderName        : utf-8
+WebName           : utf-8
+WindowsCodePage   : 1200
+IsBrowserDisplay  : True
+IsBrowserSave     : True
+IsMailNewsDisplay : True
+IsMailNewsSave    : True
+IsSingleByte      : False
+EncoderFallback   : System.Text.EncoderReplacementFallback
+DecoderFallback   : System.Text.DecoderReplacementFallback
+IsReadOnly        : True
+CodePage          : 65001</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -452,7 +403,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>None</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -462,10 +413,10 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>Detextive.IndentsResult</maml:name>
+          <maml:name>`Detextive.IndentsResult`</maml:name>
         </dev:type>
         <maml:description>
-          <maml:para></maml:para>
+          <maml:para> Path * `string`: The full path of the file.  Indents * `IndentType`: The file's indent style: `None`, `Mixed`, `Tabs`, `Spaces`, or `Other`.  Mixed * `int`: The number of lines indented with multiple inconsistent indent characters   (like spaces and tabs together).  Tabs * `int`: The number of lines indented with tabs.  Spaces * `int`: The number of lines indented with spaces.  Other * `int`: The number of lines indented with non-space, non-tab whitespace.   This means something unusual such as U+00A0 NO-BREAK SPACE, U+2003 EM SPACE, U+200A HAIR SPACE   or any other weird, unexpected space character.  StringValue * `string`: A summary of the file indents.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -477,9 +428,17 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>Get-FileIndents src\Detextive\GetFileIndentsCommand.fs
+
+Path        : A:\Detextive\src\Detextive\GetFileIndentsCommand.fs
+Indents     : Spaces
+Mixed       : 0
+Tabs        : 0
+Spaces      : 66
+Other       : 0
+StringValue : A:\Detextive\src\Detextive\GetFileIndentsCommand.fs: Spaces</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -531,15 +490,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>Any object with a Path or FullName property to use for a file location.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-      <command:inputType>
-        <dev:type>
-          <maml:name>None</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -549,74 +500,10 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>Detextive.LineEndingsResult with the following properties:</maml:name>
+          <maml:name>`Detextive.LineEndingsResult`</maml:name>
         </dev:type>
         <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>* Path, a string containing the location of the file.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>* LineEndings, one of: CRLF, LF, CR, NEL, LS, PS, or Mixed.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>* CRLF, a count of the U+000D U+000A CR LF line endings found.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>* LF, a count of the U+000A LF line endings found.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>* CR, a count of the U+000D CR line endings found.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>* NEL, a count of the U+0085 NEL line endings found.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>* LS, a count of the U+2028 LS line endings found.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>* PS, a count of the U+2029 PS line endings found.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
+          <maml:para> Path * `string`: The full path of the file.  LineEndings * `LineEndingType`: The file's indent style: `None`, `Mixed`, `CRLF`, `LF`, `CR`, `NEL`, `LS`, or `PS`.  CRLF * `int`: The number of lines ending with a Windows-style U+000D carriage return and U+000A line feed.  LF * `int`: The number of lines ending with a Linux/BSD-style U+000A line feed.  CR * `int`: The number of lines ending with an old-Mac-style U+000D carriage return.  NEL * `int`: The number of lines ending with a Unicode U+0085 next line character.  LS * `int`: The number of lines ending with a Unicode U+2028 line separator character.  PS * `int`: The number of lines ending with a Unicode U+2029 paragraph separator character.  StringValue * `string`: A summary of the file line endings.</maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
@@ -628,9 +515,19 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get-FileLineEndings.ps1 Get-FileLineEndings.ps1</dev:code>
+        <dev:code>Get-FileLineEndings README.md
+
+Path        : A:\Detextive\README.md
+LineEndings : CRLF
+CRLF        : 48
+LF          : 0
+CR          : 0
+NEL         : 0
+LS          : 0
+PS          : 0
+StringValue : A:\Detextive\README.md: CRLF</dev:code>
         <dev:remarks>
-          <maml:para>Path        : A:\scripts\Get-FileLineEndings.ps1 LineEndings : CRLF CRLF        : 90 LF          : 0 CR          : 0</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -691,39 +588,14 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>System.String containing the path to the file to be updated.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-      <command:inputType>
-        <dev:type>
-          <maml:name>None</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Void</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Object</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
+    <command:returnValues />
     <maml:alertSet>
       <maml:alert>
         <maml:para></maml:para>
@@ -759,7 +631,7 @@
       <command:verb>Repair</command:verb>
       <command:noun>Encoding</command:noun>
       <maml:description>
-        <maml:para>Re-encodes Windows-1252 text that has been misinterpreted as UTF-8.</maml:para>
+        <maml:para>Re-encodes commonly mis-encoded text.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -786,7 +658,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
-            <maml:para>{{ Fill Path Description }}</maml:para>
+            <maml:para>A mis-encoded file to fix.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -813,7 +685,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
-          <maml:para>{{ Fill Path Description }}</maml:para>
+          <maml:para>A mis-encoded file to fix.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -826,7 +698,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>System.String containing encoding failures to fix.</maml:name>
+          <maml:name>`System.String` containing encoding failures to fix.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -834,7 +706,7 @@
       </command:inputType>
       <command:inputType>
         <dev:type>
-          <maml:name>System.String</maml:name>
+          <maml:name>Or any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -844,7 +716,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.String containing the corrected string data.</maml:name>
+          <maml:name>`System.String` with the encoding corrected, if `InputObject` is used.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -852,7 +724,7 @@
       </command:returnValue>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.Object</maml:name>
+          <maml:name>`Path` is written back to the file.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -867,9 +739,11 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Repair-Encoding.ps1 'SmartQuotes Arenâ€™t'</dev:code>
+        <dev:code>Repair-Encoding.ps1 'SmartQuotes Arenâ€™t'
+
+SmartQuotes Aren't</dev:code>
         <dev:remarks>
-          <maml:para>SmartQuotes Aren't</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -898,7 +772,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
-            <maml:para>{{ Fill Path Description }}</maml:para>
+            <maml:para>A file to fix the editorconfig values for.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -913,7 +787,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
-          <maml:para>{{ Fill Path Description }}</maml:para>
+          <maml:para>A file to fix the editorconfig values for.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -926,23 +800,14 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>System.String</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
         </maml:description>
       </command:inputType>
     </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Object</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
+    <command:returnValues />
     <maml:alertSet>
       <maml:alert>
         <maml:para></maml:para>
@@ -951,9 +816,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>Repair-FileEditorConfig README.md</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Corrects the encoding, indents, and line endings if they differ from the editorconfig settings for the file.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1010,7 +875,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>None</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1020,15 +885,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.Boolean indicating that the file contains binary data.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Boolean</maml:name>
+          <maml:name>`System.Boolean` indicating that the file does not appear to contain parseable text, and presumably contains binary data.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1043,9 +900,11 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Test-BinaryFile.ps1 avatar.jpg</dev:code>
+        <dev:code>Test-BinaryFile Detextive.png
+
+True</dev:code>
         <dev:remarks>
-          <maml:para>True</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -1069,7 +928,7 @@
       <command:verb>Test</command:verb>
       <command:noun>BrokenEncoding</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Returns true if text contains a nonsense sequence of characters resulting from parsing text with the wrong encoding.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -1081,7 +940,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
           <maml:name>InputObject</maml:name>
           <maml:description>
-            <maml:para>{{ Fill InputObject Description }}</maml:para>
+            <maml:para>A string to test.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1096,7 +955,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
-            <maml:para>{{ Fill Path Description }}</maml:para>
+            <maml:para>A file to test.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1111,7 +970,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
         <maml:name>InputObject</maml:name>
         <maml:description>
-          <maml:para>{{ Fill InputObject Description }}</maml:para>
+          <maml:para>A string to test.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1123,7 +982,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
-          <maml:para>{{ Fill Path Description }}</maml:para>
+          <maml:para>A file to test.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1136,7 +995,15 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>System.String</maml:name>
+          <maml:name>`System.String` containing encoding failures to fix.</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Or any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1146,7 +1013,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.Boolean</maml:name>
+          <maml:name>`System.Boolean` indicating that the text or file contains a nonsense sequence of characters resulting from parsing text with the wrong encoding.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1161,9 +1028,11 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>'1.2.1 â€“ 1.3.4' |Test-BrokenEncoding
+
+True</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1175,7 +1044,7 @@
       <command:verb>Test</command:verb>
       <command:noun>FileEditorConfig</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Validates a file's editorconfig settings against the actual formatting found.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -1187,7 +1056,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
-            <maml:para>{{ Fill Path Description }}</maml:para>
+            <maml:para>A file to test the editorconfig values for.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -1202,7 +1071,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="0" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
-          <maml:para>{{ Fill Path Description }}</maml:para>
+          <maml:para>A file to test the editorconfig values for.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1215,7 +1084,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>System.String</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1225,7 +1094,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.Boolean</maml:name>
+          <maml:name>`System.Boolean` indicating the file matches the editorconfig settings.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1240,9 +1109,11 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>Test-FileEditorConfig README.md
+
+True</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1275,6 +1146,17 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Strict</maml:name>
+          <maml:description>
+            <maml:para>{{ Fill Strict Description }}</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -1290,19 +1172,23 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Strict</maml:name>
+        <maml:description>
+          <maml:para>{{ Fill Strict Description }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>System.IO.FileInfo file or similar object to test for UTF-8 validity.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-      <command:inputType>
-        <dev:type>
-          <maml:name>None</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1312,15 +1198,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.Boolean indicating whether the file ends with a newline.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Boolean</maml:name>
+          <maml:name>`System.Boolean` indicating that the file ends with a final newline.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1335,18 +1213,15 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Test-FinalNewline.ps1 README.md</dev:code>
+        <dev:code>Test-FinalNewline README.md
+
+True</dev:code>
         <dev:remarks>
-          <maml:para>True</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
-    <command:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText>Test-MagicNumber.ps1</maml:linkText>
-        <maml:uri></maml:uri>
-      </maml:navigationLink>
-    </command:relatedLinks>
+    <command:relatedLinks />
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
@@ -1394,7 +1269,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>System.Object</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1404,15 +1279,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.Boolean indicating that the file contains text.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Boolean</maml:name>
+          <maml:name>`System.Boolean` indicating that the file appears to contain text.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1427,25 +1294,24 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Test-TextFile.ps1 README.md</dev:code>
+        <dev:code>Test-TextFile README.md
+
+True</dev:code>
         <dev:remarks>
-          <maml:para>True</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Test-TextFile.ps1 avatar.jpg</dev:code>
+        <dev:code>Test-TextFile Detextive.png
+
+False</dev:code>
         <dev:remarks>
-          <maml:para>False</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
-    <command:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText>Test-FileTypeMagicNumber.ps1</maml:linkText>
-        <maml:uri></maml:uri>
-      </maml:navigationLink>
-    </command:relatedLinks>
+    <command:relatedLinks />
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
@@ -1493,15 +1359,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>System.IO.FileInfo file or similar object to test for UTF-8 validity.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-      <command:inputType>
-        <dev:type>
-          <maml:name>None</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1511,15 +1369,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.Boolean indicating whether the file parses sucessfully.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Boolean</maml:name>
+          <maml:name>`System.Boolean` indicating that the file can be successfully parsed as UTF-8.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1534,7 +1384,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Test-Utf8Encoding.ps1 file.txt</dev:code>
+        <dev:code>Test-Utf8Encoding README.md
+
+True</dev:code>
         <dev:remarks>
           <maml:para></maml:para>
         </dev:remarks>
@@ -1593,15 +1445,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>System.IO.FileInfo file or similar object to test for UTF-8 validity.</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-      <command:inputType>
-        <dev:type>
-          <maml:name>None</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1611,15 +1455,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.Boolean indicating whether the file starts with a utf-8 signature (BOM).</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Boolean</maml:name>
+          <maml:name>`System.Boolean` indicating that the file begins with the bytes `EF BB BF`.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1634,18 +1470,15 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Test-Utf8Signature.ps1 README.md</dev:code>
+        <dev:code>Test-Utf8Signature README.md
+
+False</dev:code>
         <dev:remarks>
-          <maml:para>False</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
-    <command:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText>Test-FileTypeMagicNumber.ps1</maml:linkText>
-        <maml:uri></maml:uri>
-      </maml:navigationLink>
-    </command:relatedLinks>
+    <command:relatedLinks />
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
@@ -1693,7 +1526,7 @@
     <command:inputTypes>
       <command:inputType>
         <dev:type>
-          <maml:name>None</maml:name>
+          <maml:name>Any object with a `Path` or `FullName` property to use for a file location.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1703,7 +1536,7 @@
     <command:returnValues>
       <command:returnValue>
         <dev:type>
-          <maml:name>System.Boolean</maml:name>
+          <maml:name>`System.Boolean` indicating the file contains at least one byte identified as a likely Windows-1252/CP1252 character value.</maml:name>
         </dev:type>
         <maml:description>
           <maml:para></maml:para>
@@ -1718,9 +1551,11 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>Test-Windows1252 README.md
+
+False</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

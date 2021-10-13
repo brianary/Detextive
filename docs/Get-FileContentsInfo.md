@@ -59,11 +59,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-Any object with a `Path` or `FullName` property to use for a file location.
+### Any object with a `Path` or `FullName` property to use for a file location.
 
 ## OUTPUTS
 
-`Detextive.TextContentsResult`
+### `Detextive.TextContentsResult`
 
 * **Path** `string`: The full path of the file.
 * **IsBinary** `bool`: Indicates a binary (vs text) file.
