@@ -5,8 +5,8 @@ Detextive
 <img src="Detextive.svg" alt="Detextive icon" align="right" />
 
 <!-- Optional badges: -->
-<!-- [![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Detextive)](https://www.powershellgallery.com/packages/Detextive/) -->
-<!-- [![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/Detextive)](https://www.powershellgallery.com/packages/Detextive/) -->
+[![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Detextive)](https://www.powershellgallery.com/packages/Detextive/)
+[![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/Detextive)](https://www.powershellgallery.com/packages/Detextive/)
 [![Actions Status](https://github.com/brianary/Detextive/workflows/.NET%20Core/badge.svg)](https://github.com/brianary/Detextive/actions)
 
 Investigates data to determine what the textual characteristics are.
