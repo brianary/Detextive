@@ -16,17 +16,23 @@ type public TestTextFileCommand () =
             Array.fold
                 (fun (z,c,e) -> // counting Zero, low Controls, EBCDIC-y chars
                     function
-                    | 0uy -> z+1, c, e
-                    | b when List.contains b [0x05uy;0x40uy;0x7Fuy] -> z, c, e+1
+                    | 0uy    -> z+1, c, e
+                    | 0x05uy -> z, c, e+1
+                    | 0x40uy -> z, c, e+1
+                    | 0x7Fuy -> z, c, e+1
                     | b when List.contains b [0x01uy;0x02uy;0x03uy;0x04uy;0x06uy;0x07uy;0x08uy;
                                               0x0Buy;0x0Cuy;0x0Euy;0x0Fuy;0x10uy;0x11uy;0x12uy;
                                               0x13uy;0x14uy;0x15uy;0x16uy;0x17uy;0x18uy;0x19uy] -> z, c+1, e
                     | _ -> z, c, e ) (0,0,0) bytes
         let len = double bytes.Length
-        if zeros = 0 && lowcontrols = 0 then true            // ASCII or ISO-8859-1 or Windows-1252, probably
-        elif ((double lowcontrols) / len) > 0.01 then false  // assume Benford's Law applies to some degree for binary data
-        elif ((double zeros) / len) > 0.46 then true         // UTF-16 or UTF-32, probably
-        else ((double ebcdicy) / len) > 0.1                  // EBCDIC, probably
+        // ASCII or ISO-8859-1 or Windows-1252, probably:
+        if zeros = 0 && lowcontrols = 0 then true
+        // assume Benford's Law applies to some degree for binary data:
+        elif ((double lowcontrols) / len) >= Ratio.MinBinaryLowControls then false
+        // UTF-16 or UTF-32, probably:
+        elif ((double zeros) / len) >= Ratio.MinDoubleByteZeros then true
+        // EBCDIC, probably:
+        else ((double ebcdicy) / len) >= Ratio.MinCommonEbcdic
 
     /// Returns true if a file is determined to contain text.
     static member public IsTextFile (fs:FileStream) =

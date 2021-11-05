@@ -6,6 +6,7 @@
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Ratio.fs" />
     <Compile Include="Collection.fs" />
     <Compile Include="RegexExtensions.fs" />
     <Compile Include="PSCmdletExtensions.fs" />

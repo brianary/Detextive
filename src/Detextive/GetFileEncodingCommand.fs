@@ -22,15 +22,18 @@ type public GetFileEncodingCommand () =
 
     /// Judge the encoding based on counts of byte values.
     static member public ByteFrequencyEncodingAnalysis bytes =
+        let len = Array.length bytes |> double
         match Array.fold
-                (fun (z,e,h,x) -> // counting Zero, EBCDIC space, High, and eXcluded bytes
+                (fun (z,e,h,x) -> // counting Zero, EBCDIC common, High, and eXcluded bytes
                     function
                     | 0uy -> z+1, e, h, x
+                    | 0x05uy -> z, e+1, h, x
                     | 0x40uy -> z, e+1, h, x
+                    | 0x7Fuy -> z, e+1, h, x
                     | b when b >= 0x80uy && b <= 0x9Fuy -> z, e, h+1, x+1
                     | b when b >= 0xA0uy -> z, e, h+1, x
                     | _ -> z, e, h, x ) (0,0,0,0) bytes with
-        | _, e, _, _  when e > (bytes.Length/6) &&
+        | _, e, _, _  when ((double e) / len >= Ratio.MinCommonEbcdic) &&
                            Option.isSome
                            <| GetFileEncodingCommand.TryEncodingParse (Encoding.GetEncoding("IBM037")) bytes ->
                                 Some(Encoding.GetEncoding("IBM037"))
@@ -39,15 +42,17 @@ type public GetFileEncodingCommand () =
         | 0, _, _, _ -> GetFileEncodingCommand.TryEncodingParse Encoding.UTF8 bytes
                         |> Option.defaultValue (Encoding.GetEncoding("Windows-1252"))
                         |> Some
-        | z, _, _, _ -> match (double z) / (double bytes.Length) with
-                        | r when r >= 0.72 -> match Array.take 4 bytes with
-                                              | [|_;_;_;0uy|] -> Some(Encoding.UTF32)
-                                              | [|0uy;_;_;_|] -> Some(Encoding.GetEncoding("UTF-32BE"))
-                                              | _ -> None
-                        | r when r >= 0.46 -> match Array.take 2 bytes with
-                                              | [|_;0uy|] -> Some(Encoding.Unicode)
-                                              | [|0uy;_|] -> Some(Encoding.BigEndianUnicode)
-                                              | _ -> None
+        | z, _, _, _ -> match (double z) / len with
+                        | r when r >= Ratio.MinFourByteZeros ->
+                            match Array.take 4 bytes with
+                            | [|_;_;_;0uy|] -> Some(Encoding.UTF32)
+                            | [|0uy;_;_;_|] -> Some(Encoding.GetEncoding("UTF-32BE"))
+                            | _ -> None
+                        | r when r >= Ratio.MinDoubleByteZeros ->
+                            match Array.take 2 bytes with
+                            | [|_;0uy|] -> Some(Encoding.Unicode)
+                            | [|0uy;_|] -> Some(Encoding.BigEndianUnicode)
+                            | _ -> None
                         | _ -> None
 
     /// Returns the detected encoding of a file.
