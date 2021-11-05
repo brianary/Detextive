@@ -1,7 +1,8 @@
 /// Constants used for ratios in byte value data analysis.
 module Detextive.Ratio
 
-/// The minimum ratio of low control char byte values in a probably binary file.
+/// The minimum ratio of low control char byte values in a probably binary file,
+/// assuming Benford's Law applies to some degree.
 [<Literal>]
 let MinBinaryLowControls = 1E-2
 
