@@ -10,7 +10,7 @@ Detextive
 
 Investigates data to determine what the textual characteristics are.
 
-The ratios are still fairly arbirtrary, and will need more sample/test data to mature.
+The [ratios][] are still fairly arbirtrary, and will need more sample/test data to mature.
 In addition, it may skew anglocentric in assuming primarily US-ASCII characters when
 determining encoding based on byte value frequency.
 
@@ -20,6 +20,7 @@ To install: `Install-Module Detextive`
 
 Using the [editorconfig library][] to support [editorconfig][] settings.
 
+[ratios]: src/Detextive/Ratio.fs "Constants used for ratios in byte value data analysis."
 [editorconfig library]: https://github.com/editorconfig/editorconfig-core-net "EditorConfig Core library and command line utility written in C# for .NET/Mono http://editorconfig.org"
 [editorconfig]: https://editorconfig.org/ "EditorConfig helps maintain consistent coding styles for multiple developers working on the same project across various editors and IDEs."
 
