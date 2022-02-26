@@ -13,8 +13,7 @@ type public TestFinalNewlineCommand () =
     /// Returns true if a file ends with a newline character.
     static member public HasFinalNewline (fs:FileStream) strict =
         let enc = GetFileEncodingCommand.DetectFileEncoding fs
-        let len = match fs.Seek(0L, SeekOrigin.End) with | pos when pos > Int32.MaxValue -> Int32.MaxValue | pos -> int pos
-        if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
+        let len = FilePosition.GetBufferSize fs
         use sr = new StreamReader(fs, enc, true, len, true)
         match strict, sr.ReadToEnd() |> Seq.last with
         | _, '\n' -> true

@@ -11,7 +11,7 @@ type public AddUtf8SignatureCommand () =
 
     /// Adds the UTF-8 signature (BOM)
     member x.AddUtf8Signature item (fs:FileStream) data =
-        fs.Seek(0L, SeekOrigin.Begin) |> ignore
+        FilePosition.Rewind fs
         fs.Write([|0xEFuy;0xBBuy;0xBFuy|], 0, 3)
         fs.Write(data, 0, data.Length)
         x.WriteVerbose(sprintf "Prepended EF BB BF to %s" item)

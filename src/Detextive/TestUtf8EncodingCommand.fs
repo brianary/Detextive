@@ -14,8 +14,7 @@ type public TestUtf8EncodingCommand () =
     /// Returns true if a file is parseable as UTF-8.
     static member public IsUtf8Readable (x:PSCmdlet) (fs:FileStream) =
         let head = Array.zeroCreate 3
-        let len = match fs.Seek(0L, SeekOrigin.End) with | pos when pos > Int32.MaxValue -> Int32.MaxValue | pos -> int pos
-        if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
+        let len = FilePosition.GetBufferSize fs
         let utf8 = UTF8Encoding(true,true)
         use sr = new StreamReader(fs, UTF8Encoding(true,true), false, len, true)
         try

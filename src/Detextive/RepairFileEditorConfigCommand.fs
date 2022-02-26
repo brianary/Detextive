@@ -24,8 +24,7 @@ type public RepairFileEditorConfigCommand () =
             let expectedEnc = encodingName expected.Encoding.WebName expected.Utf8Signature
             let actualEnc = encodingName actual.Encoding.WebName actual.Utf8Signature
             use fs = new FileStream(item, FileMode.Open, FileAccess.ReadWrite, FileShare.None)
-            let len = match fs.Seek(0L, SeekOrigin.End) with | pos when pos > Int32.MaxValue -> Int32.MaxValue | pos -> int pos
-            if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
+            let len = FilePosition.GetBufferSize fs
             let mutable text =
                 sprintf "Reading %s text from %s" actualEnc item |> x.WriteVerbose
                 use sr = new StreamReader(fs, actual.Encoding, true, len, true)
@@ -61,7 +60,6 @@ type public RepairFileEditorConfigCommand () =
             if expected.FinalNewline <> actual.FinalNewline then
                 text <- if expected.FinalNewline then text + eol
                         else Regex.Replace(text, @"[\r\n\u0085\u2028\u2029]+\z", "")
-            sprintf "Text: '%s'" text |> x.WriteVerbose
             fs.SetLength 0L
             use sw = new StreamWriter(fs, expected.Encoding)
             sw.Write(text)

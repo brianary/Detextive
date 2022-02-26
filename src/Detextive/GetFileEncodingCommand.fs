@@ -58,7 +58,7 @@ type public GetFileEncodingCommand () =
     /// Returns the detected encoding of a file.
     static member public DetectFileEncoding (fs:FileStream) =
         let head = Array.zeroCreate 4
-        if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
+        FilePosition.Rewind fs
         match Array.take (fs.Read(head, 0, 4)) head with
         | [||] -> Encoding.UTF8
         | [|0x0Auy|] -> Encoding.UTF8 // empty LF POSIX ASCII/UTF-8 without BOM/SIG
@@ -70,7 +70,7 @@ type public GetFileEncodingCommand () =
         | [|0xEFuy;0xBBuy;0xBFuy;_|] -> UTF8Encoding(true) :> Encoding // UTF-8 with BOM/SIG
         | _ ->
             let bytes = fs.Seek(0L, SeekOrigin.End) |> int |> Array.zeroCreate<byte>
-            fs.Seek(0L, SeekOrigin.Begin) |> ignore
+            FilePosition.Rewind fs
             fs.Read(bytes, 0, bytes.Length) |> ignore
             match GetFileEncodingCommand.ByteFrequencyEncodingAnalysis bytes with
             | Some(enc) -> enc

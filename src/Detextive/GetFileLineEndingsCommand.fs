@@ -38,8 +38,7 @@ type public GetFileLineEndingsCommand () =
     /// Counts the line ending digraph or characters.
     static member public CountLineEndings (fs:FileStream) =
         let enc = GetFileEncodingCommand.DetectFileEncoding fs
-        let len = match fs.Seek(0L, SeekOrigin.End) with | pos when pos > Int32.MaxValue -> Int32.MaxValue | pos -> int pos
-        if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
+        let len = FilePosition.GetBufferSize fs
         use sr = new StreamReader(fs, enc, true, len, true)
         let text = sr.ReadToEnd()
         let endings = [|'\u000A';'\u000D';'\u0085';'\u2028';'\u2029'|]

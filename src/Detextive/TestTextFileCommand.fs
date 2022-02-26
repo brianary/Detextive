@@ -37,7 +37,7 @@ type public TestTextFileCommand () =
     /// Returns true if a file is determined to contain text.
     static member public IsTextFile (fs:FileStream) =
         let head = Array.zeroCreate 4
-        if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
+        FilePosition.Rewind fs
         match Array.take (fs.Read(head, 0, 4)) head with
         | [||] -> false
         | [|0x0Auy|] -> true // empty LF POSIX ASCII/UTF-8 without BOM/SIG
@@ -49,7 +49,7 @@ type public TestTextFileCommand () =
         | [|0xEFuy;0xBBuy;0xBFuy;_|] -> true // UTF-8 with BOM/SIG
         | _ ->
             let bytes = fs.Seek(0L, SeekOrigin.End) |> int |> Array.zeroCreate<byte>
-            fs.Seek(0L, SeekOrigin.Begin) |> ignore
+            FilePosition.Rewind fs
             fs.Read(bytes, 0, bytes.Length) |> ignore
             TestTextFileCommand.ByteFrequencyTextAnalysis bytes
 

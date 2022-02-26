@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="Ratio.fs" />
     <Compile Include="Collection.fs" />
+    <Compile Include="FilePosition.fs" />
     <Compile Include="RegexExtensions.fs" />
     <Compile Include="PSCmdletExtensions.fs" />
     <Compile Include="RepairEncodingCommand.fs" />

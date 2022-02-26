@@ -12,7 +12,7 @@ type public TestUtf8SignatureCommand () =
     /// Returns true if a file starts with EF BB BF.
     static member public HasUtf8Signature (fs:FileStream) =
         let head = Array.zeroCreate 3
-        if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
+        FilePosition.Rewind fs
         match Array.take (fs.Read(head, 0, 3)) head with
         | [|0xEFuy;0xBBuy;0xBFuy|] -> true // UTF-8 with BOM/SIG
         | _ -> false
