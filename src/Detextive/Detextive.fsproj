@@ -52,7 +52,7 @@
     <Copy SourceFiles="$(OutputPath)\publish\FSharp.Core.dll" DestinationFolder="$(OutputPath)" />
     <Copy SourceFiles="$(OutputPath)\publish\EditorConfig.Core.dll" DestinationFolder="$(OutputPath)" />
     <Exec Command="pwsh -noni -nop -c &quot;cd ..\..; Invoke-Pester&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
-    <Exec Command="powershell -noni -nop -c &quot;cd ..\..; Invoke-Pester&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
+    <Exec Command="powershell -noni -nop -c &quot;cd ..\..; Invoke-Pester&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" Condition=" '$(OS)' == 'Windows_NT' " />
   </Target>
   <ItemGroup>
     <PSModulePath Include="$(PSModulePath)" Exclude="C:\Program Files\**;C:\Windows\**;C:\ProgramData\chocolatey\**" />

@@ -1,17 +1,27 @@
 name: .NET Core
-
-on: [push]
-
+on: push
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  ci-windows:
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.2.108
-    - name: Build with dotnet
-      run: dotnet build --configuration Release
+        dotnet-version: 6.0.x
+    - name: Build
+      run: dotnet build -c Release
+    - name: Test
+      run: dotnet publish -t:test
+  ci-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Build
+      run: dotnet build -c Release
+    - name: Test
+      run: dotnet publish -t:test
