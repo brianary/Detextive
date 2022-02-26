@@ -2,14 +2,14 @@
 # and https://docs.microsoft.com/powershell/module/microsoft.powershell.core/new-modulemanifest
 @{
 RootModule = 'Detextive.dll'
-ModuleVersion = '1.0.1'
+ModuleVersion = '1.0.2'
 CompatiblePSEditions = @('Core')
 GUID = '2dd84299-7cd8-443d-86a8-16f82a834e65'
 Author = 'Brian Lalonde'
 #CompanyName = 'Unknown'
 Copyright = 'Copyright © 2019 Brian Lalonde; EditorConfig .NET library is © EditorConfig Team, used under MIT License'
 Description = 'Investigates data to determine what the textual characteristics are.'
-PowerShellVersion = '6.0'
+PowerShellVersion = '5.1'
 FunctionsToExport = @()
 CmdletsToExport = @('Test-TextFile','Test-BinaryFile','Test-Utf8Signature','Test-Utf8Encoding','Test-FinalNewline','Get-FileEncoding',
 	'Get-FileIndents','Get-FileLineEndings','Get-FileContentsInfo','Add-Utf8Signature','Remove-Utf8Signature','Test-BrokenEncoding',

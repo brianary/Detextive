@@ -62,8 +62,9 @@ type public GetFileIndentsCommand () =
     /// Counts the indent characters.
     static member public CountIndents (fs:FileStream) =
         let enc = GetFileEncodingCommand.DetectFileEncoding fs
+        let len = match fs.Seek(0L, SeekOrigin.End) with | pos when pos > Int32.MaxValue -> Int32.MaxValue | pos -> int pos
         if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
-        use sr = new StreamReader(fs, enc, true, -1, true)
+        use sr = new StreamReader(fs, enc, true, len, true)
         sr.ReadToEnd()
             |> GetFileIndentsCommand.TripleQuotedStrings.RemoveMatches
             |> GetFileIndentsCommand.PowerShellHereStrings.RemoveMatches

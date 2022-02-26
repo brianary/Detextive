@@ -1,5 +1,6 @@
 namespace Detextive
 
+open System
 open System.IO
 open System.Management.Automation
 
@@ -12,8 +13,9 @@ type public TestFinalNewlineCommand () =
     /// Returns true if a file ends with a newline character.
     static member public HasFinalNewline (fs:FileStream) strict =
         let enc = GetFileEncodingCommand.DetectFileEncoding fs
+        let len = match fs.Seek(0L, SeekOrigin.End) with | pos when pos > Int32.MaxValue -> Int32.MaxValue | pos -> int pos
         if fs.Position > 0L then fs.Seek(0L, SeekOrigin.Begin) |> ignore
-        use sr = new StreamReader(fs, enc, true, -1, true)
+        use sr = new StreamReader(fs, enc, true, len, true)
         match strict, sr.ReadToEnd() |> Seq.last with
         | _, '\n' -> true
         | false, c when List.contains c ['\r';'\u0085';'\u2028';'\u2029'] -> true

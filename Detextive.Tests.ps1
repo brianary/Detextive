@@ -1,6 +1,11 @@
 ﻿# Pester tests, see https://github.com/Pester/Pester/wiki
 $TestRoot = "$PSScriptRoot\test"
-$module = Import-Module (Resolve-Path ./src/*/bin/Debug/*/*.psd1) -PassThru -vb
+$AsByteStream =
+	if((Get-Command Get-Content -ParameterName AsByteStream -ErrorAction SilentlyContinue)) {@{AsByteStream=$true}}
+	else {@{Encoding='Byte'}}
+$psd1 = Resolve-Path ./src/*/bin/Debug/*/*.psd1
+if(1 -lt ($psd1 |Measure-Object).Count) {throw "Too many module binaries found: $psd1"}
+$module = Import-Module $psd1 -PassThru -vb
 Import-LocalizedData -BindingVariable manifest -BaseDirectory ./src/* -FileName (Split-Path $PWD -Leaf)
 Describe $module.Name {
 	$env:Path = $env:Path -replace ';A:\\Scripts'
@@ -214,9 +219,9 @@ Describe $module.Name {
 		) {
 			Param($Bytes,$Content)
 			$file = [io.path]::GetTempFileName()
-			$Bytes |Set-Content $file -AsByteStream
+			$Bytes |Set-Content $file @AsByteStream
 			Add-Utf8Signature $file -vb
-			Get-Content $file -AsByteStream |Should -Be $Content
+			Get-Content $file @AsByteStream |Should -Be $Content
 			Remove-Item $file
 		}
 	}
@@ -231,9 +236,9 @@ Describe $module.Name {
 		) {
 			Param($Bytes,$Content)
 			$file = [io.path]::GetTempFileName()
-			$Bytes |Set-Content $file -AsByteStream
+			$Bytes |Set-Content $file @AsByteStream
 			Remove-Utf8Signature $file -vb
-			Get-Content $file -AsByteStream |Should -Be $Content
+			Get-Content $file @AsByteStream |Should -Be $Content
 			Remove-Item $file
 		}
 	}
@@ -296,8 +301,9 @@ Describe $module.Name {
 				Expected = "`t# test`r`n" }
 		) {
 			Param($InputObject,$Extension,$Encoding,$Expected)
-			$file = "$(New-Guid).$Extension"
-			$Encoding.GetBytes($InputObject) |Set-Content $file -AsByteStream
+			$file = "$([guid]::NewGuid()).$Extension"
+			$Encoding.GetBytes($InputObject) |Set-Content $file @AsByteStream
+			Get-Content $file -Raw |Should -BeExactly $InputObject
 			Repair-FileEditorConfig $file -vb
 			Get-Content $file -Raw |Should -BeExactly $Expected
 			Remove-Item $file
