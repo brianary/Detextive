@@ -1,18 +1,6 @@
 name: .NET Core
 on: push
 jobs:
-  ci-windows:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
-    - name: Build
-      run: dotnet build -c Release
-    - name: Test
-      run: dotnet publish -t:test
   ci-linux:
     runs-on: ubuntu-latest
     steps:
@@ -25,3 +13,20 @@ jobs:
       run: dotnet build -c Release
     - name: Test
       run: dotnet publish -t:test
+  ci-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Build
+      run: dotnet build -c Release
+    - name: Test
+      run: dotnet publish -t:test
+    - name: Publish
+      if: success() && contains(github.event.head_commit.message,'#publish') && (secrets.gallerykey != '')
+      env:
+        gallerykey: ${{ secrets.gallerykey }}
+      run: dotnet build -t:PublishToGallery -c Release
