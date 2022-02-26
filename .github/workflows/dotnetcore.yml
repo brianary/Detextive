@@ -26,7 +26,7 @@ jobs:
     - name: Test
       run: dotnet publish -t:test
     - name: Publish
-      if: success() && contains(github.event.head_commit.message,'#publish') && (secrets.gallerykey != '')
+      if: success() && contains(github.event.head_commit.message,'#publish') && ('${{ secrets.gallerykey }}' != '')
       env:
         gallerykey: ${{ secrets.gallerykey }}
       run: dotnet build -t:PublishToGallery -c Release
