@@ -15,6 +15,8 @@ jobs:
       run: dotnet publish -t:test
   ci-windows:
     runs-on: windows-latest
+    env:
+      gallerykey: ${{ secrets.gallerykey }}
     steps:
     - uses: actions/checkout@v1
     - name: Setup .NET Core
@@ -26,7 +28,5 @@ jobs:
     - name: Test
       run: dotnet publish -t:test
     - name: Publish
-      if: success() && contains(github.event.head_commit.message,'#publish') && false # && ('${{ secrets.gallerykey }}' != '')
-      env:
-        gallerykey: ${{ secrets.gallerykey }}
+      if: success() && env.gallerykey && contains(github.event.head_commit.message,'#publish')
       run: dotnet build -t:PublishToGallery -c Release
