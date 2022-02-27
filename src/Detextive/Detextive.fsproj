@@ -64,6 +64,7 @@
     <ItemGroup>
       <ModuleFiles Include="$(OutputPath)\*" />
     </ItemGroup>
+    <Message Text="@(PSModulePath-&gt;'%(FullPath)\$(MSBuildProjectName)\$(Version)')" />
     <Copy SourceFiles="@(ModuleFiles)" DestinationFolder="@(PSModulePath-&gt;'%(FullPath)\$(MSBuildProjectName)\$(Version)')" />
     <Error Text="To publish, first set gallerykey" Condition="!$(gallerykey)" />
     <Exec Command="pwsh -noni -nop -c &quot;Import-Module $(MSBuildProjectName); Publish-Module -Name $(MSBuildProjectName) -NuGetApiKey $(gallerykey)&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" Condition="$(gallerykey)" />
