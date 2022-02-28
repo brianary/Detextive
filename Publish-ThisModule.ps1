@@ -14,7 +14,10 @@ $env:PSModulePath -split ';' |
 	Where-Object {Test-Path $_ -Type Container} |
 	Remove-Item -Recurse -Force
 
-Push-Location "$(Resolve-Path src/*/bin/Release/*/publish)"
+$PWD
+Resolve-Path ./src/*/bin/Release/*/publish
+Push-Location ./src/*/bin/Release/*/publish
+$PWD
 Import-LocalizedData Module -FileName $MSBuildProjectName
 $Version = $Module.ModuleVersion
 $InstallPath = "$env:UserProfile/Documents/PowerShell/Modules/$MSBuildProjectName/$Version"
