@@ -29,4 +29,5 @@ jobs:
       run: dotnet publish -t:test
     - name: Publish
       if: success() && env.gallerykey && contains(github.event.head_commit.message,'#publish')
-      run: dotnet build -t:PublishToGallery -c Release
+      shell: pwsh
+      run: ./Publish-ThisModule.ps1

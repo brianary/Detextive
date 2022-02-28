@@ -57,18 +57,6 @@
   <ItemGroup>
     <PSModulePath Include="$(PSModulePath)" Exclude="C:\Program Files\**;C:\Windows\**;C:\ProgramData\chocolatey\**" />
   </ItemGroup>
-  <Target Name="PublishToGallery" DependsOnTargets="Publish" Condition="'$(Configuration)' == 'Release'">
-    <RemoveDir Directories="@(PSModulePath-&gt;'%(FullPath)\$(MSBuildProjectName)')" />
-    <Copy SourceFiles="$(OutputPath)\publish\FSharp.Core.dll" DestinationFolder="$(OutputPath)" />
-    <Copy SourceFiles="$(OutputPath)\publish\EditorConfig.Core.dll" DestinationFolder="$(OutputPath)" />
-    <ItemGroup>
-      <ModuleFiles Include="$(OutputPath)\*" />
-    </ItemGroup>
-    <Message Text="@(PSModulePath-&gt;'%(FullPath)\$(MSBuildProjectName)\$(Version)')" Importance="high" />
-    <Copy SourceFiles="@(ModuleFiles)" DestinationFiles="@(PSModulePath-&gt;'%(FullPath)\$(MSBuildProjectName)\$(Version)')" />
-    <Error Text="To publish, first set gallerykey" Condition="!$(gallerykey)" />
-    <Exec Command="pwsh -noni -nop -c &quot;Import-Module $(MSBuildProjectName); Publish-Module -Name $(MSBuildProjectName) -NuGetApiKey $(gallerykey)&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" Condition="$(gallerykey)" />
-  </Target>
   <Target Name="PublishModule" DependsOnTargets="Publish" Condition="'$(Configuration)' == 'Release'">
     <RemoveDir Directories="@(PSModulePath-&gt;'%(FullPath)\$(MSBuildProjectName)')" />
     <Copy SourceFiles="$(OutputPath)\publish\FSharp.Core.dll" DestinationFolder="$(OutputPath)" />
