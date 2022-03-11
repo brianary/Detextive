@@ -1,7 +1,7 @@
 Detextive
 =========
 
-<!-- To publish to PowerShell Gallery: dotnet build -t:PublishModule -c Release -->
+<!-- To publish to PowerShell Gallery, commit an update to the .psd1 file -->
 <img src="Detextive.svg" alt="Detextive icon" align="right" />
 
 [![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Detextive)](https://www.powershellgallery.com/packages/Detextive/)
