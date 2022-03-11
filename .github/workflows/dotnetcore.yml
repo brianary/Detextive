@@ -19,6 +19,13 @@ jobs:
       gallerykey: ${{ secrets.gallerykey }}
     steps:
     - uses: actions/checkout@v1
+      with:
+        fetch-depth: 2
+    - name: Module update check
+      id: is_module_update_test
+      shell: pwsh
+      run: |
+        Write-Host "::set-output name=is_module_update::$(@(git diff --name-only HEAD~ HEAD -- "$(Resolve-Path .\src\*\*.psd1)").Count -gt 0)"
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -28,6 +35,6 @@ jobs:
     - name: Test
       run: dotnet publish -t:test
     - name: Publish
-      if: success() && env.gallerykey && contains(github.event.head_commit.message,'#publish')
+      if: success() && env.gallerykey && steps.is_module_update_test.outputs.is_module_update == 'True'
       shell: pwsh
       run: ./Publish-ThisModule.ps1

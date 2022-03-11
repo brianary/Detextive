@@ -7,6 +7,7 @@
 [CmdletBinding()] Param()
 
 dotnet publish -c Release
+Get-ChildItem -Recurse -File |Write-Host
 
 $MSBuildProjectName = [io.path]::GetFileNameWithoutExtension("$(Resolve-Path ./src/*/*.fsproj)")
 $env:PSModulePath -split ';' |
@@ -14,10 +15,10 @@ $env:PSModulePath -split ';' |
 	Where-Object {Test-Path $_ -Type Container} |
 	Remove-Item -Recurse -Force
 
-$PWD
+Write-Host "pwd: $PWD"
 Resolve-Path ./src/*/bin/Release/*/publish
 Push-Location ./src/*/bin/Release/*/publish
-$PWD
+Write-Host "pwd: $PWD"
 Import-LocalizedData Module -FileName $MSBuildProjectName
 $Version = $Module.ModuleVersion
 $InstallPath = "$env:UserProfile/Documents/PowerShell/Modules/$MSBuildProjectName/$Version"
