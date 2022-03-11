@@ -3,7 +3,7 @@
 @{
 RootModule = 'Detextive.dll'
 ModuleVersion = '1.0.2'
-CompatiblePSEditions = @('Core')
+CompatiblePSEditions = @('Core','Desktop')
 GUID = '2dd84299-7cd8-443d-86a8-16f82a834e65'
 Author = 'Brian Lalonde'
 #CompanyName = 'Unknown'

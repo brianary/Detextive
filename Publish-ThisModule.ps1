@@ -16,10 +16,9 @@ $env:PSModulePath -split ';' |
 	Remove-Item -Recurse -Force
 
 Write-Host "pwd: $PWD"
-Resolve-Path ./src/*/bin/Release/*/publish
 Push-Location ./src/*/bin/Release/*/publish
 Write-Host "pwd: $PWD"
-Import-LocalizedData Module -FileName $MSBuildProjectName
+Import-LocalizedData Module -FileName $MSBuildProjectName -BaseDirectory "$PWD"
 $Version = $Module.ModuleVersion
 $InstallPath = "$env:UserProfile/Documents/PowerShell/Modules/$MSBuildProjectName/$Version"
 if(!(Test-Path $InstallPath -Type Container)) {mkdir $InstallPath}
