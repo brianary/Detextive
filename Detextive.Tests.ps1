@@ -34,7 +34,7 @@ Describe $module.Name {
 				foreach {@{ File = $_.FullName; Expected = $_.Name -notlike 'binary.*' }}
 		) {
 			Param($File,$Expected)
-			Test-TextFile $File -vb |Should -BeExactly $Expected
+			Detextive\Test-TextFile $File -vb |Should -BeExactly $Expected
 		}
 	}
 	Context 'Test-BinaryFile cmdlet' -Tag Cmdlet,Test-BinaryFile {
@@ -43,7 +43,7 @@ Describe $module.Name {
 				foreach {@{ File = $_.FullName; Expected = $_.Name -like 'binary.*' }}
 		) {
 			Param($File,$Expected)
-			Test-BinaryFile $File -vb |Should -BeExactly $Expected
+			Detextive\Test-BinaryFile $File -vb |Should -BeExactly $Expected
 		}
 	}
 	Context 'Test-Utf8Signature cmdlet' -Tag Cmdlet,Test-Utf8Signature {
@@ -52,7 +52,7 @@ Describe $module.Name {
 				foreach {@{ File = $_.FullName; Expected = $_.Name -like 'utf-8-bom-*' }}
 		) {
 			Param($File,$Expected)
-			Test-Utf8Signature $File -vb |Should -BeExactly $Expected
+			Detextive\Test-Utf8Signature $File -vb |Should -BeExactly $Expected
 		}
 	}
 	Context 'Test-Utf8Encoding cmdlet' -Tag Cmdlet,Test-Utf8Encoding {
@@ -61,7 +61,7 @@ Describe $module.Name {
 				foreach {@{ File = $_.FullName; Expected = $_.Name -like 'utf-8-*' -or $_.Name -like 'ascii-*' }}
 		) {
 			Param($File,$Expected)
-			Test-Utf8Encoding $File -vb |Should -BeExactly $Expected
+			Detextive\Test-Utf8Encoding $File -vb |Should -BeExactly $Expected
 		}
 	}
 	Context 'Test-FinalNewline cmdlet' -Tag Cmdlet,Test-FinalNewline {
@@ -70,7 +70,7 @@ Describe $module.Name {
 				foreach {@{ File = $_.FullName; Expected = $_.Name -notlike 'binary.*' -and $_.Name -notlike '*-none-none.txt' }}
 		) {
 			Param($File,$Expected)
-			Test-FinalNewline $File -vb |Should -BeExactly $Expected
+			Detextive\Test-FinalNewline $File -vb |Should -BeExactly $Expected
 		}
 	}
 	Context 'Get-FileEncoding cmdlet' -Tag Cmdlet,Get-FileEncoding {
@@ -92,7 +92,7 @@ Describe $module.Name {
 				}
 		) {
 			Param($File,$Expected)
-			(Get-FileEncoding $File -vb).WebName |Should -BeIn $Expected
+			(Detextive\Get-FileEncoding $File -vb).WebName |Should -BeIn $Expected
 		}
 	}
 	Context 'Get-FileIndents cmdlet' -Tag Cmdlet,Get-FileIndents {
@@ -104,7 +104,7 @@ Describe $module.Name {
 				}
 		) {
 			Param($File,$Indents)
-			$e = Get-FileIndents $File -vb
+			$e = Detextive\Get-FileIndents $File -vb
 			$e.Indents |Should -BeExactly $Indents
 			# not really distinguishing intra-line mixed and inter-line mixed, so skip that check
 			if($Indents -notin 'Mixed','None') {$e.$Indents |Should -BeGreaterThan 0}
@@ -117,7 +117,7 @@ Describe $module.Name {
 			@{ File = "$TestRoot\*.ps1"; Indents = 'Tabs' }
 		) {
 			Param($File,$Indents)
-			$e = Get-FileIndents $File -vb
+			$e = Detextive\Get-FileIndents $File -vb
 			$e.Indents |Should -BeExactly $Indents
 			# not really distinguishing intra-line mixed and inter-line mixed, so skip that check
 			if($Indents -notin 'Mixed','None') {$e.$Indents |Should -BeGreaterThan 0}
@@ -136,7 +136,7 @@ Describe $module.Name {
 				}
 		) {
 			Param($File,$LineEndings)
-			$e = Get-FileLineEndings $File -vb
+			$e = Detextive\Get-FileLineEndings $File -vb
 			$e.LineEndings |Should -BeExactly $LineEndings
 			if($LineEndings -notin 'Mixed','None') {$e.$LineEndings |Should -BeGreaterThan 0}
 			$e.CRLF |Should -BeGreaterOrEqual 0
@@ -153,7 +153,7 @@ Describe $module.Name {
 				foreach {@{ File = $_.FullName; IsBinary = $true }}
 		) {
 			Param($File,$IsBinary)
-			$e = Get-FileContentsInfo $File -vb
+			$e = Detextive\Get-FileContentsInfo $File -vb
 			$e.IsBinary |Should -BeTrue
 		}
 		It "Given the file '<File>', {'<Encoding>' '<Indents>' '<LineEndings>'} should be returned." -TestCases (
@@ -186,7 +186,7 @@ Describe $module.Name {
 				}}
 		) {
 			Param($File,$Encoding,$Utf8Signature,$Indents,$LineEndings,$FinalNewline)
-			$e = Get-FileContentsInfo $File -vb
+			$e = Detextive\Get-FileContentsInfo $File -vb
 			$e.IsBinary |Should -BeFalse
 			$e.Encoding.WebName |Should -BeExactly $Encoding
 			$e.Utf8Signature |Should -BeExactly $Utf8Signature
@@ -203,7 +203,7 @@ Describe $module.Name {
 				Indents = 'Spaces'; LineEndings = 'CRLF'; FinalNewline = $true }
 		) {
 			Param($File,$Encoding,$Utf8Signature,$Indents,$LineEndings,$FinalNewline)
-			$e = Get-FileEditorConfig $File -vb
+			$e = Detextive\Get-FileEditorConfig $File -vb
 			$e.Encoding.WebName |Should -BeExactly $Encoding
 			$e.Utf8Signature |Should -BeExactly $Utf8Signature
 			$e.Indents |Should -BeExactly $Indents
@@ -222,7 +222,7 @@ Describe $module.Name {
 			Param($Bytes,$Content)
 			$file = [io.path]::GetTempFileName()
 			$Bytes |Set-Content $file @AsByteStream
-			Add-Utf8Signature $file -vb
+			Detextive\Add-Utf8Signature $file -vb
 			Get-Content $file @AsByteStream |Should -Be $Content
 			Remove-Item $file
 		}
@@ -239,7 +239,7 @@ Describe $module.Name {
 			Param($Bytes,$Content)
 			$file = [io.path]::GetTempFileName()
 			$Bytes |Set-Content $file @AsByteStream
-			Remove-Utf8Signature $file -vb
+			Detextive\Remove-Utf8Signature $file -vb
 			Get-Content $file @AsByteStream |Should -Be $Content
 			Remove-Item $file
 		}
@@ -263,7 +263,7 @@ Describe $module.Name {
 			Param($InputObject,$Expected)
 			$file = [io.path]::GetTempFileName()
 			$InputObject |Set-Content $file -Encoding utf8
-			Test-BrokenEncoding $file -vb |Should -BeExactly $Expected
+			Detextive\Test-BrokenEncoding $file -vb |Should -BeExactly $Expected
 			Remove-Item $file
 		}
 	}
@@ -282,7 +282,7 @@ Describe $module.Name {
 			Param($InputObject,$Expected)
 			$file = [io.path]::GetTempFileName()
 			$InputObject |Set-Content $file -Encoding utf8
-			Repair-Encoding $file -vb
+			Detextive\Repair-Encoding $file -vb
 			Get-Content $file -Encoding utf8 -TotalCount 1 |Should -BeExactly $Expected
 			Remove-Item $file
 		}
@@ -294,7 +294,7 @@ Describe $module.Name {
 			@{ File = "$TestRoot\..\test.cmd"; Expected = $true }
 		) {
 			Param($File,$Expected)
-			Test-FileEditorConfig $File -vb |Should -BeExactly $Expected
+			Detextive\Test-FileEditorConfig $File -vb |Should -BeExactly $Expected
 		}
 	}
 	Context 'Repair-FileEditorConfig cmdlet' -Tag Cmdlet,Test-FileEditorConfig {
@@ -306,7 +306,7 @@ Describe $module.Name {
 			$file = "$([guid]::NewGuid()).$Extension"
 			$Encoding.GetBytes($InputObject) |Set-Content $file @AsByteStream
 			Get-Content $file -Raw |Should -BeExactly $InputObject
-			Repair-FileEditorConfig $file -vb
+			Detextive\Repair-FileEditorConfig $file -vb
 			Get-Content $file -Raw |Should -BeExactly $Expected
 			Remove-Item $file
 		}
