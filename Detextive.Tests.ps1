@@ -7,7 +7,6 @@ $psd1 = Resolve-Path ./src/*/bin/Debug/*/*.psd1
 if(1 -lt ($psd1 |Measure-Object).Count) {throw "Too many module binaries found: $psd1"}
 Import-LocalizedData -BindingVariable manifest -BaseDirectory ./src/* -FileName (Split-Path $PWD -Leaf)
 # ensure the right cmdlets are tested
-$manifest.CmdletsToExport |Get-Command -CommandType Cmdlet -EA 0 |Remove-Item
 $module = Import-Module (Resolve-Path ./src/*/bin/Debug/*/*.psd1) -PassThru -vb
 Describe $module.Name {
 	$env:Path = $env:Path -replace ';A:\\Scripts'
