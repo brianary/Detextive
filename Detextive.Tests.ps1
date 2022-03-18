@@ -1,13 +1,14 @@
-# Pester tests, see https://github.com/Pester/Pester/wiki
+﻿# Pester tests, see https://github.com/Pester/Pester/wiki
+Import-LocalizedData -BindingVariable manifest -BaseDirectory ./src/* -FileName (Split-Path $PWD -Leaf)
+$psd1 = Resolve-Path ./src/*/bin/Debug/*/*.psd1
+if(1 -lt ($psd1 |Measure-Object).Count) {throw "Too many module binaries found: $psd1"}
+$module = Import-Module "$psd1" -PassThru -vb
+
 $TestRoot = "$PSScriptRoot\test"
 $AsByteStream =
 	if((Get-Command Get-Content -ParameterName AsByteStream -ErrorAction SilentlyContinue)) {@{AsByteStream=$true}}
 	else {@{Encoding='Byte'}}
-$psd1 = Resolve-Path ./src/*/bin/Debug/*/*.psd1
-if(1 -lt ($psd1 |Measure-Object).Count) {throw "Too many module binaries found: $psd1"}
-Import-LocalizedData -BindingVariable manifest -BaseDirectory ./src/* -FileName (Split-Path $PWD -Leaf)
-# ensure the right cmdlets are tested
-$module = Import-Module (Resolve-Path ./src/*/bin/Debug/*/*.psd1) -PassThru -vb
+
 Describe $module.Name {
 	$env:Path = $env:Path -replace ';A:\\Scripts'
 	Context "$($module.Name) module" -Tag Module {
@@ -251,7 +252,7 @@ Describe $module.Name {
 			@{ InputObject = 'Test'; Expected = $false }
 		) {
 			Param($InputObject,$Expected)
-			$InputObject |Test-BrokenEncoding -vb |Should -BeExactly $Expected
+			$InputObject |Detextive\Test-BrokenEncoding -vb |Should -BeExactly $Expected
 		}
 		It "Given the file contents '<InputObject>', the file should be updated to contain '<Expected>'." -TestCases @(
 			@{ InputObject = ' '; Expected = $false }
@@ -272,7 +273,7 @@ Describe $module.Name {
 			@{ InputObject = '1.2.1 â€“ 1.3.4'; Expected = "1.2.1 – 1.3.4" }
 		) {
 			Param($InputObject,$Expected)
-			$InputObject |Repair-Encoding -vb |Should -BeExactly $Expected
+			$InputObject |Detextive\Repair-Encoding -vb |Should -BeExactly $Expected
 		}
 		It "Given the file contents '<InputObject>', the file should be updated to contain '<Expected>'." -TestCases @(
 			@{ InputObject = 'SmartQuotes Arenâ€™t'; Expected = "SmartQuotes Aren’t" }
