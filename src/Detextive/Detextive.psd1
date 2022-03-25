@@ -2,7 +2,7 @@
 # and https://docs.microsoft.com/powershell/module/microsoft.powershell.core/new-modulemanifest
 @{
 RootModule = 'Detextive.dll'
-ModuleVersion = '1.0.3'
+ModuleVersion = '1.1.4'
 CompatiblePSEditions = @('Core','Desktop')
 GUID = '2dd84299-7cd8-443d-86a8-16f82a834e65'
 Author = 'Brian Lalonde'
@@ -13,7 +13,7 @@ PowerShellVersion = '5.1'
 FunctionsToExport = @()
 CmdletsToExport = @('Test-TextFile','Test-BinaryFile','Test-Utf8Signature','Test-Utf8Encoding','Test-FinalNewline','Get-FileEncoding',
 	'Get-FileIndents','Get-FileLineEndings','Get-FileContentsInfo','Add-Utf8Signature','Remove-Utf8Signature','Test-BrokenEncoding',
-	'Repair-Encoding','Get-FileEditorConfig','Test-FileEditorConfig','Repair-FileEditorConfig')
+	'Repair-Encoding','Get-FileEditorConfig','Test-FileEditorConfig','Repair-FileEditorConfig','Optimize-Unicode')
 VariablesToExport = @()
 AliasesToExport = @()
 FileList = @('Detextive.dll','EditorConfig.Core.dll','Detextive.dll-Help.xml')

@@ -44,7 +44,6 @@ type public RepairEncodingCommand () =
         | _ ->
             Encoding.GetEncoding("Windows-1252").GetBytes(x.InputObject)
                 |> Encoding.UTF8.GetString
-                |> (fun s -> s.Normalize(NormalizationForm.FormKD))
                 |> x.WriteObject
 
     override x.EndProcessing () =

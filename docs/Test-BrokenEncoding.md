@@ -29,7 +29,7 @@ Test-BrokenEncoding -Path <String> [<CommonParameters>]
 
 ### Example 1
 ```ps1
-'1.2.1 â€“ 1.3.4' |Test-BrokenEncoding
+'1.2.1 â€" 1.3.4' |Test-BrokenEncoding
 ```
 
 ```
