@@ -2,7 +2,7 @@
 # and https://docs.microsoft.com/powershell/module/microsoft.powershell.core/new-modulemanifest
 @{
 RootModule = 'Detextive.dll'
-ModuleVersion = '1.1.4'
+ModuleVersion = '1.1.5'
 CompatiblePSEditions = @('Core','Desktop')
 GUID = '2dd84299-7cd8-443d-86a8-16f82a834e65'
 Author = 'Brian Lalonde'
