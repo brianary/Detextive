@@ -31,7 +31,7 @@
     <Compile Include="RepairFileEditorConfigCommand.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="editorconfig" Version="0.15.0" />
+    <PackageReference Include="editorconfig" Version="0.16.2" />
     <PackageReference Include="PowerShellStandard.Library" Version="5.1.1" />
   </ItemGroup>
   <ItemGroup>
