@@ -273,7 +273,8 @@ Describe $module.Name {
 	Context 'Test-FileEditorConfig cmdlet' -Tag Cmdlet,Test-FileEditorConfig {
 		It "Given the file '<File>', the result '<Expected>' should be returned." -TestCases @(
 			@{ File = "$TestRoot/../../README.md"; Expected = $true }
-			@{ File = "$TestRoot/../Detextive.Tests.ps1"; Expected = $false }
+			@{ File = "$TestRoot/../Detextive.Tests.ps1"; Expected = $true }
+			@{ File = "$TestRoot/../../images/demo.tape"; Expected = $false }
 		) {
 			Param($File,$Expected)
 			Detextive\Test-FileEditorConfig $File -vb |Should -BeExactly $Expected
