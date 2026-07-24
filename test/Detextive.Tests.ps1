@@ -4,7 +4,7 @@ $psd1 = Resolve-Path ./src/bin/*/net*/publish/*.psd1
 if(1 -lt ($psd1 |Measure-Object).Count) {throw "Too many module binaries found: $psd1"}
 $module = Import-Module "$psd1" -PassThru -vb
 
-$TestRoot = "$PSScriptRoot\data"
+$TestRoot = "$PSScriptRoot/data"
 $AsByteStream =
 	if((Get-Command Get-Content -ParameterName AsByteStream -ErrorAction SilentlyContinue)) {@{AsByteStream=$true}}
 	else {@{Encoding='Byte'}}
@@ -13,7 +13,7 @@ Describe $module.Name {
 	$env:Path = $env:Path -replace ';A:\\Scripts'
 	Context 'Test-TextFile cmdlet' -Tag Cmdlet,Test-TextFile {
 		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
-			Get-ChildItem $TestRoot\* -File |
+			Get-ChildItem $TestRoot/* -File |
 				ForEach-Object {@{ File = $_.FullName; Expected = $_.Name -notlike 'binary.*' }}
 		) {
 			Param($File,$Expected)
@@ -22,7 +22,7 @@ Describe $module.Name {
 	}
 	Context 'Test-BinaryFile cmdlet' -Tag Cmdlet,Test-BinaryFile {
 		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
-			Get-ChildItem $TestRoot\* -File |
+			Get-ChildItem $TestRoot/* -File |
 				ForEach-Object {@{ File = $_.FullName; Expected = $_.Name -like 'binary.*' }}
 		) {
 			Param($File,$Expected)
@@ -31,7 +31,7 @@ Describe $module.Name {
 	}
 	Context 'Test-Utf8Signature cmdlet' -Tag Cmdlet,Test-Utf8Signature {
 		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
-			Get-ChildItem $TestRoot\* -File |
+			Get-ChildItem $TestRoot/* -File |
 				ForEach-Object {@{ File = $_.FullName; Expected = $_.Name -like 'utf-8-bom-*' }}
 		) {
 			Param($File,$Expected)
@@ -40,7 +40,7 @@ Describe $module.Name {
 	}
 	Context 'Test-Utf8Encoding cmdlet' -Tag Cmdlet,Test-Utf8Encoding {
 		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
-			Get-ChildItem $TestRoot\* -File |
+			Get-ChildItem $TestRoot/* -File |
 				ForEach-Object {@{ File = $_.FullName; Expected = $_.Name -like 'utf-8-*' -or $_.Name -like 'ascii-*' }}
 		) {
 			Param($File,$Expected)
@@ -49,7 +49,7 @@ Describe $module.Name {
 	}
 	Context 'Test-FinalNewline cmdlet' -Tag Cmdlet,Test-FinalNewline {
 		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
-			Get-ChildItem $TestRoot\* -File |
+			Get-ChildItem $TestRoot/* -File |
 				ForEach-Object {@{ File = $_.FullName; Expected = $_.Name -notlike 'binary.*' -and $_.Name -notlike '*-none-none.txt' }}
 		) {
 			Param($File,$Expected)
@@ -58,7 +58,7 @@ Describe $module.Name {
 	}
 	Context 'Get-FileEncoding cmdlet' -Tag Cmdlet,Get-FileEncoding {
 		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
-			Get-ChildItem $TestRoot\*.txt,$TestRoot\*.ebcdic -File |
+			Get-ChildItem $TestRoot/*.txt,$TestRoot/*.ebcdic -File |
 				ForEach-Object {
 					@{ File = $_.FullName; Expected = switch -Wildcard ($_.Name) {
 						ascii-*        {@('us-ascii')}
@@ -80,7 +80,7 @@ Describe $module.Name {
 	}
 	Context 'Get-FileIndents cmdlet' -Tag Cmdlet,Get-FileIndents {
 		It "Given the file '<File>', '<Indents>' should be returned." -TestCases (
-			Get-ChildItem $TestRoot\*.txt -File |
+			Get-ChildItem $TestRoot/*.txt -File |
 				ForEach-Object {
 					$ind = ([io.path]::GetFileNameWithoutExtension($_.Name) -split '-')[-2]
 					@{ File = $_.FullName; Indents = switch($ind){ mixedi {'Mixed'} tab {'Tabs'} space {'Spaces'} none {'None'} default {'Other'} } }
@@ -97,7 +97,7 @@ Describe $module.Name {
 			$e.Other |Should -BeGreaterOrEqual 0
 		}
 		It "Given the code file '<File>', '<Indents>' should be returned." -TestCases @(
-			@{ File = "$TestRoot\*.ps1"; Indents = 'Tabs' }
+			@{ File = "$TestRoot/*.ps1"; Indents = 'Tabs' }
 		) {
 			Param($File,$Indents)
 			$e = Detextive\Get-FileIndents $File -vb
@@ -112,7 +112,7 @@ Describe $module.Name {
 	}
 	Context 'Get-FileLineEndings cmdlet' -Tag Cmdlet,Get-FileLineEndings {
 		It "Given the file '<File>', '<LineEndings>' should be returned." -TestCases (
-			Get-ChildItem $TestRoot\*.txt -File |
+			Get-ChildItem $TestRoot/*.txt -File |
 				ForEach-Object {
 					$end = ([io.path]::GetFileNameWithoutExtension($_.Name) -split '-')[-1]
 					@{ File = $_.FullName; LineEndings = switch($end){ mixedle {'Mixed'} none {'None'} default {$end.ToUpperInvariant()} } }
@@ -132,7 +132,7 @@ Describe $module.Name {
 	}
 	Context 'Get-FileContentsInfo cmdlet' -Tag Cmdlet,Get-FileContentsInfo {
 		It "Given the file '<File>', IsBinary should be '<IsBinary>'." -TestCases (
-			Get-ChildItem $TestRoot\binary.* -File |
+			Get-ChildItem $TestRoot/binary.* -File |
 				ForEach-Object {@{ File = $_.FullName; IsBinary = $true }}
 		) {
 			Param($File,$IsBinary)
@@ -140,7 +140,7 @@ Describe $module.Name {
 			$e.IsBinary |Should -BeTrue
 		}
 		It "Given the file '<File>', {'<Encoding>' '<Indents>' '<LineEndings>'} should be returned." -TestCases (
-			Get-ChildItem $TestRoot\binary.* -File |
+			Get-ChildItem $TestRoot/binary.* -File |
 				Where-Object {$_.Name -notlike 'binary.*'} |
 				ForEach-Object {@{
 					File = $_.FullName
@@ -180,9 +180,9 @@ Describe $module.Name {
 	}
 	Context 'Get-FileEditorConfig cmdlet' -Tag Cmdlet,Get-FileEditorConfig {
 		It "Given the file '<File>', {'<Encoding>' '<Indents>' '<LineEndings>'} should be returned." -TestCases @(
-			@{ File = "$TestRoot\..\README.md"; Encoding = 'utf-8'; Utf8Signature = $false
+			@{ File = "$TestRoot/../README.md"; Encoding = 'utf-8'; Utf8Signature = $false
 				Indents = 'Spaces'; LineEndings = 'CRLF'; FinalNewline = $true }
-			@{ File = "$TestRoot\..\Detextive.svg"; Encoding = 'utf-8'; Utf8Signature = $false
+			@{ File = "$TestRoot/../Detextive.svg"; Encoding = 'utf-8'; Utf8Signature = $false
 				Indents = 'Spaces'; LineEndings = 'CRLF'; FinalNewline = $true }
 		) {
 			Param($File,$Encoding,$Utf8Signature,$Indents,$LineEndings,$FinalNewline)
@@ -272,9 +272,9 @@ Describe $module.Name {
 	}
 	Context 'Test-FileEditorConfig cmdlet' -Tag Cmdlet,Test-FileEditorConfig {
 		It "Given the file '<File>', the result '<Expected>' should be returned." -TestCases @(
-			@{ File = "$TestRoot\..\README.md"; Expected = $true }
-			@{ File = "$TestRoot\..\Detextive.Tests.ps1"; Expected = $false }
-			@{ File = "$TestRoot\..\test.cmd"; Expected = $true }
+			@{ File = "$TestRoot/../README.md"; Expected = $true }
+			@{ File = "$TestRoot/../Detextive.Tests.ps1"; Expected = $false }
+			@{ File = "$TestRoot/../test.cmd"; Expected = $true }
 		) {
 			Param($File,$Expected)
 			Detextive\Test-FileEditorConfig $File -vb |Should -BeExactly $Expected
