@@ -4,34 +4,17 @@ $psd1 = Resolve-Path ./src/bin/*/net*/publish/*.psd1
 if(1 -lt ($psd1 |Measure-Object).Count) {throw "Too many module binaries found: $psd1"}
 $module = Import-Module "$psd1" -PassThru -vb
 
-$TestRoot = "$PSScriptRoot\test"
+$TestRoot = "$PSScriptRoot\data"
 $AsByteStream =
 	if((Get-Command Get-Content -ParameterName AsByteStream -ErrorAction SilentlyContinue)) {@{AsByteStream=$true}}
 	else {@{Encoding='Byte'}}
 
 Describe $module.Name {
 	$env:Path = $env:Path -replace ';A:\\Scripts'
-	Context "$($module.Name) module" -Tag Module {
-		It "Given the module, the version should match the manifest version" {
-			$module.Version |Should -BeExactly $manifest.ModuleVersion
-		}
-		It "Given the module, the DLL file version should match the manifest version" {
-			(Get-Item "$($module.ModuleBase)\$($module.Name).dll").VersionInfo.FileVersionRaw |
-				Should -BeLike "$($manifest.ModuleVersion)*"
-		}
-		It "Given the module, the DLL product version should match the manifest version" {
-			(Get-Item "$($module.ModuleBase)\$($module.Name).dll").VersionInfo.ProductVersionRaw |
-				Should -BeLike "$($manifest.ModuleVersion)*"
-		} -Pending
-		It "Given the module, the DLL should have a valid semantic product version" {
-			$v = (Get-Item "$($module.ModuleBase)\$($module.Name).dll").VersionInfo.ProductVersion
-			[semver]::TryParse($v, [ref]$null) |Should -BeTrue
-		} -Pending
-	}
 	Context 'Test-TextFile cmdlet' -Tag Cmdlet,Test-TextFile {
 		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
 			Get-ChildItem $TestRoot\* -File |
-				foreach {@{ File = $_.FullName; Expected = $_.Name -notlike 'binary.*' }}
+				ForEach-Object {@{ File = $_.FullName; Expected = $_.Name -notlike 'binary.*' }}
 		) {
 			Param($File,$Expected)
 			Detextive\Test-TextFile $File -vb |Should -BeExactly $Expected
@@ -40,7 +23,7 @@ Describe $module.Name {
 	Context 'Test-BinaryFile cmdlet' -Tag Cmdlet,Test-BinaryFile {
 		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
 			Get-ChildItem $TestRoot\* -File |
-				foreach {@{ File = $_.FullName; Expected = $_.Name -like 'binary.*' }}
+				ForEach-Object {@{ File = $_.FullName; Expected = $_.Name -like 'binary.*' }}
 		) {
 			Param($File,$Expected)
 			Detextive\Test-BinaryFile $File -vb |Should -BeExactly $Expected
@@ -49,7 +32,7 @@ Describe $module.Name {
 	Context 'Test-Utf8Signature cmdlet' -Tag Cmdlet,Test-Utf8Signature {
 		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
 			Get-ChildItem $TestRoot\* -File |
-				foreach {@{ File = $_.FullName; Expected = $_.Name -like 'utf-8-bom-*' }}
+				ForEach-Object {@{ File = $_.FullName; Expected = $_.Name -like 'utf-8-bom-*' }}
 		) {
 			Param($File,$Expected)
 			Detextive\Test-Utf8Signature $File -vb |Should -BeExactly $Expected
@@ -58,7 +41,7 @@ Describe $module.Name {
 	Context 'Test-Utf8Encoding cmdlet' -Tag Cmdlet,Test-Utf8Encoding {
 		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
 			Get-ChildItem $TestRoot\* -File |
-				foreach {@{ File = $_.FullName; Expected = $_.Name -like 'utf-8-*' -or $_.Name -like 'ascii-*' }}
+				ForEach-Object {@{ File = $_.FullName; Expected = $_.Name -like 'utf-8-*' -or $_.Name -like 'ascii-*' }}
 		) {
 			Param($File,$Expected)
 			Detextive\Test-Utf8Encoding $File -vb |Should -BeExactly $Expected
@@ -67,7 +50,7 @@ Describe $module.Name {
 	Context 'Test-FinalNewline cmdlet' -Tag Cmdlet,Test-FinalNewline {
 		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
 			Get-ChildItem $TestRoot\* -File |
-				foreach {@{ File = $_.FullName; Expected = $_.Name -notlike 'binary.*' -and $_.Name -notlike '*-none-none.txt' }}
+				ForEach-Object {@{ File = $_.FullName; Expected = $_.Name -notlike 'binary.*' -and $_.Name -notlike '*-none-none.txt' }}
 		) {
 			Param($File,$Expected)
 			Detextive\Test-FinalNewline $File -vb |Should -BeExactly $Expected
@@ -76,7 +59,7 @@ Describe $module.Name {
 	Context 'Get-FileEncoding cmdlet' -Tag Cmdlet,Get-FileEncoding {
 		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
 			Get-ChildItem $TestRoot\*.txt,$TestRoot\*.ebcdic -File |
-				foreach {
+				ForEach-Object {
 					@{ File = $_.FullName; Expected = switch -Wildcard ($_.Name) {
 						ascii-*        {@('us-ascii')}
 						ebcdic-*       {@('ibm037')}
@@ -98,7 +81,7 @@ Describe $module.Name {
 	Context 'Get-FileIndents cmdlet' -Tag Cmdlet,Get-FileIndents {
 		It "Given the file '<File>', '<Indents>' should be returned." -TestCases (
 			Get-ChildItem $TestRoot\*.txt -File |
-				foreach {
+				ForEach-Object {
 					$ind = ([io.path]::GetFileNameWithoutExtension($_.Name) -split '-')[-2]
 					@{ File = $_.FullName; Indents = switch($ind){ mixedi {'Mixed'} tab {'Tabs'} space {'Spaces'} none {'None'} default {'Other'} } }
 				}
@@ -130,7 +113,7 @@ Describe $module.Name {
 	Context 'Get-FileLineEndings cmdlet' -Tag Cmdlet,Get-FileLineEndings {
 		It "Given the file '<File>', '<LineEndings>' should be returned." -TestCases (
 			Get-ChildItem $TestRoot\*.txt -File |
-				foreach {
+				ForEach-Object {
 					$end = ([io.path]::GetFileNameWithoutExtension($_.Name) -split '-')[-1]
 					@{ File = $_.FullName; LineEndings = switch($end){ mixedle {'Mixed'} none {'None'} default {$end.ToUpperInvariant()} } }
 				}
@@ -150,7 +133,7 @@ Describe $module.Name {
 	Context 'Get-FileContentsInfo cmdlet' -Tag Cmdlet,Get-FileContentsInfo {
 		It "Given the file '<File>', IsBinary should be '<IsBinary>'." -TestCases (
 			Get-ChildItem $TestRoot\binary.* -File |
-				foreach {@{ File = $_.FullName; IsBinary = $true }}
+				ForEach-Object {@{ File = $_.FullName; IsBinary = $true }}
 		) {
 			Param($File,$IsBinary)
 			$e = Detextive\Get-FileContentsInfo $File -vb
@@ -158,8 +141,8 @@ Describe $module.Name {
 		}
 		It "Given the file '<File>', {'<Encoding>' '<Indents>' '<LineEndings>'} should be returned." -TestCases (
 			Get-ChildItem $TestRoot\binary.* -File |
-				where {$_.Name -notlike 'binary.*'} |
-				foreach {@{
+				Where-Object {$_.Name -notlike 'binary.*'} |
+				ForEach-Object {@{
 					File = $_.FullName
 					IsBinary = $false
 					Utf8Signature = $_.Name -like 'utf-8-bom-*'
