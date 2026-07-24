@@ -40,7 +40,7 @@ Describe $module.Name {
 	}
 	Context 'Test-Utf8Encoding cmdlet' -Tag Cmdlet,Test-Utf8Encoding {
 		It "Given the file '<File>', '<Expected>' should be returned." -TestCases (
-			Get-ChildItem $TestRoot/* -File |
+			Get-ChildItem $TestRoot/* -File -Exclude .* |
 				ForEach-Object {@{ File = $_.FullName; Expected = $_.Name -like 'utf-8-*' -or $_.Name -like 'ascii-*' }}
 		) {
 			Param($File,$Expected)
