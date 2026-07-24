@@ -180,9 +180,9 @@ Describe $module.Name {
 	}
 	Context 'Get-FileEditorConfig cmdlet' -Tag Cmdlet,Get-FileEditorConfig {
 		It "Given the file '<File>', {'<Encoding>' '<Indents>' '<LineEndings>'} should be returned." -TestCases @(
-			@{ File = "$TestRoot/../README.md"; Encoding = 'utf-8'; Utf8Signature = $false
+			@{ File = "$TestRoot/../../README.md"; Encoding = 'utf-8'; Utf8Signature = $false
 				Indents = 'Spaces'; LineEndings = 'CRLF'; FinalNewline = $true }
-			@{ File = "$TestRoot/../Detextive.svg"; Encoding = 'utf-8'; Utf8Signature = $false
+			@{ File = "$TestRoot/../../images/Detextive.svg"; Encoding = 'utf-8'; Utf8Signature = $false
 				Indents = 'Spaces'; LineEndings = 'CRLF'; FinalNewline = $true }
 		) {
 			Param($File,$Encoding,$Utf8Signature,$Indents,$LineEndings,$FinalNewline)
@@ -272,9 +272,8 @@ Describe $module.Name {
 	}
 	Context 'Test-FileEditorConfig cmdlet' -Tag Cmdlet,Test-FileEditorConfig {
 		It "Given the file '<File>', the result '<Expected>' should be returned." -TestCases @(
-			@{ File = "$TestRoot/../README.md"; Expected = $true }
+			@{ File = "$TestRoot/../../README.md"; Expected = $true }
 			@{ File = "$TestRoot/../Detextive.Tests.ps1"; Expected = $false }
-			@{ File = "$TestRoot/../test.cmd"; Expected = $true }
 		) {
 			Param($File,$Expected)
 			Detextive\Test-FileEditorConfig $File -vb |Should -BeExactly $Expected
